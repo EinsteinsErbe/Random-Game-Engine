@@ -1,10 +1,10 @@
 package ch.magejo.randomgame.objects;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import ch.magejo.randomgame.Renderer2D;
 import ch.magejo.randomgame.mecanics.World;
+import ch.magejo.randomgame.render.Renderable;
+import ch.magejo.randomgame.render.Renderer2D;
 
 @SuppressWarnings("serial")
 public class WorldObject extends World implements Renderable{

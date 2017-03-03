@@ -30,11 +30,11 @@ public class TileSet {
 	}
 	
 	public void render(SpriteBatch batch, float x, float y, int addres){
-		Log.printLn("x: " + addressedTiles.get(addres).x*textureWidth
+		/*Log.printLn("x: " + addressedTiles.get(addres).x*textureWidth
 				+ " y: " + addressedTiles.get(addres).y*textureHeight
 				+ " w: " + textureWidth
 				+ " h: " + textureHeight
-				, getClass().getName(), 0);
+				, getClass().getName(), 0);*/
 		actualRegion.setRegion(
 				(int) addressedTiles.get(addres).x*textureWidth,
 				(int) addressedTiles.get(addres).y*textureHeight,
