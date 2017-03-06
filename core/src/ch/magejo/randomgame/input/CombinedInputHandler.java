@@ -2,7 +2,6 @@ package ch.magejo.randomgame.input;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 
@@ -15,7 +14,6 @@ public class CombinedInputHandler implements InputHandler, InputProcessor{
 	private Vector mousePosition;
 
 	private boolean[] pressedState;
-	private boolean[] lastPressedState;
 	private boolean[] clickedStateBuffer;
 	private boolean[] clickedState;
 
@@ -28,7 +26,6 @@ public class CombinedInputHandler implements InputHandler, InputProcessor{
 		mousePosition = new Vector(0, 0);
 
 		pressedState = new boolean[Key.values().length];
-		lastPressedState = new boolean[Key.values().length];
 		clickedStateBuffer = new boolean[Key.values().length];
 		clickedState = new boolean[Key.values().length];
 
