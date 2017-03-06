@@ -1,30 +1,50 @@
 package ch.magejo.randomgame;
 
+import java.io.File;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
+import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
-import ch.magejo.randomgame.objects.WorldObject;
+import ch.magejo.randomgame.mecanics.places.Region;
+import ch.magejo.randomgame.mecanics.places.Scene;
+import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.render.Renderer2D;
+import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.Log;
+import ch.magejo.randomgame.utils.SaveSystem;
+import ch.magejo.randomgame.utils.math.Vector;
 
 public class Main extends ApplicationAdapter {
 	private SpriteBatch batch;
-	private WorldObject world;
+	private World world;
 	private Renderer2D renderer;
 	CombinedInputHandler cInputHandler;
 	private InputHandler input;
+	private int nRegions = 10;
+	private int activeRegion = 0;
+	private String name = "MyWorld";
+	private Texture map;
+	
+	private int width, height;
 
 	@Override
 	public void create () {
-		world = new WorldObject(5, 10);
-		world.setTile(2, 4, 2);
-		world.setTile(2, 3, 1);
+
+		new Generator().generate(name , nRegions);
+
+		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
+
+		world.loadRegion(activeRegion);
+		map = new Texture(new FileHandle(world.getMap()));
+
 		batch = new SpriteBatch();
 		renderer = new Renderer2D(batch);
 
@@ -35,25 +55,38 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void resize (int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	private void update() {
 		cInputHandler.update();
 
-	}
-
-	@Override
-	public void render () {
-		update();
+		if(input.isClicked(Key.ENTER)){
+			activeRegion++;
+			if(activeRegion>=nRegions){
+				activeRegion = 0;
+			}
+			world.loadRegion(activeRegion);
+		}
 		for(Key k : Key.values()){
 			if(input.isClicked(k)){
 				Log.printLn("is clicked", k.name(),0);
 			}
 		}
+	}
+
+	@Override
+	public void render () {
+		update();
+
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		world.render(renderer, new Vector2(0, 0));
+		
+		batch.draw(map, width-200, height-200, 200, 200);
+		world.render(renderer, new Vector(0, 0));
+		
 		batch.end();
 	}
 
