@@ -17,6 +17,8 @@ import ch.magejo.randomgame.mecanics.places.Region;
 import ch.magejo.randomgame.mecanics.places.Scene;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.render.Renderer2D;
+import ch.magejo.randomgame.stateManager.StateList;
+import ch.magejo.randomgame.stateManager.StateManager;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.SaveSystem;
@@ -34,10 +36,17 @@ public class Main extends ApplicationAdapter {
 	private Texture map;
 	
 	private int width, height;
+	
+	private StateManager stateManager;
 
 	@Override
 	public void create () {
+		
+		//set debugmod of log so we can see everything important
+		Log.setDebugMode(6);
 
+		stateManager = new StateManager();
+		
 		new Generator().generate(name , nRegions);
 
 		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
@@ -61,7 +70,16 @@ public class Main extends ApplicationAdapter {
 
 	private void update() {
 		cInputHandler.update();
-
+		stateManager.update(Gdx.graphics.getDeltaTime());
+		
+		if(input.isClicked(Key.ENTER)){
+			StateManager.changeState(StateList.GAME);
+		}
+		
+		if(input.isClicked(Key.ESCAPE)){
+			StateManager.changeState(StateList.MAINMEU);
+		}
+		
 		if(input.isClicked(Key.ENTER)){
 			activeRegion++;
 			if(activeRegion>=nRegions){
@@ -79,11 +97,10 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
 		update();
-
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		
+		stateManager.render(renderer);
 		batch.draw(map, width-200, height-200, 200, 200);
 		world.render(renderer, new Vector(0, 0));
 		
