@@ -84,6 +84,14 @@ public class Main extends Game {
 		return batch;
 	}
 	
+	public void beginBatch(){
+		batch.begin();
+	}
+	
+	public void endBatch(){
+		batch.end();
+	}
+	
 	public Vector getScreenSize(){
 		return new Vector(width, height);
 	}
