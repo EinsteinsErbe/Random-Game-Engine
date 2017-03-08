@@ -4,6 +4,7 @@ import java.io.File;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,6 +29,8 @@ public class Main extends Game {
 	CombinedInputHandler cInputHandler;
 	private InputHandler input;
 	
+	private InputMultiplexer inputHandler;
+	
 	private StateManager stateManager;
 	
 	private PlayScreen game;
@@ -41,10 +44,13 @@ public class Main extends Game {
 		Log.setDebugMode(6);
 
 		stateManager = new StateManager();
+		
+		inputHandler = new InputMultiplexer();
 
 		cInputHandler = new CombinedInputHandler();
+		inputHandler.addProcessor(cInputHandler);
 		input = cInputHandler;
-		Gdx.input.setInputProcessor(cInputHandler);
+		Gdx.input.setInputProcessor(inputHandler);
 		
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
@@ -98,5 +104,9 @@ public class Main extends Game {
 	
 	public InputHandler getInput(){
 		return input;
+	}
+	
+	public InputMultiplexer getInputMultiplexer(){
+		return inputHandler;
 	}
 }

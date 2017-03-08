@@ -3,6 +3,7 @@ package ch.magejo.randomgame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.Generator;
+import ch.magejo.randomgame.input.CombinedInputHandler;
+import ch.magejo.randomgame.input.RGButton;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.render.Renderer2D;
@@ -36,11 +39,7 @@ public class PlayScreen implements Screen {
 	private Main game;
 	
 	Stage stage;
-    TextButton button;
-    TextButtonStyle textButtonStyle;
-    BitmapFont font;
-    Skin skin;
-    TextureAtlas buttonAtlas;
+    RGButton button;
 	
 	public PlayScreen(Main game) {
 		this.game = game;
@@ -52,17 +51,9 @@ public class PlayScreen implements Screen {
 		renderer = new Renderer2D(game.getBatch());
 		
 		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
+		game.getInputMultiplexer().addProcessor(stage);
 		
-		font = new BitmapFont(Gdx.files.internal("UI/Buttons/MyFont.fnt"));
-        skin = new Skin();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("UI/Buttons/button.pack"));
-        skin.addRegions(buttonAtlas);
-        textButtonStyle = new TextButtonStyle();
-        textButtonStyle.font = font;
-        textButtonStyle.up = skin.getDrawable("buttonOn");
-        textButtonStyle.down = skin.getDrawable("buttonOff");
-        button = new TextButton("Play", textButtonStyle);
+        button = new RGButton("play");
         stage.addActor(button);
 	}
 
@@ -72,31 +63,17 @@ public class PlayScreen implements Screen {
 
 	}
 	
-	private boolean isPLayClicked = false;
-	private boolean isPlayReleased = false;
 	public void update(){
-		if(game.getInput().isClicked(Key.ENTER)){
-			activeRegion++;
+		if(game.getInput().isPressed(Key.ATTACK)){
+			/*activeRegion++;
 			if(activeRegion>=nRegions){
 				activeRegion = 0;
 			}
-			world.loadRegion(activeRegion);
+			//world.loadRegion(activeRegion);*/
 		}
 		
-		boolean lastClick = isPLayClicked;
-		 isPlayReleased = false;
-		if(button.isPressed()){
-			isPLayClicked = true;
-		}else{
-			isPLayClicked = false;
-		}
-		
-		if(lastClick &! isPLayClicked){
-			isPlayReleased = true;
-		}
-		
-		if(isPlayReleased){
-			Log.printLn("clicked", getClass().getName(), 0);
+		if(button.isClicked()){
+			Log.printLn("clicked Play", getClass().getName(), 0);
 		}
 	}
 
@@ -134,7 +111,7 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
