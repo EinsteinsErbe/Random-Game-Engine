@@ -17,6 +17,7 @@ import ch.magejo.randomgame.screens.GeneratorScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.PlayScreen;
 import ch.magejo.randomgame.screens.ScreenList;
+import ch.magejo.randomgame.screens.SettingsScreen;
 import ch.magejo.randomgame.stateManager.StateManager;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
@@ -54,7 +55,7 @@ public class Main extends Game {
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
 		
-		changeScreen(ScreenList.Generator);	
+		changeScreen(ScreenList.MainMenu);	
 	}
 
 	@Override
@@ -113,6 +114,9 @@ public class Main extends Game {
 		}
 		if(activeState.equals(ScreenList.Game)){
 			setScreen(new PlayScreen(this));
+		}
+		if(activeState.equals(ScreenList.Settings)){
+			setScreen(new SettingsScreen(this));
 		}
 		
 	}

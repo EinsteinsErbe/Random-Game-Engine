@@ -40,12 +40,20 @@ public class MainMenuScreen extends abstractScreen{
 	private void update(float delta) {
 		mainStage.act();
 		
+		if(mainStage.isClicked(ButtonNames.Continue)){
+			changeScreen(ScreenList.Game, mainStage);
+		}
+		
 		if(mainStage.isClicked(ButtonNames.Load)){
 			changeScreen(ScreenList.Game, mainStage);
 		}
 		
 		if(mainStage.isClicked(ButtonNames.Generator)){
 			changeScreen(ScreenList.Generator, mainStage);
+		}
+		
+		if(mainStage.isClicked(ButtonNames.Settings)){
+			changeScreen(ScreenList.Settings, mainStage);
 		}
 		
 		if(mainStage.isClicked(ButtonNames.Close)){
