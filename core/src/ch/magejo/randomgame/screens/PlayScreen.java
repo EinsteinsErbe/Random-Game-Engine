@@ -40,13 +40,10 @@ public class PlayScreen implements Screen {
 	
 	Stage stage;
     RGButton button;
+    RGButton button2;
 	
 	public PlayScreen(Main game) {
 		this.game = game;
-		init();
-	}
-
-	private void init() {
 		
 		renderer = new Renderer2D(game.getBatch());
 		
@@ -54,7 +51,17 @@ public class PlayScreen implements Screen {
 		game.getInputMultiplexer().addProcessor(stage);
 		
         button = new RGButton("play");
+        button2 = new RGButton("close");
+        
         stage.addActor(button);
+        stage.addActor(button2);
+		
+		init();
+	}
+
+	private void init() {
+        button.setBounds((game.getScreenSize().x+450)/2, 300, 450, 100);
+        button2.setBounds((game.getScreenSize().x+450)/2, 100, 450, 100);
 	}
 
 	@Override
@@ -75,6 +82,10 @@ public class PlayScreen implements Screen {
 		if(button.isClicked()){
 			Log.printLn("clicked Play", getClass().getName(), 0);
 		}
+		
+		if(button2.isClicked()){
+			System.exit(0);
+		}
 	}
 
 	@Override
@@ -87,7 +98,7 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		init();
 
 	}
 

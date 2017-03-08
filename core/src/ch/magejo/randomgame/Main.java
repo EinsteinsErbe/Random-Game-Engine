@@ -35,10 +35,10 @@ public class Main extends Game {
 	
 	private PlayScreen game;
 	
-	private int width, height;
+	private int width = 1024, height = 720;
 
 	@Override
-	public void create () {
+	public void create () {	
 		
 		//set debugmod of log so we can see everything important
 		Log.setDebugMode(6);
@@ -55,6 +55,7 @@ public class Main extends Game {
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
 		game = new PlayScreen(this);
+		
 		setScreen(game);
 		
 	}
