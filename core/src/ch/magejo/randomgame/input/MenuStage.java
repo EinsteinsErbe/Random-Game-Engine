@@ -16,13 +16,13 @@ public class MenuStage extends Stage{
 
 	public MenuStage(ButtonNames[] buttonNames, Main game) {
 		super();
-		game.getInputMultiplexer().addProcessor(this);
 		this.buttonNames = buttonNames;
 		init(game);
 	}
 
 	public void init(Main game) {
 		buttons = new RGButton[buttonNames.length];
+		game.getInputMultiplexer().addProcessor(this);
 		clear();
 		int btnWidth = (int) game.getScreenSize().x/2;
 		for(int i = 0; i < buttonNames.length; i++){

@@ -9,16 +9,16 @@ import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.render.Renderer2D;
 
-public class MainMenuScreen extends abstractScreen{
+public class GeneratorScreen extends abstractScreen{
 	
 	private Renderer2D renderer;
 
 	private MenuStage mainStage;
 	
-	public MainMenuScreen(Main game) {
+	public GeneratorScreen(Main game) {
 		super(game);
 		
-		ButtonNames[] buttons = {ButtonNames.Continue, ButtonNames.Generator, ButtonNames.Load, ButtonNames.Settings, ButtonNames.Close};
+		ButtonNames[] buttons = {ButtonNames.Advanced, ButtonNames.Refresh, ButtonNames.Back};
 
 		mainStage = new MenuStage(buttons, game);
 		mainStage.open();
@@ -26,7 +26,7 @@ public class MainMenuScreen extends abstractScreen{
 
 	@Override
 	public void show() {
-		mainStage.init(game);
+		mainStage.init(game);		
 	}
 
 	@Override
@@ -40,19 +40,8 @@ public class MainMenuScreen extends abstractScreen{
 	private void update(float delta) {
 		mainStage.act();
 		
-		if(mainStage.isClicked(ButtonNames.Load)){
-			changeScreen(ScreenList.Game, mainStage);
-		}
-		
-		if(mainStage.isClicked(ButtonNames.Generator)){
-			changeScreen(ScreenList.Generator, mainStage);
-		}
-		
-		if(mainStage.isClicked(ButtonNames.Close)){
-			game.getInputMultiplexer().removeProcessor(mainStage);
-			mainStage.dispose();
-			game.dispose();
-			System.exit(0);
+		if(mainStage.isClicked(ButtonNames.Back)){
+			changeScreen(ScreenList.MainMenu, mainStage);
 		}
 	}
 
@@ -62,27 +51,15 @@ public class MainMenuScreen extends abstractScreen{
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void pause() {}
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void resume() {}
 
 	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void hide() {}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void dispose() {}
 
 }

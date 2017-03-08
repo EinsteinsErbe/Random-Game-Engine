@@ -13,6 +13,7 @@ import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.mecanics.test.TextGeneratorDummy;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
+import ch.magejo.randomgame.screens.GeneratorScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.PlayScreen;
 import ch.magejo.randomgame.screens.ScreenList;
@@ -34,14 +35,9 @@ public class Main extends Game {
 	private int width, height;
 	
 	private TextGeneratorInterface textGenerator;
-	
-	private HashMap<ScreenList, Screen> screens;
 
 	@Override
-	public void create () {	
-		screens = new HashMap<>();
-		
-		
+	public void create () {			
 		
 		//set debugmod of log so we can see everything important
 		Log.setDebugMode(6);
@@ -58,11 +54,7 @@ public class Main extends Game {
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
 		
-		screens.put(ScreenList.MainMenu, new MainMenuScreen(this));
-		screens.put(ScreenList.Game, new PlayScreen(this));
-		
-		changeScreen(ScreenList.MainMenu);
-				
+		changeScreen(ScreenList.Generator);	
 	}
 
 	@Override
@@ -70,7 +62,7 @@ public class Main extends Game {
 		Log.printLn("resized Window to: " + width +":"+ height, getClass().getName(), 3);
 		this.width = width;
 		this.height = height;
-		screens.get(activeState).resize(width, height);
+		getScreen().resize(width, height);
 	}
 
 	private void update() {
@@ -87,7 +79,6 @@ public class Main extends Game {
 	public void render () {
 		update();
 		
-		//new stuff
 		super.render();
 	}
 	
@@ -112,7 +103,17 @@ public class Main extends Game {
 	}
 	
 	public void changeScreen(ScreenList screen){
+		Log.printLn("changed to screen: " + screen.toString(), getClass().getName(), 3);
 		activeState = screen;
-		setScreen(screens.get(activeState));
+		if(activeState.equals(ScreenList.MainMenu)){
+			setScreen(new MainMenuScreen(this));
+		}
+		if(activeState.equals(ScreenList.Generator)){
+			setScreen(new GeneratorScreen(this));
+		}
+		if(activeState.equals(ScreenList.Game)){
+			setScreen(new PlayScreen(this));
+		}
+		
 	}
 }

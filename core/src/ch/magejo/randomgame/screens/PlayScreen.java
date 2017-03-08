@@ -33,28 +33,25 @@ import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.Vector;
 
-public class PlayScreen implements Screen {
+public class PlayScreen extends abstractScreen {
 
 	private Renderer2D renderer;
-
-	private Main game;
 
 	private MenuStage gameMenu;
 
 	public PlayScreen(Main game) {
-		this.game = game;
+		super(game);
 
 		//renderer = new Renderer2D(game.getBatch());
 
-		ButtonNames[] buttons = {ButtonNames.Play, ButtonNames.Settings, ButtonNames.Close};
+		ButtonNames[] buttons = {ButtonNames.Play, ButtonNames.Settings, ButtonNames.Mainmenu};
 
 		gameMenu = new MenuStage(buttons, game);
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
+		gameMenu.init(game);
 	}
 
 	public void update(){
@@ -62,11 +59,6 @@ public class PlayScreen implements Screen {
 		
 		if(game.getInput().isPressed(Key.ATTACK)){
 			
-		}
-		
-		if(gameMenu.isClicked(ButtonNames.Close)){
-			game.dispose();
-			System.exit(0);
 		}
 
 		if(gameMenu.isClicked(ButtonNames.Play)){
@@ -77,12 +69,13 @@ public class PlayScreen implements Screen {
 			Log.printLn("is clicked Settings", getClass().getName(), 0);
 		}
 		
-		if(game.getInput().isClicked(Key.ESCAPE)){
-			gameMenu.toggleOpen();
+		if(gameMenu.isClicked(ButtonNames.Mainmenu)){
+			changeScreen(ScreenList.MainMenu, gameMenu);
 		}
 		
-		
-
+		if(game.getInput().isClicked(Key.PAUSE)){
+			gameMenu.toggleOpen();
+		}
 	}
 
 	@Override
