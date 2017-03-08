@@ -117,7 +117,6 @@ public class Main extends Game {
 		}
 		if(activeState.equals(ScreenList.Settings)){
 			setScreen(new SettingsScreen(this));
-		}
-		
+		}		
 	}
 }

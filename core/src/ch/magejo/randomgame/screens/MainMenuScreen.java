@@ -26,13 +26,13 @@ public class MainMenuScreen extends abstractScreen{
 
 	@Override
 	public void show() {
-		mainStage.init(game);
+		mainStage.init();
 	}
 
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		mainStage.render();		
 	}
@@ -66,7 +66,7 @@ public class MainMenuScreen extends abstractScreen{
 
 	@Override
 	public void resize(int width, int height) {
-		mainStage.init(game);		
+		mainStage.init();		
 	}
 
 	@Override

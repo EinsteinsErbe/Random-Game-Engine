@@ -11,16 +11,18 @@ public class MenuStage extends Stage{
 	private int marginButtons = 100;
 	private int btnHeight = 100;
 	private boolean open = false;
+	private Main game;
 
 	private ButtonNames[] buttonNames;
 
 	public MenuStage(ButtonNames[] buttonNames, Main game) {
 		super();
+		this.game = game;
 		this.buttonNames = buttonNames;
-		init(game);
+		init();
 	}
 
-	public void init(Main game) {
+	public void init() {
 		buttons = new RGButton[buttonNames.length];
 		game.getInputMultiplexer().addProcessor(this);
 		clear();
@@ -52,11 +54,13 @@ public class MenuStage extends Stage{
 	}
 	
 	public void setDisabled(ButtonNames name, boolean disabled){
-		for(RGButton b: buttons){
-			if(b.getButtonName().equals(name)){
-				b.setDisabled(disabled);				
+		if(open){
+			for(RGButton b: buttons){
+				if(b.getButtonName().equals(name)){
+					b.setDisabled(disabled);				
+				}
 			}
-		}
+		}		
 	}
 
 	public void render() {
@@ -71,9 +75,10 @@ public class MenuStage extends Stage{
 	
 	public void close(){
 		this.open = false;
+		
 	}
 
-	public void toggleOpen() {
-		this.open = ! this.open;		
+	public boolean isOpen(){
+		return open;
 	}
 }
