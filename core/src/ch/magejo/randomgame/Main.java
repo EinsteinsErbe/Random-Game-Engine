@@ -18,7 +18,6 @@ import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.PlayScreen;
 import ch.magejo.randomgame.screens.ScreenList;
 import ch.magejo.randomgame.screens.SettingsScreen;
-import ch.magejo.randomgame.stateManager.StateManager;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
