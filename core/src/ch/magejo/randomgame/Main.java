@@ -1,27 +1,18 @@
 package ch.magejo.randomgame;
 
-import java.io.File;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
-import ch.magejo.randomgame.mecanics.places.World;
-import ch.magejo.randomgame.render.Renderer2D;
+import ch.magejo.randomgame.mecanics.test.TextGeneratorDummy;
+import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
 import ch.magejo.randomgame.screens.PlayScreen;
-import ch.magejo.randomgame.stateManager.StateList;
 import ch.magejo.randomgame.stateManager.StateManager;
-import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.Log;
-import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.Vector;
 
 public class Main extends Game {
@@ -35,13 +26,17 @@ public class Main extends Game {
 	
 	private PlayScreen game;
 	
-	private int width = 1024, height = 720;
+	private int width, height;
+	
+	private TextGeneratorInterface textGenerator;
 
 	@Override
 	public void create () {	
 		
 		//set debugmod of log so we can see everything important
 		Log.setDebugMode(6);
+		
+		textGenerator = new TextGeneratorDummy();
 
 		stateManager = new StateManager();
 		
@@ -62,8 +57,10 @@ public class Main extends Game {
 
 	@Override
 	public void resize (int width, int height) {
+		Log.printLn("resized Window to: " + width +":"+ height, getClass().getName(), 3);
 		this.width = width;
 		this.height = height;
+		game.resize(width, height);
 	}
 
 	private void update() {
@@ -99,15 +96,19 @@ public class Main extends Game {
 		batch.end();
 	}
 	
-	public Vector getScreenSize(){
-		return new Vector(width, height);
-	}
-	
 	public InputHandler getInput(){
 		return input;
 	}
 	
 	public InputMultiplexer getInputMultiplexer(){
 		return inputHandler;
+	}
+	
+	public TextGeneratorInterface getTextGenerator(){
+		return textGenerator;
+	}
+
+	public Vector getScreenSize() {
+		return new Vector(width, height);
 	}
 }

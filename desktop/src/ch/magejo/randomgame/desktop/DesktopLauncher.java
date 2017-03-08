@@ -7,9 +7,9 @@ import ch.magejo.randomgame.Main;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "Title";
-		config.width = 2048;
-		config.height = 1440;
+		config.title = "Random Game";
+		config.width = 1024;
+		config.height = 720;
 		config.fullscreen = true;
 		new LwjglApplication(new Main(), config);
 	}
