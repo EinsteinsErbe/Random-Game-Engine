@@ -1,8 +1,11 @@
 package ch.magejo.randomgame;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.magejo.randomgame.input.CombinedInputHandler;
@@ -10,7 +13,9 @@ import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.mecanics.test.TextGeneratorDummy;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
+import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.PlayScreen;
+import ch.magejo.randomgame.screens.ScreenList;
 import ch.magejo.randomgame.stateManager.StateManager;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
@@ -22,23 +27,26 @@ public class Main extends Game {
 	
 	private InputMultiplexer inputHandler;
 	
-	private StateManager stateManager;
+	private ScreenList activeState = ScreenList.MainMenu;
 	
 	private PlayScreen game;
 	
 	private int width, height;
 	
 	private TextGeneratorInterface textGenerator;
+	
+	private HashMap<ScreenList, Screen> screens;
 
 	@Override
 	public void create () {	
+		screens = new HashMap<>();
+		
+		
 		
 		//set debugmod of log so we can see everything important
 		Log.setDebugMode(6);
 		
 		textGenerator = new TextGeneratorDummy();
-
-		stateManager = new StateManager();
 		
 		inputHandler = new InputMultiplexer();
 
@@ -49,10 +57,12 @@ public class Main extends Game {
 		
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
-		game = new PlayScreen(this);
 		
-		setScreen(game);
+		screens.put(ScreenList.MainMenu, new MainMenuScreen(this));
+		screens.put(ScreenList.Game, new PlayScreen(this));
 		
+		changeScreen(ScreenList.MainMenu);
+				
 	}
 
 	@Override
@@ -60,7 +70,7 @@ public class Main extends Game {
 		Log.printLn("resized Window to: " + width +":"+ height, getClass().getName(), 3);
 		this.width = width;
 		this.height = height;
-		game.resize(width, height);
+		screens.get(activeState).resize(width, height);
 	}
 
 	private void update() {
@@ -68,12 +78,9 @@ public class Main extends Game {
 		
 		for(Key k : Key.values()){
 			if(input.isClicked(k)){
-				Log.printLn("is clicked", k.name(),0);
+				Log.printLn("is clicked", k.name(), 3);
 			}
 		}
-		
-		//new stuff
-		game.update();
 	}
 
 	@Override
@@ -86,14 +93,6 @@ public class Main extends Game {
 	
 	public SpriteBatch getBatch(){
 		return batch;
-	}
-	
-	public void beginBatch(){
-		batch.begin();
-	}
-	
-	public void endBatch(){
-		batch.end();
 	}
 	
 	public InputHandler getInput(){
@@ -110,5 +109,10 @@ public class Main extends Game {
 
 	public Vector getScreenSize() {
 		return new Vector(width, height);
+	}
+	
+	public void changeScreen(ScreenList screen){
+		activeState = screen;
+		setScreen(screens.get(activeState));
 	}
 }

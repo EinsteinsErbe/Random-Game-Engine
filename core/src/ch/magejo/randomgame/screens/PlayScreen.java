@@ -49,14 +49,6 @@ public class PlayScreen implements Screen {
 		ButtonNames[] buttons = {ButtonNames.Play, ButtonNames.Settings, ButtonNames.Close};
 
 		gameMenu = new MenuStage(buttons, game);
-
-		game.getInputMultiplexer().addProcessor(gameMenu);
-
-		init();
-	}
-
-	private void init() {
-		
 	}
 
 	@Override
@@ -85,15 +77,20 @@ public class PlayScreen implements Screen {
 			Log.printLn("is clicked Settings", getClass().getName(), 0);
 		}
 		
+		if(game.getInput().isClicked(Key.ESCAPE)){
+			gameMenu.toggleOpen();
+		}
+		
 		
 
 	}
 
 	@Override
 	public void render(float delta) {
+		update();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gameMenu.draw();
+		gameMenu.render();	
 	}
 
 	@Override

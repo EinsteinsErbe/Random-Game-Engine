@@ -48,8 +48,8 @@ public class RGButton extends TextButton{
 		btnSkin.addRegions(btnAtlas);
         style = new TextButtonStyle();
         style.font = btnFont;
-        style.up = btnSkin.getDrawable("buttonOn");
-        style.down = btnSkin.getDrawable("buttonOff");
+        style.down = btnSkin.getDrawable("buttonOn");
+        style.up = btnSkin.getDrawable("buttonOff");
 		return style;
 	}
 	
