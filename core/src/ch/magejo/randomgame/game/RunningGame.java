@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.gui.MessageDialog;
+import ch.magejo.randomgame.gui.dialogs.Message;
 import ch.magejo.randomgame.input.RGButton;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.objects.TileSet;
@@ -25,9 +26,14 @@ public class RunningGame {
 	private TileSet tileSet;
 	private int tile, tile2;
 	
+	private int dialogBtnId = 0;
+	private int dialogText;
+	
 	Texture screenShot;
 	
 	private MessageDialog dialog;
+	
+	private Message message;
 	
 	public RunningGame(Main game) {
 		this.game = game;
@@ -36,8 +42,13 @@ public class RunningGame {
 		tile = tileSet.createTileAdress(0, 0);
 		tile2 = tileSet.createTileAdress(1, 0);
 		
-		dialog = new MessageDialog(new Vector(10, 10), 1024, 720, game);
-		dialog.addActor(new RGButton("test"), new Vector(0, 0), 200, 100);
+		dialog = new MessageDialog(new Vector(100, 100), 1024, 720, game);
+		dialogBtnId = dialog.addButton(new RGButton("test"), new Vector(100, 100), 200, 100);
+		dialog.addIcon("TileSet/TestTileSet.png", new Vector(300, 300), 100, 100);
+		dialogText = dialog.addText("Hello", new Vector(100, 300));
+		
+		message = new Message("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur ", game);
+		message.open();
 	}
 	
 	public void update(float delta){
@@ -48,16 +59,28 @@ public class RunningGame {
 				dialog.open();
 			}
 		}
+		
+		if(dialog.getButton(dialogBtnId).isClicked()){
+			if(dialog.getText(dialogText).getText().equals("Hello")){
+				dialog.getText(dialogText).setText("Hi");
+			}else{
+				dialog.getText(dialogText).setText("Hello");
+			}
+		}
 	}
 	
 	public void render(float delta){
+		game.getBatch().begin();
+		//draw game here
 		for(int i = 0; i < 10 ; i++){
 			for(int j = 0; j < 10; j++){
 				renderer.renderTile(tile2, new Vector(i*tileSet.getTextureWidth(), j*tileSet.getTextureHeight()));
 			}
 		}
+		game.getBatch().end();
 		
 		dialog.render(delta);
+		message.render(delta);
 	}
 	
 	public void renderScreenShot(){
@@ -71,14 +94,12 @@ public class RunningGame {
 	}
 	
 	public void makeScreenshot(){
-		byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);		
-		
-		
+		byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);				
 		
 		Pixmap screenShot = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
 		BufferUtils.copy(pixels, 0, screenShot.getPixels(), pixels.length);		
 		Pixmap.setBlending(Blending.SourceOver);
-		screenShot.setColor(new Color(0, 0, 0, 0.75f));		
+		screenShot.setColor(new Color(0, 0, 0, 0.5f));		
 		screenShot.fillRectangle(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 		Pixmap.setBlending(Blending.None);
 		this.screenShot = new Texture(screenShot);
