@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ch.magejo.randomgame.Main;
+import ch.magejo.randomgame.gui.MessageDialog;
+import ch.magejo.randomgame.input.RGButton;
+import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.objects.TileSet;
 import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.Log;
@@ -24,16 +27,27 @@ public class RunningGame {
 	
 	Texture screenShot;
 	
+	private MessageDialog dialog;
+	
 	public RunningGame(Main game) {
 		this.game = game;
 		this.renderer = new Renderer2D(game.getBatch());
 		tileSet = new TileSet("TileSet/TestTileSet.png", 32, 32);
 		tile = tileSet.createTileAdress(0, 0);
 		tile2 = tileSet.createTileAdress(1, 0);
+		
+		dialog = new MessageDialog(new Vector(10, 10), 1024, 720, game);
+		dialog.addActor(new RGButton("test"), new Vector(0, 0), 200, 100);
 	}
 	
 	public void update(float delta){
-		
+		if(game.getInput().isClicked(Key.ENTER)){
+			if(dialog.isOpen()){
+				dialog.close();
+			}else{
+				dialog.open();
+			}
+		}
 	}
 	
 	public void render(float delta){
@@ -42,6 +56,8 @@ public class RunningGame {
 				renderer.renderTile(tile2, new Vector(i*tileSet.getTextureWidth(), j*tileSet.getTextureHeight()));
 			}
 		}
+		
+		dialog.render(delta);
 	}
 	
 	public void renderScreenShot(){

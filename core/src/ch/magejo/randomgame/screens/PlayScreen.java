@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.game.RunningGame;
 import ch.magejo.randomgame.generator.Generator;
+import ch.magejo.randomgame.gui.MessageDialog;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.input.RGButton;
@@ -75,11 +76,7 @@ public class PlayScreen extends abstractScreen {
 				runningGame.makeScreenshot();
 				gameMenu.open();
 			}
-		}
-		
-		if(game.getInput().isPressed(Key.ESCAPE)){
-			runningGame.makeScreenshot();
-		}
+		}	
 
 		if(gameMenu.isClicked(ButtonNames.Play)){
 			Log.printLn("is clicked Play", getClass().getName(), 0);
@@ -117,7 +114,6 @@ public class PlayScreen extends abstractScreen {
 		}else{
 			runningGame.renderScreenShot();
 		}
-		
 		gameMenu.render();	
 	}
 
