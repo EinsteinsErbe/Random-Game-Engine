@@ -10,8 +10,6 @@ import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.render.Renderer2D;
 
 public class MainMenuScreen extends abstractScreen{
-	
-	private Renderer2D renderer;
 
 	private MenuStage mainStage;
 	
@@ -21,7 +19,6 @@ public class MainMenuScreen extends abstractScreen{
 		ButtonNames[] buttons = {ButtonNames.Continue, ButtonNames.Generator, ButtonNames.Load, ButtonNames.Settings, ButtonNames.Close};
 
 		mainStage = new MenuStage(buttons, game);
-		mainStage.open();
 	}
 
 	@Override

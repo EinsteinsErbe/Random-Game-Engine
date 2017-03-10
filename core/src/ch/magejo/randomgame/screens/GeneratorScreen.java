@@ -21,7 +21,6 @@ public class GeneratorScreen extends abstractScreen{
 		ButtonNames[] buttons = {ButtonNames.Advanced, ButtonNames.Refresh, ButtonNames.Back};
 
 		mainStage = new MenuStage(buttons, game);
-		mainStage.open();
 	}
 
 	@Override

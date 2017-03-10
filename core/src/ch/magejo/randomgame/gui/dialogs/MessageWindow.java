@@ -1,5 +1,6 @@
 package ch.magejo.randomgame.gui.dialogs;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 import ch.magejo.randomgame.Main;
@@ -24,8 +25,8 @@ public class MessageWindow extends Window{
 	 * @param game		= instance of main-class
 	 * @param height	= height of the window (will be opened on the under screen side)
 	 */
-	public MessageWindow(String message, Main game, int height) {
-		super(new Vector(0, 0), (int) game.getScreenSize().x, height, game);
+	public MessageWindow(String message, Main game, int height, Texture screenShot) {
+		super(new Vector(0, 0), (int) game.getScreenSize().x, height, game, screenShot);
 		this.height = height;
 		initText(message, game);			
 	}
@@ -37,8 +38,8 @@ public class MessageWindow extends Window{
 	 * @param height	= height of the window (will be opened on the under screen side)
 	 * @param yOffset	= offset from the top of the window to the text (y)
 	 */
-	public MessageWindow(String message, Main game, int height, int yOffset) {
-		super(new Vector(0, 0), (int) game.getScreenSize().x, height, game);
+	public MessageWindow(String message, Main game, int height, int yOffset, Texture screenShot) {
+		super(new Vector(0, 0), (int) game.getScreenSize().x, height, game, screenShot);
 		this.yOffset = yOffset;
 		this.height = height;
 		initText(message, game);

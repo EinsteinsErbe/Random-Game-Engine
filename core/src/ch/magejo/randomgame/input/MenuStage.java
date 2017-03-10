@@ -10,7 +10,6 @@ public class MenuStage extends Stage{
 	private RGButton[] buttons;
 	private int marginButtons = 100;
 	private int btnHeight = 100;
-	private boolean open = false;
 	private Main game;
 
 	private ButtonNames[] buttonNames;
@@ -41,43 +40,26 @@ public class MenuStage extends Stage{
 	}
 
 	public boolean isClicked(ButtonNames name){
-		if(open){
-			for(RGButton b: buttons){
-				if(b.getButtonName().equals(name)){
-					if(b.isClicked()){
-						return true;
-					}				
-				}
+
+		for(RGButton b: buttons){
+			if(b.getButtonName().equals(name)){
+				if(b.isClicked()){
+					return true;
+				}				
 			}
-		}		
+		}	
 		return false;
 	}
-	
+
 	public void setDisabled(ButtonNames name, boolean disabled){
-		if(open){
-			for(RGButton b: buttons){
-				if(b.getButtonName().equals(name)){
-					b.setDisabled(disabled);				
-				}
+		for(RGButton b: buttons){
+			if(b.getButtonName().equals(name)){
+				b.setDisabled(disabled);				
 			}
-		}		
+		}
 	}
 
 	public void render() {
-		if(open){
-			draw();
-		}
-	}
-	
-	public void open(){
-		this.open = true;
-	}
-	
-	public void close(){
-		this.open = false;
-	}
-
-	public boolean isOpen(){
-		return open;
+		draw();
 	}
 }

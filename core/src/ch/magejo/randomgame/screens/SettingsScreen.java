@@ -21,7 +21,6 @@ public class SettingsScreen extends abstractScreen{
 		ButtonNames[] buttons = {ButtonNames.Controlls, ButtonNames.Language, ButtonNames.Sound, ButtonNames.Grafics, ButtonNames.Back};
 
 		mainStage = new MenuStage(buttons, game);
-		mainStage.open();
 	}
 
 	@Override

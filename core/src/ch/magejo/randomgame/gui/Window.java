@@ -31,15 +31,15 @@ public class Window{
 	
 	private Stage overlay;
 	
-	private boolean open = false;
-	
 	protected BitmapFont font;
 	
 	private ArrayList<RGButton> buttons;
 	private ArrayList<Icon> icons;
 	private ArrayList<DrawableTextDto> texts;
 	
-	public Window(Vector origin, int width, int height, Main game) {
+	private Texture screenShot;
+	
+	public Window(Vector origin, int width, int height, Main game, Texture screenShot) {
 		super();
 		font = new BitmapFont(Gdx.files.internal("UI/Font/Font.fnt"));
 		font.setColor(new Color(0, 0, 0.2f, 1));
@@ -48,10 +48,12 @@ public class Window{
 		texts = new ArrayList<>();
 		background = new Texture("UI/Dialog/background.png");
 		overlay = new Stage();
+		game.getInputMultiplexer().addProcessor(overlay);
 		this.origin = origin;
 		this.width = width;
 		this.height = height;
 		this.game = game;
+		this.screenShot = screenShot;
 	}
 	
 	public int addButton(RGButton button, Vector position, int width, int height){
@@ -75,28 +77,24 @@ public class Window{
 	}
 	
 	public void render(float delta){
-		update(delta);
-			
-		if(open){
-			game.getBatch().begin();
-			game.getBatch().draw(background, origin.x, origin.y, width, height);
-			for(Icon texture: icons){
-				if(texture.isVisible()){
-					game.getBatch().draw(texture.getTexture(), texture.getPosition().x, texture.getPosition().y, texture.getWidth(), texture.getHeight());
-				}
+		update(delta);	
+		game.getBatch().begin();
+		game.getBatch().draw(screenShot, 0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+		game.getBatch().draw(background, origin.x, origin.y, width, height);
+		for(Icon texture: icons){
+			if(texture.isVisible()){
+				game.getBatch().draw(texture.getTexture(), texture.getPosition().x, texture.getPosition().y, texture.getWidth(), texture.getHeight());
 			}
-			for(DrawableTextDto text: texts){
-				font.draw(game.getBatch(), text.getText(), (int) text.getPosition().x, (int) text.getPosition().y);
-			}
-			game.getBatch().end();
-			overlay.draw();
 		}
+		for(DrawableTextDto text: texts){
+			font.draw(game.getBatch(), text.getText(), (int) text.getPosition().x, (int) text.getPosition().y);
+		}
+		game.getBatch().end();
+		overlay.draw();
 	}
 	
 	public void update(float delta){
-		if(open){
-			overlay.act();
-		}
+		overlay.act();
 	}
 	
 	public RGButton getButton(int id){
@@ -109,26 +107,6 @@ public class Window{
 	
 	public DrawableTextDto getText(int id){
 		return texts.get(id);
-	}
-	
-	public void open(){
-		open = true;
-		for(RGButton b: buttons){
-			b.add();
-		}
-		game.getInputMultiplexer().addProcessor(overlay);
-	}
-	
-	public void close(){
-		open = false;
-		for(RGButton b: buttons){
-			b.remove();
-		}
-		game.getInputMultiplexer().removeProcessor(overlay);
-	}
-	
-	public boolean isOpen(){
-		return open;
 	}
 	
 	public void clearTexts(){
@@ -144,6 +122,9 @@ public class Window{
 	
 	public void clearIcons(){
 		icons.clear();
-	}
+	}	
 	
+	public void dispose(){
+		game.getInputMultiplexer().removeProcessor(overlay);
+	}
 }

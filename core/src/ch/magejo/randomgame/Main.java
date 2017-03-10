@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import ch.magejo.randomgame.game.RunningGameScreen;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
@@ -13,7 +14,6 @@ import ch.magejo.randomgame.mecanics.test.TextGeneratorDummy;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
 import ch.magejo.randomgame.screens.GeneratorScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
-import ch.magejo.randomgame.screens.PlayScreen;
 import ch.magejo.randomgame.screens.ScreenList;
 import ch.magejo.randomgame.screens.SettingsScreen;
 import ch.magejo.randomgame.utils.Log;
@@ -33,9 +33,6 @@ public class Main extends Game {
 	private ScreenList activeState = ScreenList.MainMenu; //actual active Screen
 	
 	private int width, height;					//width and height of the game window
-	
-	
-	private World loadedGame;					//an instance of the loaden world -> so eery screen can change it
 	
 	private TextGeneratorInterface textGenerator;	//textgenerator which gets shared by the whole game
 
@@ -151,32 +148,10 @@ public class Main extends Game {
 			setScreen(new GeneratorScreen(this));
 		}
 		if(activeState.equals(ScreenList.Game)){
-			setScreen(new PlayScreen(this));
+			setScreen(new RunningGameScreen(this));
 		}
 		if(activeState.equals(ScreenList.Settings)){
 			setScreen(new SettingsScreen(this));
 		}		
-	}
-	
-	/**
-	 * get world which was last loaded, might be null if it wasn't loaded before!
-	 * @return
-	 */
-	public World getWorld(){
-		return loadedGame;
-	}
-	
-	/**
-	 * load a world from the disk ant store it in game so all screens can access it
-	 */
-	public void loadWorld(World world){
-		loadedGame = world;
-	}
-	
-	/**
-	 * write the actual world to a disk
-	 */
-	public void saveWorld(){
-		//TODO ...
 	}
 }
