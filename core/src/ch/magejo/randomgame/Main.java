@@ -6,6 +6,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -30,20 +31,23 @@ public class Main extends ApplicationAdapter {
 	private InputHandler input;
 	private int nRegions = 10;
 	private int activeRegion = 0;
-	private String name = "MyWorld";
-	private Texture map;
-	
+	private String name = "Mordor";
+	private Texture map, red;
+
 	private int width, height;
 
 	@Override
 	public void create () {
 
-		new Generator().generate(name , nRegions);
+		FileSystem.createRootFolder();
+		new Generator().generate(name , 0);
 
 		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
 
 		world.loadRegion(activeRegion);
 		map = new Texture(new FileHandle(world.getMap()));
+
+		red = new Texture("red.png");
 
 		batch = new SpriteBatch();
 		renderer = new Renderer2D(batch);
@@ -62,7 +66,9 @@ public class Main extends ApplicationAdapter {
 	private void update() {
 		cInputHandler.update();
 
-		if(input.isClicked(Key.ENTER)){
+		world.update(input);
+
+		if(input.isClicked(Key.PAUSE)){
 			activeRegion++;
 			if(activeRegion>=nRegions){
 				activeRegion = 0;
@@ -83,10 +89,17 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		
-		batch.draw(map, width-200, height-200, 200, 200);
+
+		batch.draw(map, width-1000, height-1000, 1000, 1000);
+
 		world.render(renderer, new Vector(0, 0));
-		
+
+		if(!world.getActiveRegion().activeScenes.isEmpty()){
+			int x = world.getActiveRegion().activeScenes.get(0).globalX*5+width-1000;
+			int y = -world.getActiveRegion().activeScenes.get(0).globalY*5+height;
+			batch.draw(red, x, y-5, 5, 5);
+		}
+
 		batch.end();
 	}
 
