@@ -75,7 +75,6 @@ public class MenuStage extends Stage{
 	
 	public void close(){
 		this.open = false;
-		
 	}
 
 	public boolean isOpen(){

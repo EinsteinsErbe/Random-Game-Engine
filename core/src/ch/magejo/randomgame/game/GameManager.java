@@ -35,54 +35,12 @@ import ch.magejo.randomgame.utils.math.Vector;
  * @author M.Geissbberger
  *
  */
-public class RunningGame {
+public class GameManager {
 
-	private Main game;				//Main class to get shared stuff
-	private Renderer2D renderer;	//Renderer which can draw tiles
-	private TileSet tileSet;		//a Tileset which holds all the possible 32x32px Tiles for the game
-	private int tile, tile2;		//id's of already defined tiles
+	private Texture screenShot;
 
-	Texture screenShot;				//makes a screenshot from the gamescreen (needed for the paused menu)
-
-	private DialogWindow dialog;	//A dialog that opens when the player talks to an entity
-	
-	private Charakter npc;			//Debug
-	private Charakter player;		//The Players Charakter
-
-	public RunningGame(Main game) {
-		this.game = game;
-		this.renderer = new Renderer2D(game.getBatch());
-		tileSet = new TileSet("TileSet/TestTileSet.png", 32, 32);
-		tile = tileSet.createTileAdress(0, 0);
-		tile2 = tileSet.createTileAdress(1, 0);
-
-		//create npc which can be talked to and traded with
-		npc = new Charakter("Npc", 100, 1);
-		npc.addMoney(1000);
-		Sword sword = new Sword("rosty Sword", 10, 1, 1, 10);
-		sword.setAmount(10);
-		npc.addToInventory(sword);
-
-		//Player must be a Charakter, add inventory
-		player = new Charakter("Saturn91", 100, 9999999);
-		player.addMoney(10000);
-		Sock sock = new Sock("fantastic sock", Type.Wool, 10, true, 1, 5);
-		sock.setAmount(100);
-		player.addToInventory(sock);
-
-		//define Player armor
-		Helmet h = new Helmet("shine helmet", ch.magejo.randomgame.mecanics.entity.things.armor.Type.Mithril, 1, 1, 1, 10);
-		BreastArmor b = new BreastArmor("dull Breatsplate", ch.magejo.randomgame.mecanics.entity.things.armor.Type.Gambeson, 1, 5, 1, 15);
-		player.addToInventory(h);
-		player.equipArmor(h);
-		player.addToInventory(b);
-		player.equipArmor(b);
-		Spear s = new Spear("simple Spear", 10, 1, 5, 2);
-		player.addToInventory(s);
-		player.equip(s);
+	public GameManager(Main game) {
 		
-		DialogManager.setTextGenerator(game.getTextGenerator());
-		dialog = new DialogWindow(game);
 	}
 
 	/**
@@ -90,11 +48,7 @@ public class RunningGame {
 	 * @param delta
 	 */
 	public void update(float delta){
-		if(game.getInput().isClicked(Key.ENTER)){
-			dialog.openDialog(npc, player);
-		}
 		
-		dialog.update();
 	}
 
 	/**
@@ -102,29 +56,14 @@ public class RunningGame {
 	 * @param delta
 	 */
 	public void render(float delta){
-		game.getBatch().begin();
-		//draw game here
-		for(int i = 0; i < 10 ; i++){
-			for(int j = 0; j < 10; j++){
-				renderer.renderTile(tile2, new Vector(i*tileSet.getTextureWidth(), j*tileSet.getTextureHeight()));
-			}
-		}
-		game.getBatch().end();
-
-		dialog.render(delta);
+		
 	}
 
 	/**
 	 * draw only a screenshot of the screen (if game is paused)
 	 */
 	public void renderScreenShot(){
-		if(screenShot == null){
-			Log.printErrorLn("please call makeScreenShot first!", getClass().getName(), 1);
-		}else{
-			game.getBatch().begin();
-			game.getBatch().draw(screenShot, 0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-			game.getBatch().end();
-		}	
+		
 	}
 	
 	/**

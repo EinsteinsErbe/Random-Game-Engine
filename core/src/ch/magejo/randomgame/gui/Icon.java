@@ -5,6 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import ch.magejo.randomgame.objects.TextureManager;
 import ch.magejo.randomgame.utils.math.Vector;
 
+/**
+ * stores a texture and its screenposition
+ * @author M.Geissbberger
+ *
+ */
 public class Icon{
 	
 	private int width; 

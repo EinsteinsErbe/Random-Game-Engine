@@ -41,7 +41,7 @@ public class PlayScreen extends abstractScreen {
 	}
 
 	public void update(float delta){
-		gameMenu.act();
+		//gameMenu.act();
 		
 		if(game.getInput().isClicked(Key.PAUSE)){
 			if(gameMenu.isOpen()){

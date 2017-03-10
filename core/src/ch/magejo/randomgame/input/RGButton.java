@@ -42,7 +42,7 @@ public class RGButton extends TextButton{
 	
 	private static TextButtonStyle getDefaultStyle(){
 		TextButtonStyle style;
-		BitmapFont btnFont = new BitmapFont(Gdx.files.internal("UI/Buttons/colarableFont.fnt"));
+		BitmapFont btnFont = new BitmapFont(Gdx.files.internal("UI/Font/Font.fnt"));
 		Skin btnSkin = new Skin();
 		TextureAtlas btnAtlas = new TextureAtlas(Gdx.files.internal("UI/Buttons/button.pack"));
 		btnSkin.addRegions(btnAtlas);

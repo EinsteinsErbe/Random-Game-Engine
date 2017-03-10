@@ -1,16 +1,14 @@
 package ch.magejo.randomgame;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.test.TextGeneratorDummy;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
 import ch.magejo.randomgame.screens.GeneratorScreen;
@@ -21,21 +19,29 @@ import ch.magejo.randomgame.screens.SettingsScreen;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
+/**
+ * This Class gets loaded from the game first, here the whole game is controlled
+ * @author M.Geissbberger
+ */
 public class Main extends Game {
-	private SpriteBatch batch;
-	CombinedInputHandler cInputHandler;
-	private InputHandler input;
+	private SpriteBatch batch;					//libgdx batch to draw on screen, shared by all screens
+	CombinedInputHandler cInputHandler;			//input for Keyboard/Mouse/Controller
+	private InputHandler input;					
 	
-	private InputMultiplexer inputHandler;
+	private InputMultiplexer inputHandler;		//allows using multiple input sources
 	
-	private ScreenList activeState = ScreenList.MainMenu;
+	private ScreenList activeState = ScreenList.MainMenu; //actual active Screen
 	
-	private PlayScreen game;
+	private int width, height;					//width and height of the game window
 	
-	private int width, height;
 	
-	private TextGeneratorInterface textGenerator;
+	private World loadedGame;					//an instance of the loaden world -> so eery screen can change it
+	
+	private TextGeneratorInterface textGenerator;	//textgenerator which gets shared by the whole game
 
+	/**
+	 * Initialize project
+	 */
 	@Override
 	public void create () {			
 		
@@ -57,6 +63,9 @@ public class Main extends Game {
 		changeScreen(ScreenList.MainMenu);	
 	}
 
+	/**
+	 * gest called if one of the Platforms changes the Windowsize
+	 */
 	@Override
 	public void resize (int width, int height) {
 		Log.printLn("resized Window to: " + width +":"+ height, getClass().getName(), 3);
@@ -65,6 +74,9 @@ public class Main extends Game {
 		getScreen().resize(width, height);
 	}
 
+	/**
+	 * updates the input
+	 */
 	private void update() {
 		cInputHandler.update();
 		
@@ -75,6 +87,9 @@ public class Main extends Game {
 		}
 	}
 
+	/**
+	 * render active screen -> don't touch!
+	 */
 	@Override
 	public void render () {
 		update();
@@ -82,26 +97,50 @@ public class Main extends Game {
 		super.render();
 	}
 	
+	/**
+	 * provides the libgdx batch which can draw to the screen
+	 * @return
+	 */
 	public SpriteBatch getBatch(){
 		return batch;
 	}
 	
+	/**
+	 * get the Keyboard and mouse input
+	 * @return
+	 */
 	public InputHandler getInput(){
 		return input;
 	}
 	
+	/**
+	 * get the input multiplexer to add or remove a scene from it
+	 * @return
+	 */
 	public InputMultiplexer getInputMultiplexer(){
 		return inputHandler;
 	}
 	
+	/**
+	 * get the one textGenerator of the Game
+	 * @return
+	 */
 	public TextGeneratorInterface getTextGenerator(){
 		return textGenerator;
 	}
 
+	/**
+	 * get actual screensize of the game (changes by resize) to change components in Screens manually
+	 * @return
+	 */
 	public Vector getScreenSize() {
 		return new Vector(width, height);
 	}
 	
+	/**
+	 * change the screen of the game, all possible screens are specified in ch.magejo.randomgame.screens.ScreenList
+	 * @param screen
+	 */
 	public void changeScreen(ScreenList screen){
 		Log.printLn("changed to screen: " + screen.toString(), getClass().getName(), 3);
 		activeState = screen;
@@ -117,5 +156,27 @@ public class Main extends Game {
 		if(activeState.equals(ScreenList.Settings)){
 			setScreen(new SettingsScreen(this));
 		}		
+	}
+	
+	/**
+	 * get world which was last loaded, might be null if it wasn't loaded before!
+	 * @return
+	 */
+	public World getWorld(){
+		return loadedGame;
+	}
+	
+	/**
+	 * load a world from the disk ant store it in game so all screens can access it
+	 */
+	public void loadWorld(World world){
+		loadedGame = world;
+	}
+	
+	/**
+	 * write the actual world to a disk
+	 */
+	public void saveWorld(){
+		//TODO ...
 	}
 }

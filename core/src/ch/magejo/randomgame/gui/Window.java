@@ -3,6 +3,7 @@ package ch.magejo.randomgame.gui;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,13 +15,17 @@ import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.input.RGButton;
 import ch.magejo.randomgame.utils.math.Vector;
 
-public class MessageDialog{
+/**
+ * a default small windo which opens on top of the screen and can hold multiple elements, 
+ * those elements can be texts, icons or textures
+ * @author M.Geissbberger
+ *
+ */
+public class Window{
 	private Vector origin;
 	private int width;
 	private int height;
 	protected Main game;
-	
-	private boolean fillScreen = false;
 	
 	private static Texture background;
 	
@@ -34,9 +39,10 @@ public class MessageDialog{
 	private ArrayList<Icon> icons;
 	private ArrayList<DrawableTextDto> texts;
 	
-	public MessageDialog(Vector origin, int width, int height, Main game) {
+	public Window(Vector origin, int width, int height, Main game) {
 		super();
-		font = new BitmapFont(Gdx.files.internal("UI/Buttons/colarableFont.fnt"));
+		font = new BitmapFont(Gdx.files.internal("UI/Font/Font.fnt"));
+		font.setColor(new Color(0, 0, 0.2f, 1));
 		buttons = new ArrayList<>();
 		icons = new ArrayList<>();
 		texts = new ArrayList<>();
@@ -107,16 +113,37 @@ public class MessageDialog{
 	
 	public void open(){
 		open = true;
+		for(RGButton b: buttons){
+			b.add();
+		}
 		game.getInputMultiplexer().addProcessor(overlay);
 	}
 	
 	public void close(){
 		open = false;
+		for(RGButton b: buttons){
+			b.remove();
+		}
 		game.getInputMultiplexer().removeProcessor(overlay);
 	}
 	
 	public boolean isOpen(){
 		return open;
+	}
+	
+	public void clearTexts(){
+		texts.clear();
+	}
+	
+	public void clearButtons(){
+		for(RGButton b: buttons){
+			b.remove();
+		}
+		buttons.clear();
+	}
+	
+	public void clearIcons(){
+		icons.clear();
 	}
 	
 }

@@ -2,6 +2,11 @@ package ch.magejo.randomgame.gui;
 
 import ch.magejo.randomgame.utils.math.Vector;
 
+/**
+ * Holds information needed to draw a text on to the screen
+ * @author M.Geissbberger
+ *
+ */
 public class DrawableTextDto {
 	private String text;
 	private Vector position;
