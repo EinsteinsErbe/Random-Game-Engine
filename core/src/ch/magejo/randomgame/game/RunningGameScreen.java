@@ -2,11 +2,13 @@ package ch.magejo.randomgame.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Blending;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -45,6 +47,11 @@ public class RunningGameScreen implements Screen{
 	private int tile, tile2;		//id's of already defined tiles
 
 	private World world;
+	private Texture map, regionMap, playerPos;
+	private boolean renderRegions = false;
+	private Vector origin;
+
+	private int width, height;
 
 	private Charakter npc;			//Debug
 	private Charakter player;		//The Players Charakter
@@ -58,9 +65,7 @@ public class RunningGameScreen implements Screen{
 		hud = new Stage();
 		game.getInputMultiplexer().addProcessor(hud);
 
-		tileSet = new TileSet("TileSet/TestTileSet.png", 32, 32);
-		tile = tileSet.createTileAdress(0, 0);
-		tile2 = tileSet.createTileAdress(1, 0);
+		origin = new Vector(0, 0);
 
 		String name = "Mordor";
 		FileSystem.createSubFolder(name);
@@ -70,6 +75,17 @@ public class RunningGameScreen implements Screen{
 		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
 		world.loadRegion(0);
 		world.getActiveRegion().setCentralScene(0);
+		world.getActiveRegion().moveActiveScenes(0, 0);
+		origin.x = -world.getActiveRegion().getCentralScene().globalX*10+11;
+		origin.y = -world.getActiveRegion().getCentralScene().globalY*10+11;
+		origin.scale(32);
+		map = new Texture(new FileHandle(FileSystem.getSaveFile(name, "map.png")));
+		regionMap = new Texture(new FileHandle(FileSystem.getSaveFile(name, "regionMap.png")));
+		Pixmap pixmap = new Pixmap( 8, 8, Format.RGBA8888 );
+		pixmap.setColor( 1, 0, 0, 1 );
+		pixmap.drawRectangle(0, 0, 8, 8);
+		playerPos = new Texture( pixmap );
+
 
 		//create npc which can be talked to and traded with
 		npc = new Charakter("Npc", 100, 1);
@@ -105,6 +121,38 @@ public class RunningGameScreen implements Screen{
 	 */
 	public void update(float delta){
 		world.update(game.getInput());
+		if(game.getInput().isClicked(Key.UP)){
+			if(world.getActiveRegion().moveActiveScenes(0, 1)){
+				origin.x = -world.getActiveRegion().getCentralScene().globalX*10+11;
+				origin.y = -world.getActiveRegion().getCentralScene().globalY*10+11;
+				origin.scale(32);
+			}
+		}
+		if(game.getInput().isClicked(Key.DOWN)){
+			if(world.getActiveRegion().moveActiveScenes(0, -1)){
+				origin.x = -world.getActiveRegion().getCentralScene().globalX*10+11;
+			origin.y = -world.getActiveRegion().getCentralScene().globalY*10+11;
+			origin.scale(32);
+			}
+		}
+		if(game.getInput().isClicked(Key.LEFT)){
+			if(world.getActiveRegion().moveActiveScenes(-1, 0)){
+				origin.x = -world.getActiveRegion().getCentralScene().globalX*10+11;
+				origin.y = -world.getActiveRegion().getCentralScene().globalY*10+11;
+				origin.scale(32);
+			}
+		}
+		if(game.getInput().isClicked(Key.RIGHT)){
+			if(world.getActiveRegion().moveActiveScenes(1, 0)){
+				origin.x = -world.getActiveRegion().getCentralScene().globalX*10+11;
+				origin.y = -world.getActiveRegion().getCentralScene().globalY*10+11;
+				origin.scale(32);
+			}
+		}
+
+		if(game.getInput().isClicked(Key.ESCAPE)){
+			renderRegions = !renderRegions;
+		}
 
 		if(game.getInput().isClicked(Key.ENTER)){
 			changeScreen(new DialogScreen(game, makeScreenshot(false), npc, player));
@@ -125,14 +173,14 @@ public class RunningGameScreen implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		game.getBatch().begin();
 		//draw game here
-		/*
-		for(int i = 0; i < 10 ; i++){
-			for(int j = 0; j < 10; j++){
-				renderer.renderTile(tile2, new Vector(i*tileSet.getTextureWidth(), j*tileSet.getTextureHeight()));
-			}
+		world.render(renderer, origin);
+		if(renderRegions){
+			game.getBatch().draw(regionMap, width-500, height-500, 500, 500);
+		}else{
+			game.getBatch().draw(map, width-500, height-500, 500, 500);
 		}
-		*/
-		world.render(renderer, new Vector(0,0));
+
+		game.getBatch().draw(playerPos, -origin.x/32/4+width-500, -origin.y/32/4+height-500);
 		game.getBatch().end();
 		game.getEventLogger().render(game.getBatch());
 		hud.draw();
@@ -151,7 +199,8 @@ public class RunningGameScreen implements Screen{
 
 	@Override
 	public void resize(int width, int height) {
-
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override
