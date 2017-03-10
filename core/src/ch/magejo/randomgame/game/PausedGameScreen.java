@@ -38,7 +38,7 @@ public class PausedGameScreen implements Screen{
 		game.getBatch().begin();
 		game.getBatch().draw(screenShot, 0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 		game.getBatch().end();
-		mainStage.render();		
+		mainStage.render();	
 	}
 
 	private void update() {

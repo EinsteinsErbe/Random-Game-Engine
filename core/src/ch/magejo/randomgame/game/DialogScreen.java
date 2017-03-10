@@ -2,6 +2,7 @@ package ch.magejo.randomgame.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -19,6 +20,7 @@ public class DialogScreen implements Screen{
 	public DialogScreen(Main game, Texture screenShot, Creature target, Charakter player) {
 		this.game = game;
 		this.dialog = new DialogWindow(game, screenShot);
+		game.addEvent("opened Dialog with " + target.getName(), new Color(0.2f, 0.75f, 0.2f, 0.8f));
 		this.dialog.openDialog(target, player);
 	}
 
@@ -37,8 +39,11 @@ public class DialogScreen implements Screen{
 			dialog.render(delta);
 		}else{
 			dialog.dispose();
+			game.addEvent("closed Dialog", new Color(0.2f, 0.75f, 0.2f, 0.8f));
 			game.setScreen(new RunningGameScreen(game));
-		}				
+		}	
+		
+		game.getEventLogger().render(game.getBatch());
 	}
 
 	@Override

@@ -3,9 +3,11 @@ package ch.magejo.randomgame;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.magejo.randomgame.game.RunningGameScreen;
+import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
@@ -35,6 +37,10 @@ public class Main extends Game {
 	private int width, height;					//width and height of the game window
 	
 	private TextGeneratorInterface textGenerator;	//textgenerator which gets shared by the whole game
+	
+	private TextBox eventLogger;
+	private long scrollEventLoggerLastTime;
+	private final long scrollEventLoggerTime = 1000;
 
 	/**
 	 * Initialize project
@@ -57,6 +63,8 @@ public class Main extends Game {
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
 		
+		eventLogger = new TextBox(new Vector(20, 0), 50 ,0.8f);
+		
 		changeScreen(ScreenList.MainMenu);	
 	}
 
@@ -77,10 +85,20 @@ public class Main extends Game {
 	private void update() {
 		cInputHandler.update();
 		
+		autoScrollEventLogger();
+		
 		for(Key k : Key.values()){
 			if(input.isClicked(k)){
 				Log.printLn("is clicked", k.name(), 3);
+				addEvent("is clicked: " + k.name(), new Color(0.75f, 0.75f, 0.75f, 0.5f));
 			}
+		}
+	}
+	
+	private void autoScrollEventLogger(){
+		if(System.currentTimeMillis()-scrollEventLoggerLastTime >= scrollEventLoggerTime){
+			eventLogger.scrollUp();
+			scrollEventLoggerLastTime = System.currentTimeMillis();
 		}
 	}
 
@@ -153,5 +171,13 @@ public class Main extends Game {
 		if(activeState.equals(ScreenList.Settings)){
 			setScreen(new SettingsScreen(this));
 		}		
+	}
+	
+	public TextBox getEventLogger(){
+		return eventLogger;
+	}
+	
+	public void addEvent(String text, Color color){
+		eventLogger.addTextLine(text, color);
 	}
 }

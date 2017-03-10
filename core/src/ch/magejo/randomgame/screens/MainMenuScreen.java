@@ -31,7 +31,7 @@ public class MainMenuScreen extends abstractScreen{
 		update(delta);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		mainStage.render();		
+		mainStage.render();	
 	}
 
 	private void update(float delta) {

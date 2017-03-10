@@ -1,5 +1,6 @@
 package ch.magejo.randomgame.gui.dialogs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
 import ch.magejo.randomgame.Main;

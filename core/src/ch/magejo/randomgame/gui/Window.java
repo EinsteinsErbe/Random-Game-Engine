@@ -72,7 +72,7 @@ public class Window{
 	}
 	
 	public int addText(String text, Vector position){
-		texts.add(new DrawableTextDto(text, position.add(origin), 1));
+		texts.add(new DrawableTextDto(text, position.add(origin), 1, font));
 		return texts.size()-1;
 	}
 	
@@ -86,10 +86,10 @@ public class Window{
 				game.getBatch().draw(texture.getTexture(), texture.getPosition().x, texture.getPosition().y, texture.getWidth(), texture.getHeight());
 			}
 		}
-		for(DrawableTextDto text: texts){
-			font.draw(game.getBatch(), text.getText(), (int) text.getPosition().x, (int) text.getPosition().y);
-		}
 		game.getBatch().end();
+		for(DrawableTextDto text: texts){
+			text.renderText(game.getBatch());
+		}
 		overlay.draw();
 	}
 	

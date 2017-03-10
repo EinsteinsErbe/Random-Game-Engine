@@ -1,5 +1,9 @@
 package ch.magejo.randomgame.gui;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+
 import ch.magejo.randomgame.utils.math.Vector;
 
 /**
@@ -10,11 +14,14 @@ import ch.magejo.randomgame.utils.math.Vector;
 public class DrawableTextDto {
 	private String text;
 	private Vector position;
-	private int size;
+	private float size;
+	private BitmapFont font;
 	
-	public DrawableTextDto(String text, Vector position, int size) {
+	public DrawableTextDto(String text, Vector position, float size, BitmapFont font) {
 		super();
 		this.text = text;
+		this.font = font;
+		this.font.getData().scale(size/100);
 		this.position = position;
 		this.size = size;
 	}
@@ -27,11 +34,16 @@ public class DrawableTextDto {
 		return position;
 	}
 
-	public int getSize() {
+	public float getSize() {
 		return size;
 	}
 
 	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public void setText(String text, Color color){
+		font.setColor(color);
 		this.text = text;
 	}
 
@@ -41,6 +53,29 @@ public class DrawableTextDto {
 
 	public void setSize(int size) {
 		this.size = size;
+	}
+	
+	public void addTextToLine(String text){
+		this.text = this.text + text;
+	}
+	
+	public void addTextToLine(String text, Color color){
+		font.setColor(color);
+		this.text = this.text + text;
+	}
+	
+	public void renderText(Batch batch){
+		batch.begin();
+		font.draw(batch, text, position.x, position.y);
+		batch.end();
+	}
+
+	public Color getColor() {
+		return font.getColor();
+	}
+
+	public void setColor(Color color) {
+		font.setColor(color);		
 	}
 	
 	
