@@ -18,6 +18,7 @@ import ch.magejo.randomgame.screens.GeneratorScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.ScreenList;
 import ch.magejo.randomgame.screens.SettingsScreen;
+import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
@@ -28,16 +29,16 @@ import ch.magejo.randomgame.utils.math.Vector;
 public class Main extends Game {
 	private SpriteBatch batch;					//libgdx batch to draw on screen, shared by all screens
 	CombinedInputHandler cInputHandler;			//input for Keyboard/Mouse/Controller
-	private InputHandler input;					
-	
+	private InputHandler input;
+
 	private InputMultiplexer inputHandler;		//allows using multiple input sources
-	
+
 	private ScreenList activeState = ScreenList.MainMenu; //actual active Screen
-	
+
 	private int width, height;					//width and height of the game window
-	
+
 	private TextGeneratorInterface textGenerator;	//textgenerator which gets shared by the whole game
-	
+
 	private TextBox eventLogger;
 	private long scrollEventLoggerLastTime;
 	private final long scrollEventLoggerTime = 1000;
@@ -46,26 +47,28 @@ public class Main extends Game {
 	 * Initialize project
 	 */
 	@Override
-	public void create () {			
-		
+	public void create () {
+
 		//set debugmod of log so we can see everything important
 		Log.setDebugMode(6);
-		
+
+		FileSystem.createRootFolder();
+
 		textGenerator = new TextGeneratorDummy();
-		
+
 		inputHandler = new InputMultiplexer();
 
 		cInputHandler = new CombinedInputHandler();
 		inputHandler.addProcessor(cInputHandler);
 		input = cInputHandler;
 		Gdx.input.setInputProcessor(inputHandler);
-		
+
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
-		
+
 		eventLogger = new TextBox(new Vector(20, 0), 50 ,0.8f);
-		
-		changeScreen(ScreenList.MainMenu);	
+
+		changeScreen(ScreenList.MainMenu);
 	}
 
 	/**
@@ -84,9 +87,9 @@ public class Main extends Game {
 	 */
 	private void update() {
 		cInputHandler.update();
-		
+
 		autoScrollEventLogger();
-		
+
 		for(Key k : Key.values()){
 			if(input.isClicked(k)){
 				Log.printLn("is clicked", k.name(), 3);
@@ -94,7 +97,7 @@ public class Main extends Game {
 			}
 		}
 	}
-	
+
 	private void autoScrollEventLogger(){
 		if(System.currentTimeMillis()-scrollEventLoggerLastTime >= scrollEventLoggerTime){
 			eventLogger.scrollUp();
@@ -108,10 +111,10 @@ public class Main extends Game {
 	@Override
 	public void render () {
 		update();
-		
+
 		super.render();
 	}
-	
+
 	/**
 	 * provides the libgdx batch which can draw to the screen
 	 * @return
@@ -119,7 +122,7 @@ public class Main extends Game {
 	public SpriteBatch getBatch(){
 		return batch;
 	}
-	
+
 	/**
 	 * get the Keyboard and mouse input
 	 * @return
@@ -127,7 +130,7 @@ public class Main extends Game {
 	public InputHandler getInput(){
 		return input;
 	}
-	
+
 	/**
 	 * get the input multiplexer to add or remove a scene from it
 	 * @return
@@ -135,7 +138,7 @@ public class Main extends Game {
 	public InputMultiplexer getInputMultiplexer(){
 		return inputHandler;
 	}
-	
+
 	/**
 	 * get the one textGenerator of the Game
 	 * @return
@@ -151,7 +154,7 @@ public class Main extends Game {
 	public Vector getScreenSize() {
 		return new Vector(width, height);
 	}
-	
+
 	/**
 	 * change the screen of the game, all possible screens are specified in ch.magejo.randomgame.screens.ScreenList
 	 * @param screen
@@ -159,6 +162,7 @@ public class Main extends Game {
 	public void changeScreen(ScreenList screen){
 		Log.printLn("changed to screen: " + screen.toString(), getClass().getName(), 3);
 		activeState = screen;
+		//TODO switch case?
 		if(activeState.equals(ScreenList.MainMenu)){
 			setScreen(new MainMenuScreen(this));
 		}
@@ -170,13 +174,13 @@ public class Main extends Game {
 		}
 		if(activeState.equals(ScreenList.Settings)){
 			setScreen(new SettingsScreen(this));
-		}		
+		}
 	}
-	
+
 	public TextBox getEventLogger(){
 		return eventLogger;
 	}
-	
+
 	public void addEvent(String text, Color color){
 		eventLogger.addTextLine(text, color);
 	}
