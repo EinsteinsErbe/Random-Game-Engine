@@ -72,12 +72,12 @@ public class Main extends Game {
 			
 			@Override
 			public void printExternInfo(String info) {
-				eventLogger.addTextLine(info, new Color(1, 0, 0, 1));				
+				eventLogger.addTextLine(info, Color.YELLOW);				
 			}
 			
 			@Override
 			public void printExternError(String error) {
-				eventLogger.addTextLine(error, new Color(0, 1, 1, 1));			
+				eventLogger.addTextLine(error, new Color(1, 0, 0, 1));			
 			}
 		};
 		
