@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
@@ -56,7 +57,7 @@ public class RGTextButton extends TextButton{
 	
 	public ButtonNames getButtonName(){
 		if(this.name == null){
-			Log.printErrorLn(getName() + "-Button has no ButtonName assigned!", getClass().getName(), 1);
+			Main.logError(getName() + "-Button has no ButtonName assigned!", getClass().getName(), 1);
 		}
 		return this.name;
 	}

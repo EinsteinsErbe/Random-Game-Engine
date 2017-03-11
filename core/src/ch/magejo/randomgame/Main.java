@@ -18,6 +18,7 @@ import ch.magejo.randomgame.screens.GeneratorScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.ScreenList;
 import ch.magejo.randomgame.screens.SettingsScreen;
+import ch.magejo.randomgame.utils.AbstractLog;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
@@ -41,12 +42,14 @@ public class Main extends Game {
 	private TextBox eventLogger;
 	private long scrollEventLoggerLastTime;
 	private final long scrollEventLoggerTime = 1000;
+	
+	private static AbstractLog log;
 
 	/**
 	 * Initialize project
 	 */
 	@Override
-	public void create () {			
+	public void create () {		
 		
 		//set debugmod of log so we can see everything important
 		Log.setDebugMode(6);
@@ -65,7 +68,27 @@ public class Main extends Game {
 		
 		eventLogger = new TextBox(new Vector(20, 0), 50 ,0.8f, false);
 		
+		log = new AbstractLog() {
+			
+			@Override
+			public void printExternInfo(String info) {
+				eventLogger.addTextLine(info, new Color(1, 0, 0, 1));				
+			}
+			
+			@Override
+			public void printExternError(String error) {
+				eventLogger.addTextLine(error, new Color(0, 1, 1, 1));			
+			}
+		};
+		
+		//set debug log so every debug stuff is shown
+		log.setDebugMode(0);
+		
 		changeScreen(ScreenList.MainMenu);	
+		
+		logInfo("initialized Engine", getClass().getName(), 1);
+		
+		
 	}
 
 	/**
@@ -89,8 +112,7 @@ public class Main extends Game {
 		
 		for(Key k : Key.values()){
 			if(input.isClicked(k)){
-				Log.printLn("is clicked", k.name(), 3);
-				addEvent("is clicked: " + k.name(), new Color(0.75f, 0.75f, 0.75f, 0.5f));
+				logInfo("is clicked", k.name(), 3);
 			}
 		}
 	}
@@ -179,5 +201,13 @@ public class Main extends Game {
 	
 	public void addEvent(String text, Color color){
 		eventLogger.addTextLine(text, color);
+	}
+	
+	public static void logInfo(String msg, String className, int _debugMode){
+		log.printLn(msg, className, _debugMode);
+	}
+	
+	public static void logError(String error, String className, int _debugMode){
+		log.printErrorLn(error, className, _debugMode);
 	}
 }

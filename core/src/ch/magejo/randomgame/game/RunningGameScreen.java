@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ch.magejo.randomgame.Main;
-import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
 import ch.magejo.randomgame.mecanics.entity.things.armor.Helmet;

@@ -9,7 +9,6 @@ import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.screens.ScreenList;
-import ch.magejo.randomgame.utils.Log;
 
 public class PausedGameScreen implements Screen{
 	
@@ -48,7 +47,7 @@ public class PausedGameScreen implements Screen{
 		}
 		
 		if(mainStage.isClicked(ButtonNames.Settings)){
-			Log.printLn("Settings was pressed", getClass().getName(), 3);
+			game.logInfo("Settings was pressed", getClass().getName(), 3);
 		}
 		
 		if(mainStage.isClicked(ButtonNames.Mainmenu)){
