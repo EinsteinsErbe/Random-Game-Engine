@@ -96,6 +96,10 @@ public class RunningGameScreen implements Screen{
 		if(game.getInput().isClicked(Key.PAUSE)){
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
 		}
+		
+		if(game.getInput().isClicked(Key.INTERACT)){
+			changeScreen(new TradeScreen(game, makeScreenshot(false), npc, player));
+		}
 	}
 
 	/**

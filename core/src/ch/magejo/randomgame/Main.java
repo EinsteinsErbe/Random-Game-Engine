@@ -63,7 +63,7 @@ public class Main extends Game {
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
 		
-		eventLogger = new TextBox(new Vector(20, 0), 50 ,0.8f);
+		eventLogger = new TextBox(new Vector(20, 0), 50 ,0.8f, false);
 		
 		changeScreen(ScreenList.MainMenu);	
 	}

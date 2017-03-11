@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.gui.Window;
-import ch.magejo.randomgame.input.RGButton;
+import ch.magejo.randomgame.input.RGTextButton;
 import ch.magejo.randomgame.mecanics.entity.creatures.Creature;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.text.Dialog;
@@ -46,14 +46,14 @@ public class DialogWindow extends MessageWindow{
 		String[] options = dialog.getOptions();
 		clearButtons();
 		for(int i = 0; i < options.length; i++){
-			addButton(new RGButton(options[i]), new Vector(70, i*100), (int) (game.getScreenSize().x-140), 100);
+			addButton(new RGTextButton(options[i]), new Vector(70, i*100), (int) (game.getScreenSize().x-140), 100);
 		}
 	}
 	
 	public void update(){
 		if(dialog != null){
 			for(int i = 0; i < dialog.getOptions().length; i++){
-				if(getButton(i).isClicked()){
+				if(getTextButton(i).isClicked()){
 					dialog.choseOption(i);
 					changeText(dialog.getActualText());
 					drawOptions();
