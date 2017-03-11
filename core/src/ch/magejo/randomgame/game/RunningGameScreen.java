@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.Generator;
+import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
@@ -52,9 +53,10 @@ public class RunningGameScreen implements Screen{
 	private Matrix4 pm;
 
 	private World world;
-	private Texture map, regionMap, playerPos;
-	private boolean renderRegions = false;
 	private Vector origin;
+	private Minimap minimap;
+
+	private int SPEED = 10;
 
 	private int width, height;
 
@@ -66,10 +68,11 @@ public class RunningGameScreen implements Screen{
 	public RunningGameScreen(Main game) {
 		this.game = game;
 		this.renderer = new Renderer2D(game.getBatch());
-		
+
 		pm = game.getBatch().getProjectionMatrix().cpy();
 
 		hud = new Stage();
+
 		game.getInputMultiplexer().addProcessor(hud);
 
 		origin = new Vector(0, 0);
@@ -83,15 +86,10 @@ public class RunningGameScreen implements Screen{
 		world.loadRegion(0);
 		world.getActiveRegion().setCentralScene(0);
 		world.getActiveRegion().moveActiveScenes(0, 0);
-		origin.x = -world.getActiveRegion().getCentralScene().globalX*10 -5;//+11;
-		origin.y = -world.getActiveRegion().getCentralScene().globalY*10 -5;//+11;
-		origin.scale(32);
-		map = new Texture(new FileHandle(FileSystem.getSaveFile(name, "map.png")));
-		regionMap = new Texture(new FileHandle(FileSystem.getSaveFile(name, "regionMap.png")));
-		Pixmap pixmap = new Pixmap( 8, 8, Format.RGBA8888 );
-		pixmap.setColor( 1, 0, 0, 1 );
-		pixmap.drawRectangle(0, 0, 8, 8);
-		playerPos = new Texture( pixmap );
+
+		minimap = new Minimap(name);
+		updateOrigin();
+
 
 
 		//create npc which can be talked to and traded with
@@ -128,68 +126,25 @@ public class RunningGameScreen implements Screen{
 	 */
 	public void update(float delta){
 		world.update(game.getInput());
-		if(game.getInput().isClicked(Key.UP)){
-			/*
-			if(world.getActiveRegion().moveActiveScenes(0, 1)){
-				origin.x = -world.getActiveRegion().getCentralScene().globalX*10+10;
-				origin.y = -world.getActiveRegion().getCentralScene().globalY*10+10;
-				origin.scale(32);
-			}
-			*/
-		}
-		if(game.getInput().isClicked(Key.DOWN)){
-			/*
-			if(world.getActiveRegion().moveActiveScenes(0, -1)){
-				origin.x = -world.getActiveRegion().getCentralScene().globalX*10+10;
-			origin.y = -world.getActiveRegion().getCentralScene().globalY*10+10;
-			origin.scale(32);
-			}
-			*/
-		}
-		if(game.getInput().isClicked(Key.LEFT)){
-			/*
-			if(world.getActiveRegion().moveActiveScenes(-1, 0)){
-				origin.x = -world.getActiveRegion().getCentralScene().globalX*10+10;
-				origin.y = -world.getActiveRegion().getCentralScene().globalY*10+10;
-				origin.scale(32);
-			}
-			*/
-		}
-		if(game.getInput().isClicked(Key.RIGHT)){
-			/*
-			if(world.getActiveRegion().moveActiveScenes(1, 0)){
-				origin.x = -world.getActiveRegion().getCentralScene().globalX*10+10;
-				origin.y = -world.getActiveRegion().getCentralScene().globalY*10+10;
-				origin.scale(32);
-			}
-			*/
-		}
-		
-		//System.out.println(cam.position.x+"/"+cam.position.y);
-		//System.out.println(origin.x+"/"+origin.y);
-		//System.out.println(origin.x+"/"+origin.y);
-		
-		
-		
-		//cam.position.set(world.getActiveRegion().getCentralScene().globalX*10, world.getActiveRegion().getCentralScene().globalY*10, 0);
-		
+		minimap.update(game.getInput());
+
 		if(game.getInput().isPressed(Key.RIGHT)){
-			cam.translate(2, 0);
+			cam.translate(SPEED, 0);
 			cam.update();
 		}
 		if(game.getInput().isPressed(Key.LEFT)){
-			cam.translate(-2, 0);
+			cam.translate(-SPEED, 0);
 			cam.update();
 		}
 		if(game.getInput().isPressed(Key.UP)){
-			cam.translate(0, 2);
+			cam.translate(0, SPEED);
 			cam.update();
 		}
 		if(game.getInput().isPressed(Key.DOWN)){
-			cam.translate(0, -2);
+			cam.translate(0, -SPEED);
 			cam.update();
 		}
-		
+
 		if(game.getInput().isPressed(Key.ATTACK)){
 			cam.zoom -= 0.1f;
 			if(cam.zoom<0.1f){
@@ -197,17 +152,13 @@ public class RunningGameScreen implements Screen{
 			}
 			cam.update();
 		}
-		
+
 		if(game.getInput().isPressed(Key.BLOCK)){
 			cam.zoom += 0.1f;
 			if(cam.zoom>10f){
 				cam.zoom = 10f;
 			}
 			cam.update();
-		}
-
-		if(game.getInput().isClicked(Key.ESCAPE)){
-			renderRegions = !renderRegions;
 		}
 
 		if(game.getInput().isClicked(Key.ENTER)){
@@ -217,24 +168,30 @@ public class RunningGameScreen implements Screen{
 		if(game.getInput().isClicked(Key.PAUSE)){
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
 		}
-		
-		if(cam.position.x > 320){
-			
+
+		if(cam.position.x + origin.x > 160){
 			world.getActiveRegion().moveActiveScenes(1, 0);
-			origin.x = -world.getActiveRegion().getCentralScene().globalX*10-5;
-			origin.y = -world.getActiveRegion().getCentralScene().globalY*10-5;
-			origin.scale(32);
-			cam.position.x -= 320;
+			updateOrigin();
 		}
-		
-		if(cam.position.x < -320){
-			
+		if(cam.position.x + origin.x < -160){
 			world.getActiveRegion().moveActiveScenes(-1, 0);
-			origin.x = -world.getActiveRegion().getCentralScene().globalX*10-5;
-			origin.y = -world.getActiveRegion().getCentralScene().globalY*10-5;
-			origin.scale(32);
-			cam.position.x += 320;
+			updateOrigin();
 		}
+		if(cam.position.y + origin.y > 160){
+			world.getActiveRegion().moveActiveScenes(0, 1);
+			updateOrigin();
+		}
+		if(cam.position.y + origin.y < -160){
+			world.getActiveRegion().moveActiveScenes(0, -1);
+			updateOrigin();
+		}
+	}
+
+	private void updateOrigin() {
+		origin.x = -world.getActiveRegion().getCentralScene().globalX*10-5;
+		origin.y = -world.getActiveRegion().getCentralScene().globalY*10-5;
+		origin.scale(32);
+
 	}
 
 	/**
@@ -248,22 +205,16 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().begin();
 		//draw game here
-		if(renderRegions){
-			game.getBatch().draw(regionMap, width-500, height-500, 500, 500);
-		}else{
-			game.getBatch().draw(map, width-500, height-500, 500, 500);
-		}
 
-		game.getBatch().draw(playerPos, (-origin.x/32-15)/4+width-500, (-origin.y/32-15)/4+height-500);
-		
 		game.getBatch().setProjectionMatrix(cam.combined);
-		//world.render(renderer, new Vector(0, 0));
-		world.render(renderer, origin);
+		world.render(renderer, new Vector(0, 0));
+		//world.render(renderer, origin);
 		game.getBatch().setProjectionMatrix(pm);
 
 		game.getBatch().end();
 		game.getEventLogger().render(game.getBatch());
 		hud.draw();
+		minimap.render(game.getBatch());
 	}
 
 	private void changeScreen(Screen screen){
@@ -282,9 +233,13 @@ public class RunningGameScreen implements Screen{
 		this.width = width;
 		this.height = height;
 
+		minimap.resize(width, height);
+
 		cam = new OrthographicCamera(1000.0f, 1000.0f * height / width);
 		//cam.position.set(cam.viewportWidth / 2.0f, cam.viewportHeight / 2.0f, 0.0f);
+		cam.position.set(-origin.x, -origin.y, 0);
 		cam.update();
+		minimap.setPosition(cam.position);
 	}
 
 	@Override
