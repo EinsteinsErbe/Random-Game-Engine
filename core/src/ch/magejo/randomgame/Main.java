@@ -11,7 +11,6 @@ import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
-import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.test.TextGeneratorDummy;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
 import ch.magejo.randomgame.screens.GeneratorScreen;
@@ -40,9 +39,7 @@ public class Main extends Game {
 
 	private TextGeneratorInterface textGenerator;	//textgenerator which gets shared by the whole game
 
-	private TextBox eventLogger;
-	private long scrollEventLoggerLastTime;
-	private final long scrollEventLoggerTime = 1000;
+	private static TextBox eventLogger;
 	
 	private static AbstractLog log;
 
@@ -69,7 +66,7 @@ public class Main extends Game {
 		// new renderer and game stuff!
 		batch = new SpriteBatch();
 
-		eventLogger = new TextBox(new Vector(20, 0), 50 ,0.8f, false);
+		eventLogger = new TextBox(new Vector(20, 0), 15 ,0.8f, false);
 		
 		log = new AbstractLog() {
 			
@@ -111,8 +108,7 @@ public class Main extends Game {
 	private void update() {
 		cInputHandler.update();
 
-		autoScrollEventLogger();
-
+		
 		for(Key k : Key.values()){
 			if(input.isClicked(k)){
 				logInfo("is clicked", k.name(), 3);
@@ -120,10 +116,9 @@ public class Main extends Game {
 		}
 	}
 
-	private void autoScrollEventLogger(){
-		if(System.currentTimeMillis()-scrollEventLoggerLastTime >= scrollEventLoggerTime){
-			eventLogger.scrollUp();
-			scrollEventLoggerLastTime = System.currentTimeMillis();
+	public static void fadeOutEventLogger(){
+		for(int i = 0; i < 12; i++){
+			eventLogger.multiplayColor(eventLogger.getLineNumber()-i, new Color(1, 1, 1, 0.75f));
 		}
 	}
 
@@ -204,14 +199,17 @@ public class Main extends Game {
 	}
 
 	public void addEvent(String text, Color color){
+		fadeOutEventLogger();
 		eventLogger.addTextLine(text, color);
 	}
 	
 	public static void logInfo(String msg, String className, int _debugMode){
+		fadeOutEventLogger();
 		log.printLn(msg, className, _debugMode);
 	}
 	
 	public static void logError(String error, String className, int _debugMode){
+		fadeOutEventLogger();
 		log.printErrorLn(error, className, _debugMode);
 	}
 }
