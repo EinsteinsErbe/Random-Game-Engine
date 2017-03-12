@@ -179,7 +179,7 @@ public class Main extends Game {
 	 * @param screen
 	 */
 	public void changeScreen(ScreenList screen){
-		Log.printLn("changed to screen: " + screen.toString(), getClass().getName(), 3);
+		logInfo("changed to screen: " + screen.toString(), getClass().getName(), 3);
 		activeState = screen;
 		if(activeState.equals(ScreenList.MainMenu)){
 			setScreen(new MainMenuScreen(this));
