@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.graphics.Pixmap.Blending;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -45,8 +47,8 @@ public class RunningGameScreen implements Screen{
 
 	private Main game;				//Main class to get shared stuff
 	private Renderer2D renderer;	//Renderer which can draw tiles
-	private TileSet tileSet;		//a Tileset which holds all the possible 32x32px Tiles for the game
-	private int tile, tile2;		//id's of already defined tiles
+
+	private FrameBuffer fbo;
 
 	private OrthographicCamera cam;
 	private Matrix4 pm;
@@ -167,7 +169,7 @@ public class RunningGameScreen implements Screen{
 		if(game.getInput().isClicked(Key.PAUSE)){
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
 		}
-		
+
 		if(game.getInput().isClicked(Key.INTERACT)){
 			changeScreen(new TradeScreen(game, makeScreenshot(false), npc, player));
 		}
@@ -206,6 +208,11 @@ public class RunningGameScreen implements Screen{
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		renderGame();
+		renderHud();
+	}
+
+	private void renderGame(){
 		game.getBatch().begin();
 		//draw game here
 
@@ -213,11 +220,13 @@ public class RunningGameScreen implements Screen{
 		world.render(renderer, new Vector(0, 0));
 		//world.render(renderer, origin);
 		game.getBatch().setProjectionMatrix(pm);
-
 		game.getBatch().end();
+		minimap.render(game.getBatch());
+	}
+
+	private void renderHud() {
 		game.getEventLogger().render(game.getBatch());
 		hud.draw();
-		minimap.render(game.getBatch());
 	}
 
 	private void changeScreen(Screen screen){
@@ -243,6 +252,8 @@ public class RunningGameScreen implements Screen{
 		cam.position.set(-origin.x, -origin.y, 0);
 		cam.update();
 		minimap.setPosition(cam.position);
+
+		fbo = new FrameBuffer(Format.RGBA8888, width, height, false);
 	}
 
 	@Override
@@ -266,22 +277,23 @@ public class RunningGameScreen implements Screen{
 	@Override
 	public void dispose() {
 		renderer.dispose();
+		fbo.dispose();
 	}
 
 	/**
 	 * make a screenshot from the game
 	 */
-	public Texture makeScreenshot(boolean darkedOverlay){
-		byte[] pixels = ScreenUtils.getFrameBufferPixels(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+	public TextureRegion makeScreenshot(boolean darkedOverlay){
+		fbo.begin();
+		game.getBatch().setColor(1, 1, 1, 0.7f);
+		renderGame();
+		game.getBatch().setColor(Color.WHITE);
+		fbo.end();
 
-		Pixmap screenShot = new Pixmap(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), Pixmap.Format.RGBA8888);
-		BufferUtils.copy(pixels, 0, screenShot.getPixels(), pixels.length);
-		if(darkedOverlay){
-			Pixmap.setBlending(Blending.SourceOver);
-			screenShot.setColor(new Color(0, 0, 0, 0.5f));
-			screenShot.fillRectangle(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-			Pixmap.setBlending(Blending.None);
-		}
-		return new Texture(screenShot);
+		TextureRegion fbotr = new TextureRegion(fbo.getColorBufferTexture());
+		//fbo.dispose();
+		fbotr.flip(false, true);
+
+		return fbotr;
 	}
 }

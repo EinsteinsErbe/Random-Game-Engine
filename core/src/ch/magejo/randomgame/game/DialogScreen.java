@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.gui.dialogs.DialogWindow;
@@ -13,11 +14,11 @@ import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
 
 public class DialogScreen implements Screen{
-	
+
 	private Main game;
 	private DialogWindow dialog;
 
-	public DialogScreen(Main game, Texture screenShot, Creature target, Charakter player) {
+	public DialogScreen(Main game, TextureRegion screenShot, Creature target, Charakter player) {
 		this.game = game;
 		this.dialog = new DialogWindow(game, screenShot);
 		game.addEvent("opened Dialog with " + target.getName(), new Color(0.2f, 0.75f, 0.2f, 0.8f));
@@ -27,7 +28,7 @@ public class DialogScreen implements Screen{
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -41,39 +42,39 @@ public class DialogScreen implements Screen{
 			dialog.dispose();
 			game.addEvent("closed Dialog", new Color(0.2f, 0.75f, 0.2f, 0.8f));
 			game.setScreen(new RunningGameScreen(game));
-		}	
-		
+		}
+
 		game.getEventLogger().render(game.getBatch());
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

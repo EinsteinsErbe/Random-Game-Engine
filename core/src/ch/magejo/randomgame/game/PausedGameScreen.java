@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.input.MenuStage;
@@ -11,12 +12,12 @@ import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.screens.ScreenList;
 
 public class PausedGameScreen implements Screen{
-	
+
 	private MenuStage mainStage;
 	private Main game;
-	private Texture screenShot;
-	
-	public PausedGameScreen(Main game, Texture screenShot) {
+	private TextureRegion screenShot;
+
+	public PausedGameScreen(Main game, TextureRegion screenShot) {
 		this.game = game;
 		this.screenShot = screenShot;
 		ButtonNames[] buttons = {ButtonNames.Play, ButtonNames.Settings, ButtonNames.Mainmenu};
@@ -26,7 +27,7 @@ public class PausedGameScreen implements Screen{
 
 	@Override
 	public void show() {
-				
+
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class PausedGameScreen implements Screen{
 		game.getBatch().begin();
 		game.getBatch().draw(screenShot, 0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 		game.getBatch().end();
-		mainStage.render();	
+		mainStage.render();
 	}
 
 	private void update() {
@@ -45,11 +46,11 @@ public class PausedGameScreen implements Screen{
 			dispose();
 			game.setScreen(new RunningGameScreen(game));
 		}
-		
+
 		if(mainStage.isClicked(ButtonNames.Settings)){
 			game.logInfo("Settings was pressed", getClass().getName(), 3);
 		}
-		
+
 		if(mainStage.isClicked(ButtonNames.Mainmenu)){
 			dispose();
 			game.changeScreen(ScreenList.MainMenu);
@@ -58,27 +59,27 @@ public class PausedGameScreen implements Screen{
 
 	@Override
 	public void resize(int width, int height) {
-				
+
 	}
 
 	@Override
 	public void pause() {
-				
+
 	}
 
 	@Override
 	public void resume() {
-				
+
 	}
 
 	@Override
 	public void hide() {
-				
+
 	}
 
 	@Override
 	public void dispose() {
-		game.getInputMultiplexer().removeProcessor(mainStage);	
+		game.getInputMultiplexer().removeProcessor(mainStage);
 	}
 
 }

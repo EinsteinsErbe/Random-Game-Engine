@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.gui.TextBox;
@@ -19,74 +20,74 @@ import ch.magejo.randomgame.mecanics.trade.TradeTransaction;
 import ch.magejo.randomgame.utils.math.Vector;
 
 public class TradeScreen implements Screen{
-	
+
 	private Main game;
 	private Window tradeWindow;
-	
+
 	private int changeInventoryBtnId;
 	private int closeBtnId;
 	private int tradeBtnId;
-	
+
 	private Charakter trader;
 	private Charakter player;
-	
+
 	private boolean isPlayerActive;
-	
+
 	private TextBox thingName;
 	private TextBox thingValue;
 	private TextBox thingAmount;
 	private TextBox thingTradeAmount;
-	
+
 	private Vector topLeft;
 	private Vector startInventorList;
-	
+
 	private Texture plusButton;
 	private Texture minusButton;
-	
+
 	private Charakter charakter;
-	
+
 	private TradeTransaction tradeTransaction;
-	
+
 	private int[] inventorySlotsAmountPlayer;
 	private int[] inventorySlotsAmountTrader;
-	
+
 	private int itemsCounter = 0;
-	
-	
-	public TradeScreen(Main game, Texture screenShot, Charakter trader, Charakter player) {
+
+
+	public TradeScreen(Main game, TextureRegion screenShot, Charakter trader, Charakter player) {
 		this.game = game;
-		
+
 		this.trader = trader;
 		this.player = player;
-		
+
 		topLeft = new Vector(40, Gdx.graphics.getHeight()-40);
-		
+
 		tradeWindow = new Window(new Vector(20, 20), Gdx.graphics.getBackBufferWidth()-40, Gdx.graphics.getHeight()-40, game, screenShot) {
-			
+
 			@Override
 			public void onLayoutChange() {
-				//Do nothing				
+				//Do nothing
 			}
 		};
-		
+
 		tradeWindow.setTextSize(1.5f);
-		
+
 		changeInventoryBtnId = tradeWindow.addButton(new RGTextButton(ButtonNames.Change_Trader, game.getTextGenerator()), new Vector(20, 20), 400, 75);
 		closeBtnId = tradeWindow.addButton(new RGTextButton(ButtonNames.Close, game.getTextGenerator()), new Vector(Gdx.graphics.getBackBufferWidth()-370, 20), 350, 75);
 		tradeBtnId = tradeWindow.addButton(new RGTextButton(ButtonNames.Trade, game.getTextGenerator()), new Vector(440, 20), 350, 75);
-		
+
 		thingName = new TextBox(new Vector(topLeft.x+40, topLeft.y - 150), 20, 1.5f, true);
 		thingAmount = new TextBox(new Vector(topLeft.x+830, topLeft.y - 150), 20, 1.5f, true);
 		thingValue = new TextBox(new Vector(topLeft.x+1130, topLeft.y - 150), 20, 1.5f, true);
 		thingTradeAmount = new TextBox(new Vector(topLeft.x+1300, topLeft.y - 150), 20, 1.5f, true);
-		
+
 		plusButton = new Texture("UI/Buttons/Button_Plus.png");
 		minusButton = new Texture("UI/Buttons/Button_Minus.png");
-		
+
 		inventorySlotsAmountPlayer = new int[player.getInventorySlots()];
 		inventorySlotsAmountTrader = new int[trader.getInventorySlots()];
-		
-		changeInventory();		
+
+		changeInventory();
 	}
 
 	@Override
@@ -99,7 +100,7 @@ public class TradeScreen implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		tradeWindow.render(delta);
 		game.getEventLogger().render(game.getBatch());
-		
+
 		renderInventory();
 	}
 
@@ -115,12 +116,12 @@ public class TradeScreen implements Screen{
 			isPlayerActive = !isPlayerActive;
 			changeInventory();
 		}
-		
+
 		if(tradeWindow.getTextButton(closeBtnId).isClicked()){
-			changeScreen(new RunningGameScreen(game));	
+			changeScreen(new RunningGameScreen(game));
 			//TODO -> change back to dialog!!
 		}
-		
+
 		if(itemsCounter > 0){
 			for(int i = 0; i < itemsCounter; i++){
 				if(tradeWindow.getIconButton(i*2).isClicked()){
@@ -146,33 +147,33 @@ public class TradeScreen implements Screen{
 						}
 					}
 					changeAmounts();
-				}				
+				}
 			}
 		}
-		
+
 		if(tradeWindow.getTextButton(tradeBtnId).isClicked()){
-			
+
 			Thing offer = null;
 			int offerAmount = 0;
 			Thing request = null;
 			int requestAmount = 0;
-			
+
 			for(int i = 0; i < player.getInventorySlots(); i++){
 				if(inventorySlotsAmountPlayer[i] > 0){
 					offer = player.getInventorySlotInfos(player.getInventorySlots()-i-1);
 					offerAmount = inventorySlotsAmountPlayer[i];
 				}
 			}
-			
+
 			for(int i = 0; i < trader.getInventorySlots(); i++){
 				if(inventorySlotsAmountTrader[i] > 0){
 					request = trader.getInventorySlotInfos(trader.getInventorySlots()-i-1);
 					requestAmount = inventorySlotsAmountTrader[i];
 				}
 			}
-			
+
 			TradeTransaction trade;
-			
+
 			if(offer != null && request != null){
 				trade = new TradeTransaction(player, trader, offer, offerAmount, request, requestAmount, 0);
 				game.addEvent(TradeManager.getNextTradeText(trade), new Color(1, 1, 1, 1));
@@ -182,8 +183,8 @@ public class TradeScreen implements Screen{
 			}
 		}
 	}
-	
-	
+
+
 	private void changeInventory() {
 		tradeWindow.clearTexts();
 		if(isPlayerActive){
@@ -191,21 +192,21 @@ public class TradeScreen implements Screen{
 		}else{
 			charakter = trader;
 		}
-		
+
 		thingName.clear();
 		thingAmount.clear();
 		thingValue.clear();
-		
+
 		tradeWindow.clearIconButtons();
-		
+
 		tradeWindow.addText(charakter.getName() + "'s goods:", new Vector(topLeft.x, topLeft.y-50), 1f);
 		tradeWindow.addText("|                           Name                           |", new Vector(topLeft.x, topLeft.y-50-50), 1f);
 		tradeWindow.addText(" Amount |", new Vector(topLeft.x+800, topLeft.y-50-50), 1f);
 		tradeWindow.addText(" Val.   |", new Vector(topLeft.x+1100, topLeft.y-50-50), 1f);
 		tradeWindow.addText(" Trade  |", new Vector(topLeft.x+1400, topLeft.y-50-50), 1f);
-		
+
 		itemsCounter = 0;
-		
+
 		for(int i = 0; i < charakter.getInventorySlots(); i++){
 			thingName.addTextLine( charakter.getInventorySlotInfos(i).getName(), new Color(0, 0, 0, 1));
 			thingAmount.addTextLine(""+charakter.getInventorySlotInfos(i).getAmount(), new Color(0, 0, 0, 1));
@@ -214,10 +215,10 @@ public class TradeScreen implements Screen{
 			tradeWindow.addButton(new RGIconButtons(minusButton), new Vector(topLeft.x+1350 +315 , topLeft.y - 260 - i*53), 50, 50);
 			itemsCounter++;
 		}
-		
+
 		changeAmounts();
 	}
-	
+
 	private void changeAmounts(){
 		thingTradeAmount.clear();
 		for(int i = 0; i < charakter.getInventorySlots(); i++){
@@ -228,7 +229,7 @@ public class TradeScreen implements Screen{
 			}
 		}
 	}
-	
+
 
 	private void changeScreen(Screen screen){
 		tradeWindow.dispose();
