@@ -10,9 +10,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.Pixmap.Blending;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import ch.magejo.randomgame.Main;
-import ch.magejo.randomgame.input.RGButton;
+import ch.magejo.randomgame.input.RGIconButtons;
+import ch.magejo.randomgame.input.RGTextButton;
 import ch.magejo.randomgame.utils.math.Vector;
 
 /**
@@ -21,7 +23,7 @@ import ch.magejo.randomgame.utils.math.Vector;
  * @author M.Geissbberger
  *
  */
-public class Window{
+public abstract class Window{
 	private Vector origin;
 	private int width;
 	private int height;
@@ -33,7 +35,8 @@ public class Window{
 	
 	protected BitmapFont font;
 	
-	private ArrayList<RGButton> buttons;
+	private ArrayList<RGTextButton> textButtons;
+	private ArrayList<RGIconButtons> iconButtons;
 	private ArrayList<Icon> icons;
 	private ArrayList<DrawableTextDto> texts;
 	
@@ -43,7 +46,8 @@ public class Window{
 		super();
 		font = new BitmapFont(Gdx.files.internal("UI/Font/Font.fnt"));
 		font.setColor(new Color(0, 0, 0.2f, 1));
-		buttons = new ArrayList<>();
+		textButtons = new ArrayList<>();
+		iconButtons = new ArrayList<>();
 		icons = new ArrayList<>();
 		texts = new ArrayList<>();
 		background = new Texture("UI/Dialog/background.png");
@@ -56,13 +60,22 @@ public class Window{
 		this.screenShot = screenShot;
 	}
 	
-	public int addButton(RGButton button, Vector position, int width, int height){
-		button.setPosition(origin.x + position.x, origin.y + position.y);
-		button.setWidth(width);
-		button.setHeight(height);
-		overlay.addActor(button);
-		buttons.add(button);
-		return buttons.size()-1;
+	public int addButton(RGTextButton rgTextButton, Vector position, int width, int height){
+		rgTextButton.setPosition(origin.x + position.x, origin.y + position.y);
+		rgTextButton.setWidth(width);
+		rgTextButton.setHeight(height);
+		overlay.addActor(rgTextButton);
+		textButtons.add(rgTextButton);
+		return textButtons.size()-1;
+	}
+	
+	public int addButton(RGIconButtons rgIconButton, Vector position, int width, int height){
+		rgIconButton.setPosition(origin.x + position.x, origin.y + position.y);
+		rgIconButton.setWidth(width);
+		rgIconButton.setHeight(height);
+		overlay.addActor(rgIconButton);
+		iconButtons.add(rgIconButton);
+		return iconButtons.size()-1;
 	}
 	
 	public int addIcon(String path, Vector position, int width, int height){
@@ -71,8 +84,8 @@ public class Window{
 		return icons.size()-1;
 	}
 	
-	public int addText(String text, Vector position){
-		texts.add(new DrawableTextDto(text, position.add(origin), 1, font));
+	public int addText(String text, Vector position, float size){
+		texts.add(new DrawableTextDto(text, position.add(origin), size, font));
 		return texts.size()-1;
 	}
 	
@@ -97,8 +110,12 @@ public class Window{
 		overlay.act();
 	}
 	
-	public RGButton getButton(int id){
-		return buttons.get(id);
+	public RGTextButton getTextButton(int id){
+		return textButtons.get(id);
+	}
+	
+	public RGIconButtons getIconButton(int id){
+		return iconButtons.get(id);
 	}
 	
 	public Icon getIcon(int id){
@@ -114,10 +131,17 @@ public class Window{
 	}
 	
 	public void clearButtons(){
-		for(RGButton b: buttons){
+		for(Button b: textButtons){
 			b.remove();
 		}
-		buttons.clear();
+		textButtons.clear();
+	}
+	
+	public void clearIconButtons(){
+		for(Button b: iconButtons){
+			b.remove();
+		}
+		iconButtons.clear();
 	}
 	
 	public void clearIcons(){
@@ -127,4 +151,16 @@ public class Window{
 	public void dispose(){
 		game.getInputMultiplexer().removeProcessor(overlay);
 	}
+	
+	public void setTextSize(float size){
+		font.getData().setScale(size);
+		onLayoutChange();
+	}
+	
+	public void setTextColor(Color color){
+		font.setColor(color);
+		onLayoutChange();
+	}
+	
+	public abstract void onLayoutChange();
 }

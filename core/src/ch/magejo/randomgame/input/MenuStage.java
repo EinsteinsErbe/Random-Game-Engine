@@ -7,7 +7,7 @@ import ch.magejo.randomgame.mecanics.text.ButtonNames;
 
 public class MenuStage extends Stage{
 
-	private RGButton[] buttons;
+	private RGTextButton[] buttons;
 	private int marginButtons = 100;
 	private int btnHeight = 100;
 	private Main game;
@@ -22,12 +22,12 @@ public class MenuStage extends Stage{
 	}
 
 	public void init() {
-		buttons = new RGButton[buttonNames.length];
+		buttons = new RGTextButton[buttonNames.length];
 		game.getInputMultiplexer().addProcessor(this);
 		clear();
 		int btnWidth = (int) game.getScreenSize().x/2;
 		for(int i = 0; i < buttonNames.length; i++){
-			RGButton b = new RGButton(buttonNames[i], game.getTextGenerator()); 
+			RGTextButton b = new RGTextButton(buttonNames[i], game.getTextGenerator()); 
 			b.setTransform(true);
 			b.setPosition(
 					game.getScreenSize().x/2 - btnWidth/2,
@@ -41,7 +41,7 @@ public class MenuStage extends Stage{
 
 	public boolean isClicked(ButtonNames name){
 
-		for(RGButton b: buttons){
+		for(RGTextButton b: buttons){
 			if(b.getButtonName().equals(name)){
 				if(b.isClicked()){
 					return true;
@@ -52,7 +52,7 @@ public class MenuStage extends Stage{
 	}
 
 	public void setDisabled(ButtonNames name, boolean disabled){
-		for(RGButton b: buttons){
+		for(RGTextButton b: buttons){
 			if(b.getButtonName().equals(name)){
 				b.setDisabled(disabled);				
 			}

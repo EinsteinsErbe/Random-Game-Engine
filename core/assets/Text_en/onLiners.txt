@@ -1,0 +1,69 @@
+You look tired, I guess you need a beer!
+Do you know where I can find the next tavern? I'm so dirsty
+C'ant talk, *burbs, I drunk to mutch!
+Uh! you scared me to death!
+Behold the mighty traveler is coming!
+Should I know you?
+Have I see you before?
+One Ring! I heard there might be a quest about the one ring!
+Greatings Stranger.
+How dare you looking at me!
+I don't know you... Do I want to know you? I Don't!
+A wise man told me once, always to check under my bed before I go to sleep... you never know!
+Fool...!
+Seeking for trouble?
+A kingdom for a Horse, why arn't there any horses in this world?
+More Cheese means mor cheese.
+I dreamt I were a mighty warrior...
+A sharp sword between the rips, that solves most problems, mind my words!
+Dragons? There didn't live any dragons in these Land since 1000 years.
+My husband died last winter in a cold river... May his heart go one.
+*doesn't look you in the eyes* Voices, voices in my head!
+What does it want from us preasures?
+Ahh!!!
+I'm so tired... 
+Smile, you will make this world a better place.
+I tried, I tried so hard.
+A day without a smile is a wasted day.
+Spring is comming!
+May I advice you not to hug any wolfes? It would kill you...
+Do you have seen any Orcs around here?
+He cuty wanna dance?
+A Kingdom for a bed!
+Can't talk, i'm a machine grinding for levels!
+Zzzzzzz Zzzzzzzz Huh?
+Bzkrftsbreklshasdsdjk, sry there was a bug on my keyboard.
+Let me tell you, strange things are happening here.
+There are rumors about a man, guided trough magic from another world!
+Bread or Sword it doesn't matter.
+Pink fluffy unichorns dancing on rainbows, pink fluffy unicorns...
+I know you where trouble when you walked in.
+Oh so glad you came to me, no body listens to me, I need someone to talk, so there was that stone yesterday, I [...] and then [...] but [...], hey are you still listening?
+Rude so rude!
+May the light shine on the path before your feets.
+A Bird was sitting in a tree, then he fell.
+Never dig streight down, there might be lava!
+Hey how long are you already gaming? Get of the PC and enjoy your life a little.
+I knew a man once, Alexander they called him, he was great!
+I will make this region great again, so great and I will build a wall arround it, its gonna be huuuuuge. 
+I heard from a man who wants to build a wall, not sure if he builds it to protect his region or the other regions from him.
+To drink, or not to drink, thats the question! *burp
+A beer game they said, it would be fun they said... *bourp
+I... I smeel human flesh... shush! They mustn't here us!
+Have you heard of wandalf the pink?
+Beards and Beer, thats all dwarfs care about!
+Once I was an adventurer like you but then I got married.
+Ahhh!!!! Oh sry I tought you were a rabbit.
+Where we are you ask? I'm not sure about me, but you are sitting in front of a computer.
+Brother, brother why can't yu see the truth.
+Oh no don't hurt me, don't hurt me no more!
+I love walking alone in the moonshine.
+Do you wanna play a game with me? Oh sorry you already are!
+Can you here the wind in the tree...? 
+The leaves are falling, hard times are comming!
+Even a small man can change the history of the world around him.
+Oh I'm so glad you interrupted what ever I was doing, my whole life I was waiting for this one moment - not!
+
+
+<specials: 1>
+<s0>Have you heard that <param0> died latly, he died trough <param1>, how mysterious.

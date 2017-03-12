@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
 /**
@@ -21,7 +22,7 @@ public class DrawableTextDto {
 		super();
 		this.text = text;
 		this.font = font;
-		this.font.getData().scale(size/100);
+		this.font.getData().setScale(size);
 		this.position = position;
 		this.size = size;
 	}

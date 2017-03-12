@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.gui.Minimap;
-import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
 import ch.magejo.randomgame.mecanics.entity.things.armor.Helmet;
@@ -167,6 +166,10 @@ public class RunningGameScreen implements Screen{
 
 		if(game.getInput().isClicked(Key.PAUSE)){
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
+		}
+		
+		if(game.getInput().isClicked(Key.INTERACT)){
+			changeScreen(new TradeScreen(game, makeScreenshot(false), npc, player));
 		}
 
 		if(cam.position.x + origin.x > 160){

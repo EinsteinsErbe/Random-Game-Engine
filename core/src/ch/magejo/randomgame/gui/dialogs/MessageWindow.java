@@ -14,10 +14,14 @@ import ch.magejo.randomgame.utils.math.Vector;
  *
  */
 public class MessageWindow extends Window{
-	private final int border = 70;
-	private final int lineSpeperator = 20;
+	private int borderRight = 70;
+	private int borderLeft = 70;
+	private int borderTop = 70;
+	private int lineSpeperator = 20;
 	private int yOffset;
 	private int height;
+	
+	private String message;
 	
 	/**
 	 * create a default message window
@@ -46,18 +50,33 @@ public class MessageWindow extends Window{
 	}
 	
 	/**
+	 * create a MessageWindow and open it at a different position than defaults 0,0
+	 * @param message	= text to show
+	 * @param game		= instance of main-class
+	 * @param height	= height of the window (will be opened on the under screen side)
+	 * @param yOffset	= offset from the top of the window to the text (y)
+	 */
+	public MessageWindow(String message, Vector position, Main game, int height, int yOffset, Texture screenShot) {
+		super(position, (int) game.getScreenSize().x, height, game, screenShot);
+		this.yOffset = yOffset;
+		this.height = height;
+		initText(message, game);
+	}
+	
+	/**
 	 * devide the Text into multiple textlines which get drawn speratly
 	 * @param message
 	 * @param game
 	 */
 	private void initText(String message, Main game){
+		this.message = message;
 		clearTexts();
 		GlyphLayout layout = new GlyphLayout();
 		layout.setText(font, message);
 		int height = (int) layout.height;
 		int lines  = 1;
-		if(layout.width >= game.getScreenSize().x - 2*border){
-			lines = (int) (layout.width/(game.getScreenSize().x - 2*border))+1;
+		if(layout.width >= game.getScreenSize().x - borderRight - borderLeft){
+			lines = (int) (layout.width/(game.getScreenSize().x - borderRight - borderLeft))+1;
 		}
 		
 		layout.setText(font, "");
@@ -66,7 +85,7 @@ public class MessageWindow extends Window{
 		int lineLength = 0;
 		for(int i = 0; i < lines; i++){
 			lineLength = 0;
-			while(layout.width < game.getScreenSize().x - 2*border){
+			while(layout.width < game.getScreenSize().x - borderRight - borderLeft){
 				line.append( message.charAt(cursorPosition));
 				layout.setText(font, line.toString());
 				cursorPosition++;
@@ -77,7 +96,7 @@ public class MessageWindow extends Window{
 			}
 			layout.setText(font, "");
 			line.setLength(lineLength);
-			addText(line.toString(), new Vector(border, this.height - border - i*(height+lineSpeperator) - yOffset));	
+			addText(line.toString(), new Vector(borderLeft, this.height - borderTop - i*(height+lineSpeperator) - yOffset), 1);	
 			line.delete(0, cursorPosition);
 		}
 	}
@@ -89,4 +108,27 @@ public class MessageWindow extends Window{
 	public void changeText(String s){
 		initText(s, game);
 	}
+
+	public void setBorderRight(int borderRight) {
+		this.borderRight = borderRight;
+	}
+
+	public void setBorderLeft(int borderLeft) {
+		this.borderLeft = borderLeft;
+	}
+
+	public void setBorderTop(int borderTop) {
+		this.borderTop = borderTop;
+	}
+	
+	public void setLineSeperator(int pixel){
+		this.lineSpeperator = pixel;
+		initText(message, game);
+	}
+
+	@Override
+	public void onLayoutChange() {
+		initText(message, game);		
+	}	
+	
 }
