@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
+import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
 public class TextBox {
@@ -14,12 +15,9 @@ public class TextBox {
 	private int lines = 1;
 	private BitmapFont font;
 	
-	private boolean directionDown;
-	
 	public TextBox(Vector position, int lines, float size, boolean directionDown) {
 		super();
 		textContent = new DrawableTextDto[lines];
-		this.directionDown = directionDown;
 		this.lines = lines;
 		GlyphLayout layout = new GlyphLayout();
 		font = new BitmapFont(Gdx.files.internal("UI/Font/Font.fnt"));
@@ -56,6 +54,26 @@ public class TextBox {
 		textContent[0].addTextToLine(text);
 	}
 	
+	public void setLine(int line, Color color){
+		if(line < lines && line >=0){
+			textContent[line].setColor(color);
+		}else{
+			Log.printLn("not able to set line: " + line, getClass().getName(), 1);
+		}		
+	}
+	
+	public void multiplayColor(int line, Color color){
+		if(line < lines && line >=0){
+			Color oldColor = textContent[line].getColor();
+			Log.printLn(oldColor.r + "*" + color.r, getClass().getName(), 0);
+			textContent[line].setColor(new Color(oldColor.r*color.r, oldColor.g*color.g, oldColor.b*color.b, oldColor.a*color.a));
+		}else{
+			Log.printLn("not able to set line: " + line, getClass().getName(), 1);
+		}
+		
+		
+	}
+	
 	public void scrollUp(){
 		for(int i = lines-1; i > 0; i--){
 			textContent[i].setText(textContent[i-1].getText());
@@ -75,5 +93,9 @@ public class TextBox {
 		for(int i = 0; i < lines; i++){
 			textContent[i].setText("");
 		}
+	}
+	
+	public int getLineNumber(){
+		return lines;
 	}
 }
