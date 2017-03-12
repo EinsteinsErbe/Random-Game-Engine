@@ -2,6 +2,7 @@ package ch.magejo.randomgame.gui.dialogs;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.gui.Window;
@@ -14,20 +15,20 @@ import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
 /**
- * Window that opens if the Player talks to a creature, here the dialog can be read and 
+ * Window that opens if the Player talks to a creature, here the dialog can be read and
  * the answers can be chose
  * @author M.Geissbberger
  *
  */
 public class DialogWindow extends MessageWindow{
-	
+
 	private Dialog dialog;
 	private final static int height = 750;
-	
-	public DialogWindow(Main game, Texture screenShot) {
-		super("empty", game, height, 100, screenShot);	
+
+	public DialogWindow(Main game, TextureRegion screenShot) {
+		super("empty", game, height, 100, screenShot);
 	}
-	
+
 	/**
 	 * open a dialog with creature
 	 * @param creature
@@ -38,7 +39,7 @@ public class DialogWindow extends MessageWindow{
 		changeText(dialog.getActualText());
 		drawOptions();
 	}
-	
+
 	/**
 	 * Draw all available options of the current dialog state on to the screen as buttons
 	 */
@@ -49,7 +50,7 @@ public class DialogWindow extends MessageWindow{
 			addButton(new RGTextButton(options[i]), new Vector(70, i*100), (int) (game.getScreenSize().x-140), 100);
 		}
 	}
-	
+
 	public void update(){
 		if(dialog != null){
 			for(int i = 0; i < dialog.getOptions().length; i++){
@@ -59,6 +60,6 @@ public class DialogWindow extends MessageWindow{
 					drawOptions();
 				}
 			}
-		}		
+		}
 	}
 }
