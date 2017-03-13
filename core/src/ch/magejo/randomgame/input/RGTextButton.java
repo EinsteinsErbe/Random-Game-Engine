@@ -15,20 +15,20 @@ import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
 public class RGTextButton extends TextButton{
-	
+
 	private static TextButtonStyle textButtonStyle = getDefaultStyle();
-	
+
 	private ButtonNames name;
-    
+
     //track btnStates
     private boolean wasPressed = false;
-	
+
 	public RGTextButton(String name) {
 		super(name, textButtonStyle);
 	}
-	
+
 	public RGTextButton(ButtonNames name, TextGeneratorInterface textGenerator) {
-		super(textGenerator.getButtomText(name), textButtonStyle);
+		super(textGenerator.getButtonText(name), textButtonStyle);
 		this.name = name;
 	}
 
@@ -41,7 +41,7 @@ public class RGTextButton extends TextButton{
 		}
 		return false;
 	}
-	
+
 	private static TextButtonStyle getDefaultStyle(){
 		TextButtonStyle style;
 		BitmapFont btnFont = new BitmapFont(Gdx.files.internal("UI/Font/Font.fnt"));
@@ -54,7 +54,7 @@ public class RGTextButton extends TextButton{
         style.up = btnSkin.getDrawable("buttonOff");
 		return style;
 	}
-	
+
 	public ButtonNames getButtonName(){
 		if(this.name == null){
 			Main.logError(getName() + "-Button has no ButtonName assigned!", getClass().getName(), 1);

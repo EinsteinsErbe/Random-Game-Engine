@@ -22,6 +22,8 @@ import ch.magejo.randomgame.mecanics.entity.things.cloth.Type;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Spear;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Sword;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.places.Place;
+import ch.magejo.randomgame.mecanics.places.Village;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
 import ch.magejo.randomgame.render.Renderer2D;
@@ -49,7 +51,7 @@ public class RunningGameScreen implements Screen{
 	private Vector origin;
 	private Minimap minimap;
 
-	private int SPEED = 10;
+	private int SPEED = 20;
 
 	private int width, height;
 
@@ -70,17 +72,28 @@ public class RunningGameScreen implements Screen{
 
 		origin = new Vector(0, 0);
 
-		String name = "Mordor";
+		String name = "Mittelerde";
 		FileSystem.createSubFolder(name);
 		if(!FileSystem.getSaveFile(name, name).exists()){
 			new Generator().generate(name, 0);
 		}
 		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
-		world.loadRegion(0);
-		world.getActiveRegion().setCentralScene(0);
+		if(world.getActiveRegion() == null){
+			world.loadRegion(0);
+			world.getActiveRegion().setCentralScene(0);
+
+
+			world.getActiveRegion().getCentralScene().setPlace(new Place(0));
+			world.getActiveRegion().getScenes().get(1).setPlace(new Village(134545));
+			world.getActiveRegion().getScenes().get(2).setPlace(new Village(9999999));
+		}
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
+
+
 		minimap = new Minimap(name);
+
+		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
 
 
@@ -159,6 +172,7 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
+			world.save();
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
 		}
 
@@ -167,19 +181,27 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(cam.position.x + origin.x > 160){
-			world.moveActiveScenes(1, 0);
+			if(world.moveActiveScenes(1, 0)){
+				game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
+			}
 			updateOrigin();
 		}
 		if(cam.position.x + origin.x < -160){
-			world.moveActiveScenes(-1, 0);
+			if(world.moveActiveScenes(-1, 0)){
+				game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
+			}
 			updateOrigin();
 		}
 		if(cam.position.y + origin.y > 160){
-			world.moveActiveScenes(0, 1);
+			if(world.moveActiveScenes(0, 1)){
+				game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
+			}
 			updateOrigin();
 		}
 		if(cam.position.y + origin.y < -160){
-			world.moveActiveScenes(0, -1);
+			if(world.moveActiveScenes(0, -1)){
+				game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
+			}
 			updateOrigin();
 		}
 	}
@@ -189,10 +211,11 @@ public class RunningGameScreen implements Screen{
 		origin.y = -world.getActiveRegion().getCentralScene().globalY*10-5;
 		origin.scale(32);
 
+		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion().getCentralScene(), world.getActiveRegion()), Color.GREEN);
 	}
 
 	/**
-	 * render all things which are currently loaden in the game (game is running)
+	 * render all things which are currently loaded in the game (game is running)
 	 * @param delta
 	 */
 	public void render(float delta){
