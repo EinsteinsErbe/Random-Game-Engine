@@ -175,19 +175,19 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(cam.position.x + origin.x > 160){
-			world.getActiveRegion().moveActiveScenes(1, 0);
+			world.moveActiveScenes(1, 0);
 			updateOrigin();
 		}
 		if(cam.position.x + origin.x < -160){
-			world.getActiveRegion().moveActiveScenes(-1, 0);
+			world.moveActiveScenes(-1, 0);
 			updateOrigin();
 		}
 		if(cam.position.y + origin.y > 160){
-			world.getActiveRegion().moveActiveScenes(0, 1);
+			world.moveActiveScenes(0, 1);
 			updateOrigin();
 		}
 		if(cam.position.y + origin.y < -160){
-			world.getActiveRegion().moveActiveScenes(0, -1);
+			world.moveActiveScenes(0, -1);
 			updateOrigin();
 		}
 	}
