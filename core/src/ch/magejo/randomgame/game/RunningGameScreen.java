@@ -2,20 +2,14 @@ package ch.magejo.randomgame.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.graphics.Pixmap.Blending;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.BufferUtils;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.Generator;
@@ -30,12 +24,10 @@ import ch.magejo.randomgame.mecanics.entity.things.weapons.Sword;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
-import ch.magejo.randomgame.objects.TileSet;
 import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.Vector;
-import ch.magejo.randomgame.world.RegionGenerator;
 
 /**
  * Here the actual Fun happens, this is the raw game class which controls the PLayer and its interactions with
@@ -291,7 +283,6 @@ public class RunningGameScreen implements Screen{
 		fbo.end();
 
 		TextureRegion fbotr = new TextureRegion(fbo.getColorBufferTexture());
-		//fbo.dispose();
 		fbotr.flip(false, true);
 
 		return fbotr;
