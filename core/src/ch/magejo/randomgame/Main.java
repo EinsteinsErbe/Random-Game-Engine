@@ -40,7 +40,7 @@ public class Main extends Game {
 	private TextGeneratorInterface textGenerator;	//textgenerator which gets shared by the whole game
 
 	private static TextBox eventLogger;
-	
+
 	private static AbstractLog log;
 
 	/**
@@ -67,28 +67,28 @@ public class Main extends Game {
 		batch = new SpriteBatch();
 
 		eventLogger = new TextBox(new Vector(20, 0), 15 ,0.8f, false);
-		
+
 		log = new AbstractLog() {
-			
+
 			@Override
 			public void printExternInfo(String info) {
-				eventLogger.addTextLine(info, Color.YELLOW);				
+				eventLogger.addTextLine(info, Color.YELLOW);
 			}
-			
+
 			@Override
 			public void printExternError(String error) {
-				eventLogger.addTextLine(error, new Color(1, 0, 0, 1));			
+				eventLogger.addTextLine(error, new Color(1, 0, 0, 1));
 			}
 		};
-		
+
 		//set debug log so every debug stuff is shown
 		log.setDebugMode(6);
 
 		changeScreen(ScreenList.MainMenu);
-		
+
 		logInfo("initialized Engine", getClass().getName(), 1);
-		
-		
+
+
 	}
 
 	/**
@@ -108,12 +108,17 @@ public class Main extends Game {
 	private void update() {
 		cInputHandler.update();
 
-		
+
 		for(Key k : Key.values()){
 			if(input.isClicked(k)){
 				logInfo("is clicked", k.name(), 3);
 			}
 		}
+	}
+
+	@Override
+	public void dispose(){
+		//TODO dispose all screens
 	}
 
 	public static void fadeOutEventLogger(){
@@ -202,12 +207,12 @@ public class Main extends Game {
 		fadeOutEventLogger();
 		eventLogger.addTextLine(text, color);
 	}
-	
+
 	public static void logInfo(String msg, String className, int _debugMode){
 		fadeOutEventLogger();
 		log.printLn(msg, className, _debugMode);
 	}
-	
+
 	public static void logError(String error, String className, int _debugMode){
 		fadeOutEventLogger();
 		log.printErrorLn(error, className, _debugMode);
