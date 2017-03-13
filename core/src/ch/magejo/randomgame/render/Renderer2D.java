@@ -19,7 +19,7 @@ public class Renderer2D implements Renderer {
 
 		tileSet = new TileSet("TileSet/WorldSet.png", 32, 32);
 		tileSet.createTileAdress(0, 0);
-		tileSet.createTileAdress(1, 0);
+		tileSet.createTileAdress(0, 1);
 		tileSet.createTileAdress(2, 0);
 		tileSet.createTileAdress(3, 0);
 		tileSet.createTileAdress(4, 0);
