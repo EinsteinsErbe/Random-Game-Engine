@@ -82,7 +82,7 @@ public class Main extends Game {
 		};
 
 		//set debug log so every debug stuff is shown
-		log.setDebugMode(6);
+		log.setDebugMode(1);
 
 		changeScreen(ScreenList.MainMenu);
 

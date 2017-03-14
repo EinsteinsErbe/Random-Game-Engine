@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.Generator;
+import ch.magejo.randomgame.generator.text.NameGenerator;
 import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
@@ -51,7 +52,7 @@ public class RunningGameScreen implements Screen{
 	private Vector origin;
 	private Minimap minimap;
 
-	private int SPEED = 20;
+	private int SPEED = 50;
 
 	private int width, height;
 
@@ -72,6 +73,15 @@ public class RunningGameScreen implements Screen{
 
 		origin = new Vector(0, 0);
 
+		//NameGeneratorTest
+		NameGenerator ng = new NameGenerator();
+		try {
+			ng.change(Gdx.files.internal("Text/elven.txt").reader());
+			game.addEvent(ng.compose(0), Color.BLUE);
+		} catch (Exception e) {
+
+		}
+
 		String name = "Mittelerde";
 		FileSystem.createSubFolder(name);
 		if(!FileSystem.getSaveFile(name, name).exists()){
@@ -87,6 +97,10 @@ public class RunningGameScreen implements Screen{
 			world.getActiveRegion().getScenes().get(1).setPlace(new Village(134545));
 			world.getActiveRegion().getScenes().get(2).setPlace(new Village(9999999));
 		}
+
+		//to see entire region
+		//world.getActiveRegion().loadWidth = 151;
+		//world.getActiveRegion().loadHeight = 91;
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
 
@@ -161,8 +175,8 @@ public class RunningGameScreen implements Screen{
 
 		if(game.getInput().isPressed(Key.BLOCK)){
 			cam.zoom += 0.1f;
-			if(cam.zoom>10f){
-				cam.zoom = 10f;
+			if(cam.zoom>50f){
+				cam.zoom = 50f;
 			}
 			cam.update();
 		}
