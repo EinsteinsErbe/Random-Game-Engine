@@ -19,7 +19,6 @@ import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
 import ch.magejo.randomgame.mecanics.entity.things.armor.Helmet;
 import ch.magejo.randomgame.mecanics.entity.things.armor.MaterialType;
 import ch.magejo.randomgame.mecanics.entity.things.cloth.Sock;
-import ch.magejo.randomgame.mecanics.entity.things.cloth.Type;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Spear;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Sword;
 import ch.magejo.randomgame.mecanics.input.Key;
@@ -96,7 +95,7 @@ public class RunningGameScreen implements Screen{
 		//Player must be a Charakter, add inventory
 		player = new Charakter("Saturn91", null, 100, 9999999);
 		player.addMoney(10000);
-		Sock sock = new Sock("fantastic sock", Type.Wool, 10, true, 1, 5);
+		Sock sock = new Sock("fantastic sock", MaterialType.Wool, 10, true, 1, 5);
 		sock.setAmount(100);
 		player.addToInventory(sock);
 
