@@ -13,13 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.Generator;
-import ch.magejo.randomgame.generator.text.NameGenerator;
+import ch.magejo.randomgame.generator.entities.EntityGenerator;
 import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
 import ch.magejo.randomgame.mecanics.entity.things.armor.Helmet;
-import ch.magejo.randomgame.mecanics.entity.things.armor.MaterialType;
-import ch.magejo.randomgame.mecanics.entity.things.cloth.Sock;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Spear;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Sword;
 import ch.magejo.randomgame.mecanics.input.Key;
@@ -74,10 +72,10 @@ public class RunningGameScreen implements Screen{
 		origin = new Vector(0, 0);
 
 		//NameGeneratorTest
-		NameGenerator ng = new NameGenerator();
+		//NameGenerator ng = new NameGenerator();
 		try {
-			ng.change(Gdx.files.internal("Text/elven.txt").reader());
-			game.addEvent(ng.compose(0), Color.BLUE);
+			//ng.change(Gdx.files.internal("Text/elven.txt").reader());
+			game.addEvent("text", Color.BLUE);
 		} catch (Exception e) {
 
 		}
@@ -113,29 +111,13 @@ public class RunningGameScreen implements Screen{
 
 
 		//create npc which can be talked to and traded with
-		npc = new Charakter("Npc", null, 100, 1);
+		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000));
+		npc = generator.generateNextCharakter(generator.getLevelArround(20), true);
 		npc.addMoney(1000);
-		Sword sword = new Sword("rosty Sword", 10, 1, 1, 10);
-		sword.setAmount(10);
-		npc.addToInventory(sword);
 
 		//Player must be a Charakter, add inventory
-		player = new Charakter("Saturn91", null, 100, 9999999);
+		player = generator.generateNextCharakter(true);
 		player.addMoney(10000);
-		Sock sock = new Sock("fantastic sock", MaterialType.Wool, 10, true, 1, 5);
-		sock.setAmount(100);
-		player.addToInventory(sock);
-
-		//define Player armor
-		Helmet h = new Helmet("shine helmet", MaterialType.Mithril, 1, 1, 1, 10);
-		BreastArmor b = new BreastArmor("dull Breatsplate", MaterialType.Mail, 1, 5, 1, 15);
-		player.addToInventory(h);
-		player.equipArmor(h);
-		player.addToInventory(b);
-		player.equipArmor(b);
-		Spear s = new Spear("simple Spear", 10, 1, 5, 2);
-		player.addToInventory(s);
-		player.equip(s);
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.magejo.randomgame.game.RunningGameScreen;
-import ch.magejo.randomgame.generator.text.TextGeneratorDummy;
 import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
@@ -54,7 +53,7 @@ public class Main extends Game {
 
 		FileSystem.createRootFolder();
 
-		textGenerator = new TextGeneratorDummy(0);
+		textGenerator = new ch.magejo.randomgame.mecanics.test.TextGeneratorDummy(0);
 
 		inputHandler = new InputMultiplexer();
 
@@ -123,7 +122,7 @@ public class Main extends Game {
 
 	public static void fadeOutEventLogger(){
 		for(int i = 0; i < 12; i++){
-			eventLogger.multiplayColor(eventLogger.getLineNumber()-i, new Color(1, 1, 1, 0.75f));
+			eventLogger.multiplayColor(eventLogger.getLineNumber()-i-1, new Color(1, 1, 1, 0.75f));
 		}
 	}
 
