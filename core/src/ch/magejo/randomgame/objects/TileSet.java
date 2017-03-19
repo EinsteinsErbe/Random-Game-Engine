@@ -15,7 +15,7 @@ public class TileSet {
 	private int textureHeight;
 	private ArrayList<Vector2> addressedTiles;
 	private TextureRegion actualRegion;
-	
+
 	public TileSet(String tileset, int textureWidth, int textureHeigth) {
 		this.tileSet = new Texture(tileset);
 		this.textureWidth = textureWidth;
@@ -23,12 +23,12 @@ public class TileSet {
 		this.addressedTiles = new ArrayList<Vector2>();
 		this.actualRegion = new TextureRegion(tileSet);
 	}
-	
+
 	public int createTileAdress(int xPos, int yPos){
 		addressedTiles.add(new Vector2(xPos, yPos));
 		return addressedTiles.size()-1;
 	}
-	
+
 	public void render(SpriteBatch batch, float x, float y, int addres){
 		actualRegion.setRegion(
 				(int) addressedTiles.get(addres).x*textureWidth,
@@ -36,8 +36,8 @@ public class TileSet {
 				textureWidth,
 				textureHeight
 				);
-		
-		batch.draw(actualRegion, x, y);
+
+		batch.draw(actualRegion, x*textureWidth, y*textureHeight);
 	}
 
 	public int getTextureWidth() {
@@ -47,7 +47,7 @@ public class TileSet {
 	public int getTextureHeight() {
 		return textureHeight;
 	}
-	
+
 	public void dispose(){
 		tileSet.dispose();
 	}

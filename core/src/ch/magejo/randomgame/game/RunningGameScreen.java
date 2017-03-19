@@ -243,11 +243,12 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void renderGame(){
+		game.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		game.getBatch().begin();
 		//draw game here
 
 		game.getBatch().setProjectionMatrix(cam.combined);
-		world.render(renderer, new Vector(0, 0));
+		world.render(renderer);
 		//world.render(renderer, origin);
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();

@@ -25,14 +25,21 @@ public class Renderer2D implements Renderer {
 		tileSet.createTileAdress(4, 0);
 		tileSet.createTileAdress(5, 0);
 		tileSet.createTileAdress(6, 0);
+
+		tileSet.createTileAdress(0, 2);
 	}
 
 	@Override
 	public void renderTile(int address, Vector offset){
-		tileSet.render(batch, offset.x, offset.y, address);
+		renderTile(address, (int)offset.x, (int)offset.y);
 	}
 
 	public void dispose(){
 		tileSet.dispose();
+	}
+
+	@Override
+	public void renderTile(int address, int x, int y) {
+		tileSet.render(batch, x, y, address);
 	}
 }
