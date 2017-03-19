@@ -65,10 +65,9 @@ public class TextBox {
 	public void multiplayColor(int line, Color color){
 		if(line < lines && line >=0){
 			Color oldColor = textContent[line].getColor();
-			Log.printLn(oldColor.r + "*" + color.r, getClass().getName(), 0);
 			textContent[line].setColor(new Color(oldColor.r*color.r, oldColor.g*color.g, oldColor.b*color.b, oldColor.a*color.a));
 		}else{
-			Log.printLn("not able to set line: " + line, getClass().getName(), 1);
+			Log.printLn("not able to change Color of: " + line, getClass().getName(), 1);
 		}
 		
 		
