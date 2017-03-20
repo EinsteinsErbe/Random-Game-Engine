@@ -297,7 +297,9 @@ public class RunningGameScreen implements Screen{
 	 */
 	public TextureRegion makeScreenshot(boolean darkedOverlay){
 		fbo.begin();
-		game.getBatch().setColor(1, 1, 1, 0.7f);
+		if(darkedOverlay){
+			game.getBatch().setColor(0.3f, 0.3f, 0.3f, 1);
+		}
 		renderGame();
 		game.getBatch().setColor(Color.WHITE);
 		fbo.end();
