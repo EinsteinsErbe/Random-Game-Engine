@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.magejo.randomgame.game.RunningGameScreen;
+import ch.magejo.randomgame.generator.text.TextGeneratorDummy;
 import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
@@ -53,7 +54,7 @@ public class Main extends Game {
 
 		FileSystem.createRootFolder();
 
-		textGenerator = new ch.magejo.randomgame.mecanics.test.TextGeneratorDummy(0);
+		textGenerator = new TextGeneratorDummy(0);
 
 		inputHandler = new InputMultiplexer();
 

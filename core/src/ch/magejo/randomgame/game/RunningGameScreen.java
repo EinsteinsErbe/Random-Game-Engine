@@ -224,11 +224,12 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void renderGame(){
+		game.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		game.getBatch().begin();
 		//draw game here
 
 		game.getBatch().setProjectionMatrix(cam.combined);
-		world.render(renderer, new Vector(0, 0));
+		world.render(renderer);
 		//world.render(renderer, origin);
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
@@ -296,7 +297,9 @@ public class RunningGameScreen implements Screen{
 	 */
 	public TextureRegion makeScreenshot(boolean darkedOverlay){
 		fbo.begin();
-		game.getBatch().setColor(1, 1, 1, 0.7f);
+		if(darkedOverlay){
+			game.getBatch().setColor(0.3f, 0.3f, 0.3f, 1);
+		}
 		renderGame();
 		game.getBatch().setColor(Color.WHITE);
 		fbo.end();
