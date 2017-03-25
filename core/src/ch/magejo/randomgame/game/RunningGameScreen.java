@@ -88,11 +88,6 @@ public class RunningGameScreen implements Screen{
 		if(world.getActiveRegion() == null){
 			world.loadRegion(0);
 			world.getActiveRegion().setCentralScene(0);
-
-
-			world.getActiveRegion().getCentralScene().setPlace(new Place(0));
-			world.getActiveRegion().getScenes().get(1).setPlace(new Village(134545));
-			world.getActiveRegion().getScenes().get(2).setPlace(new Village(9999999));
 		}
 
 		//to see entire region
