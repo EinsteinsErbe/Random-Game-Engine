@@ -232,7 +232,8 @@ public class TradeScreen implements Screen{
 
 	private void changeScreen(){
 		tradeWindow.dispose();
-		game.getGameState().unpauseGame();
+		TradeManager.close();
+		game.setScreen(game.getGameState().openLastDialog());
 	}
 
 	@Override

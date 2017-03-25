@@ -60,6 +60,10 @@ public abstract class Window{
 		this.game = game;
 		this.screenShot = screenShot;
 	}
+	
+	public void reSetInputMultiplexer(){
+		game.getInputMultiplexer().addProcessor(overlay);
+	}
 
 	public int addButton(RGTextButton rgTextButton, Vector position, int width, int height){
 		rgTextButton.setPosition(origin.x + position.x, origin.y + position.y);

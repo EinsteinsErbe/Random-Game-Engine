@@ -115,6 +115,10 @@ public class RunningGameScreen implements Screen{
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}
+	
+	public void reSetInputFocusOnGame(){
+		game.getInputMultiplexer().addProcessor(hud);
+	}
 
 	/**
 	 * update every single instance in the game which is currently loaded
@@ -158,7 +162,7 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.INTERACT)){
-			changeScreen(new DialogScreen(game, makeScreenshot(false), npc, player));
+			changeScreen(game.getGameState().openDialog(npc, player));
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){

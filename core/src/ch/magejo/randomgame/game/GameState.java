@@ -4,6 +4,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.magejo.randomgame.Main;
+import ch.magejo.randomgame.mecanics.entity.creatures.Creature;
+import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 
 /**
  * Holds the actual screen of the gamestate. If the screen is changed within the gamestate the other screens
@@ -39,10 +41,21 @@ public class GameState {
 	public void unpauseGame(){
 		activeScreen = null;
 		activeScreen = runningGame;
+		runningGame.reSetInputFocusOnGame();
 		game.setScreen(activeScreen);
 	}
 	
 	public TextureRegion makeScreenShot(boolean darkedOverlay){
 		return runningGame.makeScreenshot(darkedOverlay);
 	}	
+	
+	public DialogScreen openDialog(Creature target, Charakter player){
+		dialog = new DialogScreen(game, game.getGameState().makeScreenShot(false), target, player);
+		return dialog;
+	}
+	
+	public DialogScreen openLastDialog(){
+		dialog.reopenDialog();
+		return dialog;
+	}
 }

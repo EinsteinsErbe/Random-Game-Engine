@@ -29,6 +29,10 @@ public class DialogScreen implements Screen{
 		game.addEvent("opened Dialog with " + target.getName(), new Color(0.2f, 0.75f, 0.2f, 0.8f));
 		this.dialog.openDialog(target, player);
 	}
+	
+	public void reopenDialog(){
+		dialog.reSetInputMultiplexer();
+	}
 
 	@Override
 	public void show() {
