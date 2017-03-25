@@ -118,8 +118,7 @@ public class TradeScreen implements Screen{
 		}
 
 		if(tradeWindow.getTextButton(closeBtnId).isClicked()){
-			changeScreen(new RunningGameScreen(game));
-			//TODO -> change back to dialog!!
+			changeScreen();
 		}
 
 		if(itemsCounter > 0){
@@ -231,9 +230,9 @@ public class TradeScreen implements Screen{
 	}
 
 
-	private void changeScreen(Screen screen){
+	private void changeScreen(){
 		tradeWindow.dispose();
-		game.setScreen(screen);
+		game.getGameState().unpauseGame();
 	}
 
 	@Override

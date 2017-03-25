@@ -3,9 +3,11 @@ package ch.magejo.randomgame;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import ch.magejo.randomgame.game.GameState;
 import ch.magejo.randomgame.game.RunningGameScreen;
 import ch.magejo.randomgame.generator.text.TextGeneratorDummy;
 import ch.magejo.randomgame.gui.TextBox;
@@ -42,6 +44,8 @@ public class Main extends Game {
 	private static TextBox eventLogger;
 
 	private static AbstractLog log;
+	
+	private GameState gameState;
 
 	/**
 	 * Initialize project
@@ -192,7 +196,7 @@ public class Main extends Game {
 			setScreen(new GeneratorScreen(this));
 		}
 		if(activeState.equals(ScreenList.Game)){
-			setScreen(new RunningGameScreen(this));
+			setScreen(gameState.getActiveScreen());
 		}
 		if(activeState.equals(ScreenList.Settings)){
 			setScreen(new SettingsScreen(this));
@@ -216,5 +220,13 @@ public class Main extends Game {
 	public static void logError(String error, String className, int _debugMode){
 		fadeOutEventLogger();
 		log.printErrorLn(error, className, _debugMode);
+	}
+	
+	public void setGameState(GameState gameState){
+		this.gameState = gameState;
+	}
+	
+	public GameState getGameState(){
+		return gameState;
 	}
 }

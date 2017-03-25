@@ -44,7 +44,7 @@ public class PausedGameScreen implements Screen{
 	private void update() {
 		if(mainStage.isClicked(ButtonNames.Play)){
 			dispose();
-			game.setScreen(new RunningGameScreen(game));
+			game.getGameState().unpauseGame();
 		}
 
 		if(mainStage.isClicked(ButtonNames.Settings)){

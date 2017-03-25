@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import ch.magejo.randomgame.Main;
+import ch.magejo.randomgame.game.GameState;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.render.Renderer2D;
@@ -38,10 +39,12 @@ public class MainMenuScreen extends abstractScreen{
 		mainStage.act();
 		
 		if(mainStage.isClicked(ButtonNames.Continue)){
+			game.setGameState(new GameState(game));
 			changeScreen(ScreenList.Game, mainStage);
 		}
 		
 		if(mainStage.isClicked(ButtonNames.Load)){
+			game.setGameState(new GameState(game));
 			changeScreen(ScreenList.Game, mainStage);
 		}
 		
