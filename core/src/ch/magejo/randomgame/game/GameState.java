@@ -17,10 +17,7 @@ public class GameState {
 	private Main game;
 	private Screen activeScreen;
 	private RunningGameScreen runningGame;		//running Game gets only created and deleted with the gameState
-	private PausedGameScreen pausedGame;
 	private DialogScreen	dialog;
-	private TradeScreen		trade;
-	private TextureRegion 	screenShot;
 	
 	public GameState(Main game) {
 		this.game = game;
