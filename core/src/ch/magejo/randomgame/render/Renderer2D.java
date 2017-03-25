@@ -10,23 +10,22 @@ public class Renderer2D implements Renderer {
 
 	SpriteBatch batch;
 	private TileSet tileSet;
-	private int wall;
-	private int sand;
-	private int sand2;
 
 	public Renderer2D(SpriteBatch batch) {
 		this.batch = batch;
 
 		tileSet = new TileSet("TileSet/WorldSet.png", 32, 32);
-		tileSet.createTileAdress(0, 0);
-		tileSet.createTileAdress(0, 1);
-		tileSet.createTileAdress(2, 0);
-		tileSet.createTileAdress(3, 0);
-		tileSet.createTileAdress(4, 0);
-		tileSet.createTileAdress(5, 0);
-		tileSet.createTileAdress(6, 0);
+		tileSet.addTile(0, 0, 0);	//Deep Water
+		tileSet.addTile(0, 1, 1);	//Sand
+		tileSet.addTile(2, 0, 2);	//Grass 1
+		tileSet.addTile(3, 0, 3);	//Grass 2
+		tileSet.addTile(4, 0, 4);	//Grass 3
+		tileSet.addTile(5, 0, 5);	//Stone
+		tileSet.addTile(6, 0, 6);	//Snow
 
-		tileSet.createTileAdress(0, 2);
+		tileSet.addTile(0, 2, 7);	//House Roof
+		tileSet.addTile(2, 1, 8);	//Way (Village)
+		tileSet.addTile(3, 1, 9);	//Wall (Village)
 	}
 
 	@Override

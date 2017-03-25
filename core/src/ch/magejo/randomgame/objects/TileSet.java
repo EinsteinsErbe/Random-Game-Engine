@@ -1,6 +1,7 @@
 package ch.magejo.randomgame.objects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,20 +14,19 @@ public class TileSet {
 	private Texture tileSet;
 	private int textureWidth;
 	private int textureHeight;
-	private ArrayList<Vector2> addressedTiles;
+	private HashMap<Integer, Vector2> addressedTiles;
 	private TextureRegion actualRegion;
 
 	public TileSet(String tileset, int textureWidth, int textureHeigth) {
 		this.tileSet = new Texture(tileset);
 		this.textureWidth = textureWidth;
 		this.textureHeight = textureHeigth;
-		this.addressedTiles = new ArrayList<Vector2>();
+		this.addressedTiles = new HashMap<Integer, Vector2>();
 		this.actualRegion = new TextureRegion(tileSet);
 	}
 
-	public int createTileAdress(int xPos, int yPos){
-		addressedTiles.add(new Vector2(xPos, yPos));
-		return addressedTiles.size()-1;
+	public void addTile(int xPos, int yPos, int id){
+		addressedTiles.put(id, new Vector2(xPos, yPos));
 	}
 
 	public void render(SpriteBatch batch, float x, float y, int addres){
