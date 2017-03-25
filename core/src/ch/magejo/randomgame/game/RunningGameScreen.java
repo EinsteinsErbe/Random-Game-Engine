@@ -157,17 +157,13 @@ public class RunningGameScreen implements Screen{
 			cam.update();
 		}
 
-		if(game.getInput().isClicked(Key.ENTER)){
+		if(game.getInput().isClicked(Key.INTERACT)){
 			changeScreen(new DialogScreen(game, makeScreenshot(false), npc, player));
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
 			world.save();
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
-		}
-
-		if(game.getInput().isClicked(Key.INTERACT)){
-			changeScreen(new TradeScreen(game, makeScreenshot(false), npc, player));
 		}
 
 		if(cam.position.x + origin.x > 160){

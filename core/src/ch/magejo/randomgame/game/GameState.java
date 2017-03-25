@@ -42,7 +42,7 @@ public class GameState {
 		game.setScreen(activeScreen);
 	}
 	
-	public void setScreenShot(TextureRegion screenShot){
-		this.screenShot = screenShot;
-	}
+	public TextureRegion makeScreenShot(boolean darkedOverlay){
+		return runningGame.makeScreenshot(darkedOverlay);
+	}	
 }
