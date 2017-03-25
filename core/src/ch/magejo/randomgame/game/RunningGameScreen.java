@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.generator.entities.EntityGenerator;
+import ch.magejo.randomgame.generator.world.buildings.HouseInteriorGenerator;
 import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
@@ -21,7 +22,9 @@ import ch.magejo.randomgame.mecanics.entity.things.armor.Helmet;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Spear;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Sword;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.places.Interior;
 import ch.magejo.randomgame.mecanics.places.Place;
+import ch.magejo.randomgame.mecanics.places.Region;
 import ch.magejo.randomgame.mecanics.places.Village;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
@@ -50,7 +53,7 @@ public class RunningGameScreen implements Screen{
 	private Vector origin;
 	private Minimap minimap;
 
-	private int SPEED = 50;
+	private int SPEED = 2;
 
 	private int width, height;
 
@@ -89,6 +92,10 @@ public class RunningGameScreen implements Screen{
 		if(world.getActiveRegion() == null){
 			world.loadRegion(0);
 			world.getActiveRegion().setCentralScene(0);
+
+			//TODO do this in world object
+			world.getWorldPos().x = world.getActiveRegion().getCentralScene().globalX*10-5;
+			world.getWorldPos().y = world.getActiveRegion().getCentralScene().globalY*10-5;
 		}
 
 		//to see entire region
@@ -96,9 +103,11 @@ public class RunningGameScreen implements Screen{
 		//world.getActiveRegion().loadHeight = 91;
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
+		updatePos(world.getActivePos());
 
 
 		minimap = new Minimap(name);
+		minimap.setPosition(world.getWorldPos());
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
@@ -118,6 +127,12 @@ public class RunningGameScreen implements Screen{
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}
 
+	private void updatePos(Vector pos) {
+		cam.position.x = pos.x*32;
+		cam.position.y = pos.y*32;
+		cam.update();
+	}
+
 	/**
 	 * update every single instance in the game which is currently loaded
 	 * @param delta
@@ -127,20 +142,16 @@ public class RunningGameScreen implements Screen{
 		minimap.update(game.getInput());
 
 		if(game.getInput().isPressed(Key.RIGHT)){
-			cam.translate(SPEED, 0);
-			cam.update();
+			world.movePlayer(SPEED, 0);
 		}
 		if(game.getInput().isPressed(Key.LEFT)){
-			cam.translate(-SPEED, 0);
-			cam.update();
+			world.movePlayer(-SPEED, 0);
 		}
 		if(game.getInput().isPressed(Key.UP)){
-			cam.translate(0, SPEED);
-			cam.update();
+			world.movePlayer(0, SPEED);
 		}
 		if(game.getInput().isPressed(Key.DOWN)){
-			cam.translate(0, -SPEED);
-			cam.update();
+			world.movePlayer(0, -SPEED);
 		}
 
 		if(game.getInput().isPressed(Key.ATTACK)){
@@ -148,7 +159,6 @@ public class RunningGameScreen implements Screen{
 			if(cam.zoom<0.1f){
 				cam.zoom = 0.1f;
 			}
-			cam.update();
 		}
 
 		if(game.getInput().isPressed(Key.BLOCK)){
@@ -156,11 +166,15 @@ public class RunningGameScreen implements Screen{
 			if(cam.zoom>50f){
 				cam.zoom = 50f;
 			}
-			cam.update();
 		}
 
+		updatePos(world.getActivePos());
+
 		if(game.getInput().isClicked(Key.ENTER)){
-			changeScreen(new DialogScreen(game, makeScreenshot(false), npc, player));
+			Interior r = new HouseInteriorGenerator().generateInterior(null);
+
+			world.gotoInterior(r);
+			//changeScreen(new DialogScreen(game, makeScreenshot(false), npc, player));
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
@@ -169,7 +183,8 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.INTERACT)){
-			changeScreen(new TradeScreen(game, makeScreenshot(false), npc, player));
+			world.gotoOverworld();
+			//changeScreen(new TradeScreen(game, makeScreenshot(false), npc, player));
 		}
 
 		if(cam.position.x + origin.x > 160){
@@ -259,7 +274,6 @@ public class RunningGameScreen implements Screen{
 		cam.viewportHeight = 1000.0f * height / width;
 
 		cam.update();
-		minimap.setPosition(cam.position);
 
 		fbo = new FrameBuffer(Format.RGBA8888, width, height, false);
 	}
