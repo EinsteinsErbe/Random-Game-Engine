@@ -41,7 +41,7 @@ public class DialogScreen implements Screen{
 		}else{
 			dialog.dispose();
 			game.addEvent("closed Dialog", new Color(0.2f, 0.75f, 0.2f, 0.8f));
-			game.setScreen(new RunningGameScreen(game));
+			game.getGameState().unpauseGame();
 		}
 
 		game.getEventLogger().render(game.getBatch());

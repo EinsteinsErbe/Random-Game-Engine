@@ -60,14 +60,13 @@ public class RunningGameScreen implements Screen{
 	private Stage hud;				//Hud for Player
 
 	public RunningGameScreen(Main game) {
+		//----------engine Stuff-------------
 		this.game = game;
 		this.renderer = new Renderer2D(game.getBatch());
-
 		pm = game.getBatch().getProjectionMatrix().cpy();
-
 		hud = new Stage();
-
 		game.getInputMultiplexer().addProcessor(hud);
+		//----------/engine Stuff--------------
 
 		origin = new Vector(0, 0);
 
@@ -243,7 +242,7 @@ public class RunningGameScreen implements Screen{
 
 	private void changeScreen(Screen screen){
 		game.getInputMultiplexer().removeProcessor(hud);
-		game.setScreen(screen);
+		game.getGameState().changeActiveGameScreen(screen);
 	}
 
 	@Override
