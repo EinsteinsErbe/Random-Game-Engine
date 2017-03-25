@@ -69,6 +69,7 @@ public class RunningGameScreen implements Screen{
 		//----------/engine Stuff--------------
 
 		origin = new Vector(0, 0);
+		cam = new OrthographicCamera(1000, 1000);
 
 		//NameGeneratorTest
 		//NameGenerator ng = new NameGenerator();
@@ -101,6 +102,7 @@ public class RunningGameScreen implements Screen{
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
+		cam.position.set(-origin.x, -origin.y, 0);
 
 
 
@@ -253,9 +255,9 @@ public class RunningGameScreen implements Screen{
 
 		minimap.resize(width, height);
 
-		cam = new OrthographicCamera(1000.0f, 1000.0f * height / width);
-		//cam.position.set(cam.viewportWidth / 2.0f, cam.viewportHeight / 2.0f, 0.0f);
-		cam.position.set(-origin.x, -origin.y, 0);
+		cam.viewportWidth = 1000.0f;
+		cam.viewportHeight = 1000.0f * height / width;
+
 		cam.update();
 		minimap.setPosition(cam.position);
 
