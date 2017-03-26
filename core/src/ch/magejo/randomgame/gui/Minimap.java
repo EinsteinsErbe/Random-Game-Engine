@@ -18,7 +18,7 @@ public class Minimap {
 	private boolean renderRegions = false;
 	private int width;
 	private int height;
-	private Vector3 position;
+	private Vector position;
 	private float scale = 6;
 
 	public Minimap(String name){
@@ -33,7 +33,7 @@ public class Minimap {
 		else{
 			pixmap.drawRectangle(0, 0, (int)(45/scale), (int)(30/scale));
 		}
-		
+
 		playerPos = new Texture( pixmap );
 	}
 
@@ -48,7 +48,7 @@ public class Minimap {
 		this.height = height;
 	}
 
-	public void setPosition(Vector3 position){
+	public void setPosition(Vector position){
 		this.position = position;
 	}
 
@@ -59,7 +59,7 @@ public class Minimap {
 		}else{
 			batch.draw(map, width-2000/scale, height-2000/scale, 2000/scale, 2000/scale);
 		}
-		batch.draw(playerPos, (int)((position.x/32)/scale+width-2000/scale-(45/scale)/2), (int)((position.y/32)/scale+height-2000/scale-(int)(30/scale)/2));
+		batch.draw(playerPos, (int)(position.x/scale+width-2000/scale-(45/scale)/2), (int)(position.y/scale+height-2000/scale-(int)(30/scale)/2));
 		batch.end();
 	}
 }

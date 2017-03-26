@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.generator.entities.EntityGenerator;
+import ch.magejo.randomgame.generator.world.buildings.HouseInteriorGenerator;
 import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
@@ -21,7 +22,11 @@ import ch.magejo.randomgame.mecanics.entity.things.armor.Helmet;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Spear;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Sword;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.places.House;
+import ch.magejo.randomgame.mecanics.places.Interior;
 import ch.magejo.randomgame.mecanics.places.Place;
+import ch.magejo.randomgame.mecanics.places.Region;
+import ch.magejo.randomgame.mecanics.places.Tree;
 import ch.magejo.randomgame.mecanics.places.Village;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
@@ -50,7 +55,7 @@ public class RunningGameScreen implements Screen{
 	private Vector origin;
 	private Minimap minimap;
 
-	private int SPEED = 50;
+	private int SPEED = 1;
 
 	private int width, height;
 
@@ -58,6 +63,8 @@ public class RunningGameScreen implements Screen{
 	private Charakter player;		//The Players Charakter
 
 	private Stage hud;				//Hud for Player
+
+	private HouseInteriorGenerator houseGenerator;
 
 	public RunningGameScreen(Main game) {
 		//----------engine Stuff-------------
@@ -69,6 +76,7 @@ public class RunningGameScreen implements Screen{
 		//----------/engine Stuff--------------
 
 		origin = new Vector(0, 0);
+		cam = new OrthographicCamera(1000, 1000);
 
 		//NameGeneratorTest
 		//NameGenerator ng = new NameGenerator();
@@ -88,19 +96,30 @@ public class RunningGameScreen implements Screen{
 		if(world.getActiveRegion() == null){
 			world.loadRegion(0);
 			world.getActiveRegion().setCentralScene(0);
+
+			//TODO do this in world object
+			world.getWorldPos().x = world.getActiveRegion().getCentralScene().globalX*10-5;
+			world.getWorldPos().y = world.getActiveRegion().getCentralScene().globalY*10-5;
 		}
 
 		//to see entire region
 		//world.getActiveRegion().loadWidth = 151;
 		//world.getActiveRegion().loadHeight = 91;
+		world.getActiveRegion().loadWidth = 9;
+		world.getActiveRegion().loadHeight = 7;
+
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
+		updatePos(world.getActivePos());
 
+		houseGenerator = new HouseInteriorGenerator();
 
 		minimap = new Minimap(name);
+		minimap.setPosition(world.getWorldPos());
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
+		cam.position.set(-origin.x, -origin.y, 0);
 
 
 
@@ -115,9 +134,15 @@ public class RunningGameScreen implements Screen{
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}
-	
+
 	public void reSetInputFocusOnGame(){
 		game.getInputMultiplexer().addProcessor(hud);
+	}
+
+	private void updatePos(Vector pos) {
+		cam.position.x = pos.x*32;
+		cam.position.y = pos.y*32;
+		cam.update();
 	}
 
 	/**
@@ -125,24 +150,18 @@ public class RunningGameScreen implements Screen{
 	 * @param delta
 	 */
 	public void update(float delta){
-		world.update(game.getInput());
-		minimap.update(game.getInput());
 
 		if(game.getInput().isPressed(Key.RIGHT)){
-			cam.translate(SPEED, 0);
-			cam.update();
+			world.movePlayer(SPEED, 0);
 		}
 		if(game.getInput().isPressed(Key.LEFT)){
-			cam.translate(-SPEED, 0);
-			cam.update();
+			world.movePlayer(-SPEED, 0);
 		}
 		if(game.getInput().isPressed(Key.UP)){
-			cam.translate(0, SPEED);
-			cam.update();
+			world.movePlayer(0, SPEED);
 		}
 		if(game.getInput().isPressed(Key.DOWN)){
-			cam.translate(0, -SPEED);
-			cam.update();
+			world.movePlayer(0, -SPEED);
 		}
 
 		if(game.getInput().isPressed(Key.ATTACK)){
@@ -150,7 +169,6 @@ public class RunningGameScreen implements Screen{
 			if(cam.zoom<0.1f){
 				cam.zoom = 0.1f;
 			}
-			cam.update();
 		}
 
 		if(game.getInput().isPressed(Key.BLOCK)){
@@ -158,19 +176,11 @@ public class RunningGameScreen implements Screen{
 			if(cam.zoom>50f){
 				cam.zoom = 50f;
 			}
-			cam.update();
 		}
 
-		if(game.getInput().isClicked(Key.INTERACT)){
-			changeScreen(game.getGameState().openDialog(npc, player));
-		}
+		updatePos(world.getActivePos());
 
-		if(game.getInput().isClicked(Key.PAUSE)){
-			world.save();
-			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
-		}
-
-		if(cam.position.x + origin.x > 160){
+		if(cam.position.x + origin.x >= 160){
 			if(world.moveActiveScenes(1, 0)){
 				game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 			}
@@ -182,7 +192,7 @@ public class RunningGameScreen implements Screen{
 			}
 			updateOrigin();
 		}
-		if(cam.position.y + origin.y > 160){
+		if(cam.position.y + origin.y >= 160){
 			if(world.moveActiveScenes(0, 1)){
 				game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 			}
@@ -193,6 +203,31 @@ public class RunningGameScreen implements Screen{
 				game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 			}
 			updateOrigin();
+		}
+
+		world.update(game.getInput());
+		minimap.update(game.getInput());
+
+
+
+		if(game.getInput().isClicked(Key.ENTER)){
+			House h = world.goInHouse();
+			if(h!=null){
+				world.gotoInterior(houseGenerator.generateInterior(h));
+			}
+		}
+
+		if(game.getInput().isClicked(Key.ESCAPE)){
+			world.gotoOverworld();
+		}
+
+		if(game.getInput().isClicked(Key.PAUSE)){
+			world.save();
+			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
+		}
+
+		if(game.getInput().isClicked(Key.INTERACT)){
+			changeScreen(game.getGameState().openDialog(npc, player));
 		}
 	}
 
@@ -218,7 +253,8 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void renderGame(){
-		game.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		//game.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		game.getBatch().enableBlending();
 		game.getBatch().begin();
 		//draw game here
 
@@ -253,11 +289,10 @@ public class RunningGameScreen implements Screen{
 
 		minimap.resize(width, height);
 
-		cam = new OrthographicCamera(1000.0f, 1000.0f * height / width);
-		//cam.position.set(cam.viewportWidth / 2.0f, cam.viewportHeight / 2.0f, 0.0f);
-		cam.position.set(-origin.x, -origin.y, 0);
+		cam.viewportWidth = 1000.0f;
+		cam.viewportHeight = 1000.0f * height / width;
+
 		cam.update();
-		minimap.setPosition(cam.position);
 
 		fbo = new FrameBuffer(Format.RGBA8888, width, height, false);
 	}
