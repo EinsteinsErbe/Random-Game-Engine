@@ -12,17 +12,26 @@ import ch.magejo.randomgame.gui.dialogs.DialogWindow;
 import ch.magejo.randomgame.mecanics.entity.creatures.Creature;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
+import ch.magejo.randomgame.mecanics.trade.TradeManager;
 
 public class DialogScreen implements Screen{
 
 	private Main game;
 	private DialogWindow dialog;
+	private Creature target;
+	private Charakter player;
 
 	public DialogScreen(Main game, TextureRegion screenShot, Creature target, Charakter player) {
 		this.game = game;
+		this.target = target;
+		this.player = player;
 		this.dialog = new DialogWindow(game, screenShot);
 		game.addEvent("opened Dialog with " + target.getName(), new Color(0.2f, 0.75f, 0.2f, 0.8f));
 		this.dialog.openDialog(target, player);
+	}
+	
+	public void reopenDialog(){
+		dialog.reSetInputMultiplexer();
 	}
 
 	@Override
@@ -38,6 +47,11 @@ public class DialogScreen implements Screen{
 		if(DialogManager.isDialogOpen()){
 			dialog.update();
 			dialog.render(delta);
+			if(TradeManager.isOpen()){
+				dialog.dispose();
+				game.addEvent("closed Dialog", new Color(0.2f, 0.75f, 0.2f, 0.8f));
+				game.getGameState().changeActiveGameScreen(new TradeScreen(game, game.getGameState().makeScreenShot(true), (Charakter) target, player));
+			}
 		}else{
 			dialog.dispose();
 			game.addEvent("closed Dialog", new Color(0.2f, 0.75f, 0.2f, 0.8f));

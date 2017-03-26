@@ -1,17 +1,13 @@
 package ch.magejo.randomgame.gui.dialogs;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.magejo.randomgame.Main;
-import ch.magejo.randomgame.gui.Window;
 import ch.magejo.randomgame.input.RGTextButton;
 import ch.magejo.randomgame.mecanics.entity.creatures.Creature;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
 import ch.magejo.randomgame.mecanics.text.Dialog;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
-import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
 /**

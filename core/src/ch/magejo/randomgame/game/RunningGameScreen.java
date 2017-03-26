@@ -135,6 +135,10 @@ public class RunningGameScreen implements Screen{
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}
 
+	public void reSetInputFocusOnGame(){
+		game.getInputMultiplexer().addProcessor(hud);
+	}
+
 	private void updatePos(Vector pos) {
 		cam.position.x = pos.x*32;
 		cam.position.y = pos.y*32;
@@ -211,8 +215,10 @@ public class RunningGameScreen implements Screen{
 			if(h!=null){
 				world.gotoInterior(houseGenerator.generateInterior(h));
 			}
+		}
 
-			//changeScreen(new DialogScreen(game, makeScreenshot(false), npc, player));
+		if(game.getInput().isClicked(Key.ESCAPE)){
+			world.gotoOverworld();
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
@@ -221,8 +227,7 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.INTERACT)){
-			world.gotoOverworld();
-			//changeScreen(new TradeScreen(game, makeScreenshot(false), npc, player));
+			changeScreen(game.getGameState().openDialog(npc, player));
 		}
 	}
 
