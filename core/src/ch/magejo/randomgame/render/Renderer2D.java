@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ch.magejo.randomgame.mecanics.render.Renderer;
 import ch.magejo.randomgame.mecanics.render.Tile;
 import ch.magejo.randomgame.objects.TileSet;
-import ch.magejo.randomgame.utils.math.Vector;
+import ch.magejo.randomgame.utils.math.Vector2i;
 
 public class Renderer2D implements Renderer {
 
@@ -34,8 +34,8 @@ public class Renderer2D implements Renderer {
 	}
 
 	@Override
-	public void renderTile(byte address, Vector offset){
-		renderTile(address, (int)offset.x, (int)offset.y);
+	public void renderTile(byte address, Vector2i offset){
+		renderTile(address, offset.x, offset.y);
 	}
 
 	public void dispose(){

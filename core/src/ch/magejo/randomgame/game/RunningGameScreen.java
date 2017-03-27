@@ -34,6 +34,7 @@ import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.Vector;
+import ch.magejo.randomgame.utils.math.Vector2i;
 
 /**
  * Here the actual Fun happens, this is the raw game class which controls the PLayer and its interactions with
@@ -139,9 +140,9 @@ public class RunningGameScreen implements Screen{
 		game.getInputMultiplexer().addProcessor(hud);
 	}
 
-	private void updatePos(Vector pos) {
-		cam.position.x = pos.x*32;
-		cam.position.y = pos.y*32;
+	private void updatePos(Vector2i vector2i) {
+		cam.position.x = vector2i.x*32;
+		cam.position.y = vector2i.y*32;
 		cam.update();
 	}
 
