@@ -26,6 +26,7 @@ import ch.magejo.randomgame.mecanics.places.House;
 import ch.magejo.randomgame.mecanics.places.Interior;
 import ch.magejo.randomgame.mecanics.places.Place;
 import ch.magejo.randomgame.mecanics.places.Region;
+import ch.magejo.randomgame.mecanics.places.Scene;
 import ch.magejo.randomgame.mecanics.places.Tree;
 import ch.magejo.randomgame.mecanics.places.Village;
 import ch.magejo.randomgame.mecanics.places.World;
@@ -129,7 +130,7 @@ public class RunningGameScreen implements Screen{
 		npc.addMoney(1000);
 
 		//Player must be a Charakter, add inventory
-		player = generator.generateNextCharakter(true);
+		player = generator.generateNextCharakter(generator.getLevelArround(15), true);
 		player.addMoney(10000);
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
