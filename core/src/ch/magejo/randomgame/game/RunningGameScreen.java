@@ -132,6 +132,7 @@ public class RunningGameScreen implements Screen{
 		//Player must be a Charakter, add inventory
 		player = generator.generateNextCharakter(generator.getLevelArround(15), true);
 		player.addMoney(10000);
+		player.setPosition(new Vector(0, 0));
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}
@@ -151,6 +152,8 @@ public class RunningGameScreen implements Screen{
 	 * @param delta
 	 */
 	public void update(float delta){
+		
+		player.update((int)delta); 
 
 		if(game.getInput().isPressed(Key.RIGHT)){
 			world.movePlayer(SPEED, 0);
@@ -261,6 +264,7 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
+		player.render(renderer);
 		//world.render(renderer, origin);
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
