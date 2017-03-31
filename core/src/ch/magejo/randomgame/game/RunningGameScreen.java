@@ -119,15 +119,15 @@ public class RunningGameScreen implements Screen{
 
 
 		//create npc which can be talked to and traded with
-		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000));
+		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
 		npc = generator.generateNextCharakter(generator.getLevelArround(20), true);
 		npc.addMoney(1000);
-		npc.setPosition(new Vector(10, 10));
+		npc.setPosition(new Vector2i(10, 10));
 
 		//Player must be a Charakter, add inventory
 		player = generator.generateNextCharakter(generator.getLevelArround(15), true);
 		player.addMoney(10000);
-		player.setPosition(new Vector(0, 0));
+		player.setPosition(new Vector2i(0, 0));
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}
@@ -147,10 +147,10 @@ public class RunningGameScreen implements Screen{
 	 * @param delta
 	 */
 	public void update(float delta){
-		
-		player.update((int)delta); 
+
+		player.update((int)delta);
 		npc.update((int) delta);
-		
+
 		//remove into player
 		player.setPosition(world.getActivePos());
 
