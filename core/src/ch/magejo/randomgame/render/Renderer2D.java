@@ -7,6 +7,7 @@ import ch.magejo.randomgame.mecanics.render.Renderer;
 import ch.magejo.randomgame.mecanics.render.Tile;
 import ch.magejo.randomgame.objects.TileSet;
 import ch.magejo.randomgame.utils.math.Vector;
+import ch.magejo.randomgame.utils.math.Vector2i;
 
 public class Renderer2D implements Renderer {
 
@@ -34,13 +35,13 @@ public class Renderer2D implements Renderer {
 		landscapeTileSet.addTile(1, 2, Tile.TREE_TRUNK.ID);	//Trunk
 		landscapeTileSet.addTile(2, 2, Tile.TREE_TOP.ID);	//Tree top
 		landscapeTileSet.addTile(3, 2, Tile.TREE_MID.ID);	//Tree mid
-		
-		initCreatureTileset();		
+
+		initCreatureTileset();
 	}
-	
+
 	private void initCreatureTileset(){
 		creatureTileSet = new TileSet("TileSet/humanSprites.png", 32, 32);
-		
+
 		for(int x = 0; x < 4; x++){
 			for(int y = 0; y < 9; y++){
 				creatureTileSet.addTile(x, y, y*4+x);
@@ -49,8 +50,8 @@ public class Renderer2D implements Renderer {
 	}
 
 	@Override
-	public void renderTile(byte address, Vector offset){
-		renderTile(address, (int)offset.x, (int)offset.y);
+	public void renderTile(byte address, Vector2i offset){
+		renderTile(address, offset.x, offset.y);
 	}
 
 	public void dispose(){
@@ -65,7 +66,7 @@ public class Renderer2D implements Renderer {
 	@Override
 	public void renderSprite(CreaturesTypes type, byte address, Vector position) {
 		creatureTileSet.render(batch, position.x-0.5f, position.y, address);
-		
+
 	}
 
 	@Override

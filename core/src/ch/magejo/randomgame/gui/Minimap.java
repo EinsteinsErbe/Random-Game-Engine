@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.utils.FileSystem;
-import ch.magejo.randomgame.utils.math.Vector;
+import ch.magejo.randomgame.utils.math.Vector2i;
 
 public class Minimap {
 
@@ -18,7 +17,7 @@ public class Minimap {
 	private boolean renderRegions = false;
 	private int width;
 	private int height;
-	private Vector position;
+	private Vector2i position;
 	private float scale = 6;
 
 	public Minimap(String name){
@@ -48,7 +47,7 @@ public class Minimap {
 		this.height = height;
 	}
 
-	public void setPosition(Vector position){
+	public void setPosition(Vector2i position){
 		this.position = position;
 	}
 
