@@ -20,7 +20,7 @@ public class PausedGameScreen implements Screen{
 	public PausedGameScreen(Main game, TextureRegion screenShot) {
 		this.game = game;
 		this.screenShot = screenShot;
-		ButtonNames[] buttons = {ButtonNames.Play, ButtonNames.Settings, ButtonNames.Mainmenu};
+		ButtonNames[] buttons = {ButtonNames.Play, ButtonNames.Save, ButtonNames.Settings, ButtonNames.Mainmenu};
 
 		mainStage = new MenuStage(buttons, game);
 	}
@@ -45,6 +45,10 @@ public class PausedGameScreen implements Screen{
 		if(mainStage.isClicked(ButtonNames.Play)){
 			dispose();
 			game.getGameState().unpauseGame();
+		}
+
+		if(mainStage.isClicked(ButtonNames.Save)){
+
 		}
 
 		if(mainStage.isClicked(ButtonNames.Settings)){

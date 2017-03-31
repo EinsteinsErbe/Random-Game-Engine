@@ -94,14 +94,7 @@ public class RunningGameScreen implements Screen{
 			new Generator().generate(name, 0);
 		}
 		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
-		if(world.getActiveRegion() == null){
-			world.loadRegion(0);
-			world.getActiveRegion().setCentralScene(0);
-
-			//TODO do this in world object
-			world.getWorldPos().x = world.getActiveRegion().getCentralScene().globalX*10-5;
-			world.getWorldPos().y = world.getActiveRegion().getCentralScene().globalY*10-5;
-		}
+		world.load();
 
 		//to see entire region
 		//world.getActiveRegion().loadWidth = 151;
@@ -223,6 +216,7 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
+			//TODO im pausescreen
 			world.save();
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
 		}
@@ -279,8 +273,7 @@ public class RunningGameScreen implements Screen{
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
+		//world.load();
 	}
 
 	@Override
