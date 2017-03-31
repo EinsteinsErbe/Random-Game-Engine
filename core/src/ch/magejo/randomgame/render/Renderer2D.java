@@ -43,7 +43,7 @@ public class Renderer2D implements Renderer {
 		
 		for(int x = 0; x < 4; x++){
 			for(int y = 0; y < 9; y++){
-				creatureTileSet.addTile(x, y, x*4+y);
+				creatureTileSet.addTile(x, y, y*4+x);
 			}
 		}
 	}
@@ -64,7 +64,7 @@ public class Renderer2D implements Renderer {
 
 	@Override
 	public void renderSprite(CreaturesTypes type, byte address, Vector position) {
-		creatureTileSet.render(batch, position.x, position.y, address);
+		creatureTileSet.render(batch, position.x-0.5f, position.y, address);
 		
 	}
 
