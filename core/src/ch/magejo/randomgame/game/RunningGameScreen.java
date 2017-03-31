@@ -26,6 +26,7 @@ import ch.magejo.randomgame.mecanics.places.House;
 import ch.magejo.randomgame.mecanics.places.Interior;
 import ch.magejo.randomgame.mecanics.places.Place;
 import ch.magejo.randomgame.mecanics.places.Region;
+import ch.magejo.randomgame.mecanics.places.Scene;
 import ch.magejo.randomgame.mecanics.places.Tree;
 import ch.magejo.randomgame.mecanics.places.Village;
 import ch.magejo.randomgame.mecanics.places.World;
@@ -121,10 +122,12 @@ public class RunningGameScreen implements Screen{
 		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000));
 		npc = generator.generateNextCharakter(generator.getLevelArround(20), true);
 		npc.addMoney(1000);
+		npc.setPosition(new Vector(10, 10));
 
 		//Player must be a Charakter, add inventory
-		player = generator.generateNextCharakter(true);
+		player = generator.generateNextCharakter(generator.getLevelArround(15), true);
 		player.addMoney(10000);
+		player.setPosition(new Vector(0, 0));
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}
@@ -144,7 +147,14 @@ public class RunningGameScreen implements Screen{
 	 * @param delta
 	 */
 	public void update(float delta){
+		
+		player.update((int)delta); 
+		npc.update((int) delta);
+		
+		//remove into player
+		player.setPosition(world.getActivePos());
 
+		//new speed modus (debug)-----
 		if(game.getInput().isPressed(Key.RIGHT)){
 			world.movePlayer(SPEED, 0);
 		}
@@ -157,6 +167,7 @@ public class RunningGameScreen implements Screen{
 		if(game.getInput().isPressed(Key.DOWN)){
 			world.movePlayer(0, -SPEED);
 		}
+		//---------------------------------------
 
 		if(game.getInput().isPressed(Key.ATTACK)){
 			cam.zoom -= 0.1f;
@@ -255,6 +266,8 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
+		player.render(renderer);
+		npc.render(renderer);
 		//world.render(renderer, origin);
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();

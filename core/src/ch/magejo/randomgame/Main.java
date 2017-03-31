@@ -188,18 +188,21 @@ public class Main extends Game {
 	public void changeScreen(ScreenList screen){
 		logInfo("changed to screen: " + screen.toString(), getClass().getName(), 3);
 		activeState = screen;
-		//TODO switch case?
-		if(activeState.equals(ScreenList.MainMenu)){
+		switch(activeState){
+		case MainMenu:
 			setScreen(new MainMenuScreen(this));
-		}
-		if(activeState.equals(ScreenList.Generator)){
+			break;
+		case Generator:
 			setScreen(new GeneratorScreen(this));
-		}
-		if(activeState.equals(ScreenList.Game)){
+			break;
+		case Game:
 			setScreen(gameState.getActiveScreen());
-		}
-		if(activeState.equals(ScreenList.Settings)){
+			break;
+		case Settings:
 			setScreen(new SettingsScreen(this));
+			break;
+		default:
+			addEvent("Unknown gamestate: " + screen.toString(), new Color(1, 0, 0, 1));	
 		}
 	}
 
