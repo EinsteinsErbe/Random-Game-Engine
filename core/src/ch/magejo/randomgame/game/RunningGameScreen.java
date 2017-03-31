@@ -35,6 +35,7 @@ import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.Vector;
+import ch.magejo.randomgame.utils.math.Vector2i;
 
 /**
  * Here the actual Fun happens, this is the raw game class which controls the PLayer and its interactions with
@@ -94,14 +95,7 @@ public class RunningGameScreen implements Screen{
 			new Generator().generate(name, 0);
 		}
 		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
-		if(world.getActiveRegion() == null){
-			world.loadRegion(0);
-			world.getActiveRegion().setCentralScene(0);
-
-			//TODO do this in world object
-			world.getWorldPos().x = world.getActiveRegion().getCentralScene().globalX*10-5;
-			world.getWorldPos().y = world.getActiveRegion().getCentralScene().globalY*10-5;
-		}
+		world.load();
 
 		//to see entire region
 		//world.getActiveRegion().loadWidth = 151;
@@ -125,15 +119,15 @@ public class RunningGameScreen implements Screen{
 
 
 		//create npc which can be talked to and traded with
-		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000));
+		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
 		npc = generator.generateNextCharakter(generator.getLevelArround(20), true);
 		npc.addMoney(1000);
-		npc.setPosition(new Vector(10, 10));
+		npc.setPosition(new Vector2i(10, 10));
 
 		//Player must be a Charakter, add inventory
 		player = generator.generateNextCharakter(generator.getLevelArround(15), true);
 		player.addMoney(10000);
-		player.setPosition(new Vector(0, 0));
+		player.setPosition(new Vector2i(0, 0));
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
 	}
@@ -142,9 +136,9 @@ public class RunningGameScreen implements Screen{
 		game.getInputMultiplexer().addProcessor(hud);
 	}
 
-	private void updatePos(Vector pos) {
-		cam.position.x = pos.x*32;
-		cam.position.y = pos.y*32;
+	private void updatePos(Vector2i vector2i) {
+		cam.position.x = vector2i.x*32;
+		cam.position.y = vector2i.y*32;
 		cam.update();
 	}
 
@@ -153,10 +147,10 @@ public class RunningGameScreen implements Screen{
 	 * @param delta
 	 */
 	public void update(float delta){
-		
-		player.update((int)delta); 
+
+		player.update((int)delta);
 		npc.update((int) delta);
-		
+
 		//remove into player
 		player.setPosition(world.getActivePos());
 
@@ -233,6 +227,7 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
+			//TODO im pausescreen
 			world.save();
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
 		}
@@ -291,8 +286,7 @@ public class RunningGameScreen implements Screen{
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-
+		//world.load();
 	}
 
 	@Override
