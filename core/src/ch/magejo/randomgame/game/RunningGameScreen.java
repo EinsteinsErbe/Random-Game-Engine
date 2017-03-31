@@ -157,7 +157,7 @@ public class RunningGameScreen implements Screen{
 		player.update((int)delta); 
 		npc.update((int) delta);
 		
-		//remove into player
+		//remove into player which is in world
 		player.setPosition(world.getActivePos());
 
 		//new speed modus (debug)-----
