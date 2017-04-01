@@ -112,12 +112,12 @@ public class RunningGameScreen implements Screen{
 
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
-		updatePos(world.getActivePos());
+		updatePos(world.getPlayer().getFloatPosition());
 
 		houseGenerator = new HouseInteriorGenerator();
 
 		minimap = new Minimap(name);
-		minimap.setPosition(world.getWorldPos());
+		minimap.setPosition(new Vector2i((int) world.getWorldPos().x, (int) world.getWorldPos().y));
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
@@ -142,9 +142,9 @@ public class RunningGameScreen implements Screen{
 		game.getInputMultiplexer().addProcessor(hud);
 	}
 
-	private void updatePos(Vector2i vector2i) {
-		cam.position.x = vector2i.x*32;
-		cam.position.y = vector2i.y*32;
+	private void updatePos(Vector vector) {
+		cam.position.x = vector.x*32;
+		cam.position.y = vector.y*32;
 		cam.update();
 	}
 
@@ -153,24 +153,25 @@ public class RunningGameScreen implements Screen{
 	 * @param delta
 	 */
 	public void update(float delta){
-		//must be first!
-		calculateDeltaMS();
+		calculateDeltaMS();	//must be first!
 		
 		npc.update(deltaMS);
 		
 		//new speed modus (debug)-----
-		if(game.getInput().isPressed(Key.RIGHT)){
-			world.moveOnWorld(SPEED, 0);
-		}
-		if(game.getInput().isPressed(Key.LEFT)){
-			world.moveOnWorld(-SPEED, 0);
-		}
-		if(game.getInput().isPressed(Key.UP)){
-			world.moveOnWorld(0, SPEED);
-		}
-		if(game.getInput().isPressed(Key.DOWN)){
-			world.moveOnWorld(0, -SPEED);
-		}
+		if(game.getInput().isPressed(Key.ENTER)){
+			if(game.getInput().isPressed(Key.RIGHT)){
+				world.moveOnWorld(SPEED, 0);
+			}
+			if(game.getInput().isPressed(Key.LEFT)){
+				world.moveOnWorld(-SPEED, 0);
+			}
+			if(game.getInput().isPressed(Key.UP)){
+				world.moveOnWorld(0, SPEED);
+			}
+			if(game.getInput().isPressed(Key.DOWN)){
+				world.moveOnWorld(0, -SPEED);
+			}
+		}		
 		//---------------------------------------
 
 		if(game.getInput().isPressed(Key.ATTACK)){
@@ -187,7 +188,7 @@ public class RunningGameScreen implements Screen{
 			}
 		}
 
-		updatePos(world.getActivePos());
+		updatePos(world.getPlayer().getFloatPosition());
 
 		if(cam.position.x + origin.x >= 160){
 			if(world.moveActiveScenes(1, 0)){
@@ -257,8 +258,10 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void updateOrigin() {
-		origin.x = -world.getActiveRegion().getCentralScene().globalX*10-5;
-		origin.y = -world.getActiveRegion().getCentralScene().globalY*10-5;
+		origin.x = -world.getPlayer().getPositionFloat().x;
+		origin.y = -world.getPlayer().getPositionFloat().y;
+		//origin.x = -world.getActiveRegion().getCentralScene().globalX*10-5;
+		//origin.y = -world.getActiveRegion().getCentralScene().globalY*10-5;
 		origin.scale(32);
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion().getCentralScene(), world.getActiveRegion()), Color.GREEN);
@@ -286,7 +289,7 @@ public class RunningGameScreen implements Screen{
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
 		//npc.render(renderer);
-		//world.render(renderer, origin);
+		
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
 		minimap.render(game.getBatch());
