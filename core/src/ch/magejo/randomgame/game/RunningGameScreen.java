@@ -22,6 +22,7 @@ import ch.magejo.randomgame.mecanics.entity.things.armor.Helmet;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Spear;
 import ch.magejo.randomgame.mecanics.entity.things.weapons.Sword;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.places.Direction;
 import ch.magejo.randomgame.mecanics.places.House;
 import ch.magejo.randomgame.mecanics.places.Interior;
 import ch.magejo.randomgame.mecanics.places.Place;
@@ -67,7 +68,7 @@ public class RunningGameScreen implements Screen{
 	private Stage hud;				//Hud for Player
 
 	private HouseInteriorGenerator houseGenerator;
-	
+
 	//tickline and deltaMS
 	int deltaMS;
 	long lastTime;
@@ -101,7 +102,8 @@ public class RunningGameScreen implements Screen{
 		if(!FileSystem.getSaveFile(name, name).exists()){
 			new Generator().generate(name, 0);
 		}
-		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
+		game.setWorld(SaveSystem.load(FileSystem.getSaveFile(name, name)));
+		world = game.getWorld();
 		world.load();
 
 		//to see entire region
@@ -112,20 +114,17 @@ public class RunningGameScreen implements Screen{
 
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
-		
+
 
 		houseGenerator = new HouseInteriorGenerator();
 
 		minimap = new Minimap(name);
-		minimap.setPosition(new Vector2i((int) world.getWorldPos().x, (int) world.getWorldPos().y));
-		
-		updatePos(world.getWorldPos());
+		minimap.setPosition(world.getWorldPos());
+
+		//updatePos(world.getPlayer().getPositionFloat());
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
-		cam.position.set(-origin.x, -origin.y, 0);
-
-
 
 		//create npc which can be talked to and traded with
 		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
@@ -135,7 +134,7 @@ public class RunningGameScreen implements Screen{
 		//Player must be a Charakter, add inventory
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
-		
+
 		lastTime = System.currentTimeMillis();
 	}
 
@@ -143,10 +142,9 @@ public class RunningGameScreen implements Screen{
 		game.getInputMultiplexer().addProcessor(hud);
 	}
 
-	private void updatePos(Vector2i vector2i) {
-		minimap.setPosition(vector2i);
-		cam.position.x = vector2i.x*32;
-		cam.position.y = vector2i.y*32;
+	private void updatePos(Vector vector) {
+		cam.position.x = vector.x*32;
+		cam.position.y = vector.y*32;
 		cam.update();
 	}
 
@@ -156,23 +154,43 @@ public class RunningGameScreen implements Screen{
 	 */
 	public void update(float delta){
 		calculateDeltaMS();	//must be first!
-		
+
 		npc.update(deltaMS);
-		
+
 		//new speed modus (debug)-----
-		
+
 		if(game.getInput().isPressed(Key.RIGHT)){
-			world.moveOnWorld(SPEED, 0);
+			if(game.getInput().isPressed(Key.CTRL)){
+				world.moveOnWorld(SPEED, 0);
+			}
+			else{
+				world.getPlayer().move(Direction.EAST);
+			}
 		}
 		if(game.getInput().isPressed(Key.LEFT)){
-			world.moveOnWorld(-SPEED, 0);
+			if(game.getInput().isPressed(Key.CTRL)){
+				world.moveOnWorld(-SPEED, 0);
+			}
+			else{
+				world.getPlayer().move(Direction.WEST);
+			}
 		}
 		if(game.getInput().isPressed(Key.UP)){
-			world.moveOnWorld(0, SPEED);
+			if(game.getInput().isPressed(Key.CTRL)){
+				world.moveOnWorld(0, SPEED);
+			}
+			else{
+				world.getPlayer().move(Direction.NORTH);
+			}
 		}
 		if(game.getInput().isPressed(Key.DOWN)){
-			world.moveOnWorld(0, -SPEED);
-		}	
+			if(game.getInput().isPressed(Key.CTRL)){
+				world.moveOnWorld(0, -SPEED);
+			}
+			else{
+				world.getPlayer().move(Direction.SOUTH);
+			}
+		}
 		//---------------------------------------
 
 		if(game.getInput().isPressed(Key.ATTACK)){
@@ -189,7 +207,7 @@ public class RunningGameScreen implements Screen{
 			}
 		}
 
-		updatePos(world.getWorldPos());
+		updatePos(world.getPlayer().getPositionFloat());
 
 		if(cam.position.x + origin.x >= 160){
 			if(world.moveActiveScenes(1, 0)){
@@ -233,8 +251,6 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
-			//TODO im pausescreen
-			world.save();
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
 		}
 
@@ -249,7 +265,7 @@ public class RunningGameScreen implements Screen{
 		if(deltaMS > longestDelta){
 			longestDelta = deltaMS;
 		}
-		lastTime = System.currentTimeMillis();		
+		lastTime = System.currentTimeMillis();
 		if(System.currentTimeMillis() - lastTickLine >= 1000){
 			game.addEvent("Ticks:" + tickCounter + " longest Delta: " + longestDelta, Color.ORANGE);
 			lastTickLine = System.currentTimeMillis();
@@ -288,7 +304,7 @@ public class RunningGameScreen implements Screen{
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
 		npc.render(renderer);
-		
+
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
 		minimap.render(game.getBatch());
@@ -306,7 +322,7 @@ public class RunningGameScreen implements Screen{
 
 	@Override
 	public void show() {
-		//world.load();
+
 	}
 
 	@Override

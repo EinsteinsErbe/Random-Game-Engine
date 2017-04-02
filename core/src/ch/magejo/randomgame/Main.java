@@ -3,17 +3,17 @@ package ch.magejo.randomgame;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.magejo.randomgame.game.GameState;
-import ch.magejo.randomgame.game.RunningGameScreen;
 import ch.magejo.randomgame.generator.text.TextGeneratorDummy;
 import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.places.Region;
+import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
 import ch.magejo.randomgame.screens.GeneratorScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
@@ -44,8 +44,10 @@ public class Main extends Game {
 	private static TextBox eventLogger;
 
 	private static AbstractLog log;
-	
+
 	private GameState gameState;
+
+	private World world;
 
 	/**
 	 * Initialize project
@@ -202,7 +204,7 @@ public class Main extends Game {
 			setScreen(new SettingsScreen(this));
 			break;
 		default:
-			addEvent("Unknown gamestate: " + screen.toString(), new Color(1, 0, 0, 1));	
+			addEvent("Unknown gamestate: " + screen.toString(), new Color(1, 0, 0, 1));
 		}
 	}
 
@@ -224,12 +226,20 @@ public class Main extends Game {
 		fadeOutEventLogger();
 		log.printErrorLn(error, className, _debugMode);
 	}
-	
+
 	public void setGameState(GameState gameState){
 		this.gameState = gameState;
 	}
-	
+
 	public GameState getGameState(){
 		return gameState;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
 	}
 }

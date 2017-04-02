@@ -47,6 +47,7 @@ public class CombinedInputHandler implements InputHandler, InputProcessor{
 		inputAllocation.put(Keys.Q, Key.BLOCK);
 		inputAllocation.put(Keys.SPACE, Key.INTERACT);
 		inputAllocation.put(Keys.ESCAPE, Key.ESCAPE);
+		inputAllocation.put(Keys.CONTROL_LEFT, Key.CTRL);
 	}
 
 	public void update(){
