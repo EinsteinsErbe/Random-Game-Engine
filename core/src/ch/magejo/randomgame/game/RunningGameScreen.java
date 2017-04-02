@@ -112,7 +112,7 @@ public class RunningGameScreen implements Screen{
 
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
-		updatePos(world.getPlayer().getFloatPosition());
+		updatePos(world.getWorldPos());
 
 		houseGenerator = new HouseInteriorGenerator();
 
@@ -129,8 +129,8 @@ public class RunningGameScreen implements Screen{
 		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
 		npc = generator.generateNextCharakter(generator.getLevelArround(20), true, world.getStartScene());
 		npc.addMoney(1000);
-		npc.setPosition(new Vector2i(0, 0));
-
+		//npc.setPosition(new Vector2i(1980, 1980));
+		npc.enableFreewalk();
 		//Player must be a Charakter, add inventory
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
@@ -142,9 +142,9 @@ public class RunningGameScreen implements Screen{
 		game.getInputMultiplexer().addProcessor(hud);
 	}
 
-	private void updatePos(Vector vector) {
-		cam.position.x = vector.x*32;
-		cam.position.y = vector.y*32;
+	private void updatePos(Vector2i vector2i) {
+		cam.position.x = vector2i.x*32;
+		cam.position.y = vector2i.y*32;
 		cam.update();
 	}
 
@@ -188,7 +188,7 @@ public class RunningGameScreen implements Screen{
 			}
 		}
 
-		updatePos(world.getPlayer().getFloatPosition());
+		updatePos(world.getWorldPos());
 
 		if(cam.position.x + origin.x >= 160){
 			if(world.moveActiveScenes(1, 0)){
@@ -258,10 +258,8 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void updateOrigin() {
-		origin.x = -world.getPlayer().getPositionFloat().x;
-		origin.y = -world.getPlayer().getPositionFloat().y;
-		//origin.x = -world.getActiveRegion().getCentralScene().globalX*10-5;
-		//origin.y = -world.getActiveRegion().getCentralScene().globalY*10-5;
+		origin.x = -world.getActiveRegion().getCentralScene().globalX*10-5;
+		origin.y = -world.getActiveRegion().getCentralScene().globalY*10-5;
 		origin.scale(32);
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion().getCentralScene(), world.getActiveRegion()), Color.GREEN);
