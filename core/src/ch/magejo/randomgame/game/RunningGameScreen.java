@@ -33,6 +33,7 @@ import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
 import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.FileSystem;
+import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.Vector;
 import ch.magejo.randomgame.utils.math.Vector2i;
@@ -62,11 +63,17 @@ public class RunningGameScreen implements Screen{
 	private int width, height;
 
 	private Charakter npc;			//Debug
-	private Charakter player;		//The Players Charakter
 
 	private Stage hud;				//Hud for Player
 
 	private HouseInteriorGenerator houseGenerator;
+	
+	//tickline and deltaMS
+	int deltaMS;
+	long lastTime;
+	int longestDelta;
+	long lastTickLine;
+	int tickCounter;
 
 	public RunningGameScreen(Main game) {
 		//----------engine Stuff-------------
@@ -106,12 +113,14 @@ public class RunningGameScreen implements Screen{
 
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
-		updatePos(world.getActivePos());
+		
 
 		houseGenerator = new HouseInteriorGenerator();
 
 		minimap = new Minimap(name);
-		minimap.setPosition(world.getWorldPos());
+		minimap.setPosition(new Vector2i((int) world.getWorldPos().x, (int) world.getWorldPos().y));
+		
+		updatePos(world.getWorldPos());
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
@@ -121,16 +130,14 @@ public class RunningGameScreen implements Screen{
 
 		//create npc which can be talked to and traded with
 		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
-		npc = generator.generateNextCharakter(generator.getLevelArround(20), true);
+		npc = generator.generateNextCharakter(generator.getLevelArround(20), true, world.getStartScene());
 		npc.addMoney(1000);
-		npc.setPosition(new Vector2i(10, 10));
-
+		npc.enableFreewalk();
 		//Player must be a Charakter, add inventory
-		player = generator.generateNextCharakter(generator.getLevelArround(15), true);
-		player.addMoney(10000);
-		player.setPosition(new Vector2i(0, 0));
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
+		
+		lastTime = System.currentTimeMillis();
 	}
 
 	public void reSetInputFocusOnGame(){
@@ -138,6 +145,7 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void updatePos(Vector2i vector2i) {
+		minimap.setPosition(vector2i);
 		cam.position.x = vector2i.x*32;
 		cam.position.y = vector2i.y*32;
 		cam.update();
@@ -148,26 +156,24 @@ public class RunningGameScreen implements Screen{
 	 * @param delta
 	 */
 	public void update(float delta){
-
-		player.update((int)delta);
-		npc.update((int) delta);
-
-		//remove into player
-		player.setPosition(world.getActivePos());
-
+		calculateDeltaMS();	//must be first!
+		
+		npc.update(deltaMS);
+		
 		//new speed modus (debug)-----
+		
 		if(game.getInput().isPressed(Key.RIGHT)){
-			world.movePlayer(SPEED, 0);
+			world.moveOnWorld(SPEED, 0);
 		}
 		if(game.getInput().isPressed(Key.LEFT)){
-			world.movePlayer(-SPEED, 0);
+			world.moveOnWorld(-SPEED, 0);
 		}
 		if(game.getInput().isPressed(Key.UP)){
-			world.movePlayer(0, SPEED);
+			world.moveOnWorld(0, SPEED);
 		}
 		if(game.getInput().isPressed(Key.DOWN)){
-			world.movePlayer(0, -SPEED);
-		}
+			world.moveOnWorld(0, -SPEED);
+		}	
 		//---------------------------------------
 
 		if(game.getInput().isPressed(Key.ATTACK)){
@@ -184,7 +190,7 @@ public class RunningGameScreen implements Screen{
 			}
 		}
 
-		updatePos(world.getActivePos());
+		updatePos(world.getWorldPos());
 
 		if(cam.position.x + origin.x >= 160){
 			if(world.moveActiveScenes(1, 0)){
@@ -211,7 +217,7 @@ public class RunningGameScreen implements Screen{
 			updateOrigin();
 		}
 
-		world.update(game.getInput());
+		world.update(game.getInput(), deltaMS);
 		minimap.update(game.getInput());
 
 
@@ -232,7 +238,22 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.INTERACT)){
-			changeScreen(game.getGameState().openDialog(npc, player));
+			changeScreen(game.getGameState().openDialog(npc, world.getPlayer()));
+		}
+	}
+
+	private void calculateDeltaMS() {
+		tickCounter ++;
+		deltaMS = (int) (System.currentTimeMillis() - lastTime);
+		if(deltaMS > longestDelta){
+			longestDelta = deltaMS;
+		}
+		lastTime = System.currentTimeMillis();		
+		if(System.currentTimeMillis() - lastTickLine >= 1000){
+			game.addEvent("Ticks:" + tickCounter + " longest Delta: " + longestDelta, Color.ORANGE);
+			lastTickLine = System.currentTimeMillis();
+			longestDelta = 0;
+			tickCounter = 0;
 		}
 	}
 
@@ -265,9 +286,8 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
-		player.render(renderer);
 		npc.render(renderer);
-		//world.render(renderer, origin);
+		
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
 		minimap.render(game.getBatch());

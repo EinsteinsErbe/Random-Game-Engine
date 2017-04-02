@@ -6,6 +6,7 @@ import ch.magejo.randomgame.mecanics.entity.creatures.CreaturesTypes;
 import ch.magejo.randomgame.mecanics.render.Renderer;
 import ch.magejo.randomgame.mecanics.render.Tile;
 import ch.magejo.randomgame.objects.TileSet;
+import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 import ch.magejo.randomgame.utils.math.Vector2i;
 
@@ -73,12 +74,11 @@ public class Renderer2D implements Renderer {
 
 	@Override
 	public void renderSprite(CreaturesTypes type, byte address, Vector position) {
-		creatureTileSet.render(batch, position.x-0.5f, position.y, address);
-
+		creatureTileSet.render(batch, position.x, position.y, address);
 	}
 
 	@Override
-	public void renderSprite(CreaturesTypes type, byte address, int x, int y) {
+	public void renderSprite(CreaturesTypes type, byte address, float x, float y) {
 		creatureTileSet.render(batch, x, y, address);
 	}
 }
