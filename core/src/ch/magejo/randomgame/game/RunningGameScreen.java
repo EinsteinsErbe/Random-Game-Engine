@@ -94,7 +94,8 @@ public class RunningGameScreen implements Screen{
 		if(!FileSystem.getSaveFile(name, name).exists()){
 			new Generator().generate(name, 0);
 		}
-		world = SaveSystem.load(FileSystem.getSaveFile(name, name));
+		game.setWorld(SaveSystem.load(FileSystem.getSaveFile(name, name)));
+		world = game.getWorld();
 		world.load();
 
 		//to see entire region
@@ -227,8 +228,6 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
-			//TODO im pausescreen
-			world.save();
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
 		}
 
@@ -286,7 +285,7 @@ public class RunningGameScreen implements Screen{
 
 	@Override
 	public void show() {
-		//world.load();
+
 	}
 
 	@Override

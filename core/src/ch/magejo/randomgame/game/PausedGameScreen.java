@@ -48,7 +48,7 @@ public class PausedGameScreen implements Screen{
 		}
 
 		if(mainStage.isClicked(ButtonNames.Save)){
-
+			game.getWorld().save();
 		}
 
 		if(mainStage.isClicked(ButtonNames.Settings)){
