@@ -129,7 +129,6 @@ public class RunningGameScreen implements Screen{
 		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
 		npc = generator.generateNextCharakter(generator.getLevelArround(20), true, world.getStartScene());
 		npc.addMoney(1000);
-		//npc.setPosition(new Vector2i(1980, 1980));
 		npc.enableFreewalk();
 		//Player must be a Charakter, add inventory
 
@@ -158,20 +157,19 @@ public class RunningGameScreen implements Screen{
 		npc.update(deltaMS);
 		
 		//new speed modus (debug)-----
-		if(game.getInput().isPressed(Key.ENTER)){
-			if(game.getInput().isPressed(Key.RIGHT)){
-				world.moveOnWorld(SPEED, 0);
-			}
-			if(game.getInput().isPressed(Key.LEFT)){
-				world.moveOnWorld(-SPEED, 0);
-			}
-			if(game.getInput().isPressed(Key.UP)){
-				world.moveOnWorld(0, SPEED);
-			}
-			if(game.getInput().isPressed(Key.DOWN)){
-				world.moveOnWorld(0, -SPEED);
-			}
-		}		
+		
+		if(game.getInput().isPressed(Key.RIGHT)){
+			world.moveOnWorld(SPEED, 0);
+		}
+		if(game.getInput().isPressed(Key.LEFT)){
+			world.moveOnWorld(-SPEED, 0);
+		}
+		if(game.getInput().isPressed(Key.UP)){
+			world.moveOnWorld(0, SPEED);
+		}
+		if(game.getInput().isPressed(Key.DOWN)){
+			world.moveOnWorld(0, -SPEED);
+		}	
 		//---------------------------------------
 
 		if(game.getInput().isPressed(Key.ATTACK)){
@@ -286,7 +284,7 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
-		//npc.render(renderer);
+		npc.render(renderer);
 		
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
