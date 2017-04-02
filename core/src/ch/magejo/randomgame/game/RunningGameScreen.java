@@ -112,12 +112,14 @@ public class RunningGameScreen implements Screen{
 
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
-		updatePos(world.getWorldPos());
+		
 
 		houseGenerator = new HouseInteriorGenerator();
 
 		minimap = new Minimap(name);
 		minimap.setPosition(new Vector2i((int) world.getWorldPos().x, (int) world.getWorldPos().y));
+		
+		updatePos(world.getWorldPos());
 
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
@@ -142,6 +144,7 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void updatePos(Vector2i vector2i) {
+		minimap.setPosition(vector2i);
 		cam.position.x = vector2i.x*32;
 		cam.position.y = vector2i.y*32;
 		cam.update();
