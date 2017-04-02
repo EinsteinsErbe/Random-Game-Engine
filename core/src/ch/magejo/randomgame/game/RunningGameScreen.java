@@ -129,8 +129,8 @@ public class RunningGameScreen implements Screen{
 		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
 		npc = generator.generateNextCharakter(generator.getLevelArround(20), true, world.getStartScene());
 		npc.addMoney(1000);
-		npc.setPosition(new Vector2i(0, 0));
-
+		//npc.setPosition(new Vector2i(1980, 1980));
+		npc.enableFreewalk();
 		//Player must be a Charakter, add inventory
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
@@ -285,7 +285,7 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
-		//npc.render(renderer);
+		npc.render(renderer);
 		//world.render(renderer, origin);
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
