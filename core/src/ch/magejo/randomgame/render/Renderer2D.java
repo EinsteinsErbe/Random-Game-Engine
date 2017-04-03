@@ -29,10 +29,11 @@ public class Renderer2D implements Renderer {
 		landscapeTileSet.addTile(6, 0, Tile.SNOW.ID);		//Snow
 
 		landscapeTileSet.addTile(2, 1, Tile.WAY.ID);		//Path (Village)
-		landscapeTileSet.addTile(3, 1, Tile.WALL.ID);		//Wall (Village)
+		landscapeTileSet.addTile(3, 1, Tile.CITY_WALL.ID);		//Wall (Village)
 
 		landscapeTileSet.addTile(0, 2, Tile.ROOF_1.ID);		//House Roof
 		landscapeTileSet.addTile(1, 1, Tile.FACADE_1.ID);	//Facade (House)
+		landscapeTileSet.addTile(6, 1, Tile.FACADE_2.ID);	//Facade (House)
 
 		//------Not in Tileset------
 		landscapeTileSet.addTile(4, 1, Tile.DOOR_1.ID);		//Door (House)
