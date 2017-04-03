@@ -268,6 +268,7 @@ public class RunningGameScreen implements Screen{
 		lastTime = System.currentTimeMillis();
 		if(System.currentTimeMillis() - lastTickLine >= 1000){
 			game.addEvent("Ticks:" + tickCounter + " longest Delta: " + longestDelta, Color.ORANGE);
+			Log.printLn("Ticks:" + tickCounter + " longest Delta: " + longestDelta, getClass().getName(), 0);
 			lastTickLine = System.currentTimeMillis();
 			longestDelta = 0;
 			tickCounter = 0;
