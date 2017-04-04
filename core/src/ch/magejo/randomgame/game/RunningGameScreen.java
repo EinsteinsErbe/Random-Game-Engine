@@ -128,7 +128,7 @@ public class RunningGameScreen implements Screen{
 
 		//create npc which can be talked to and traded with
 		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
-		npc = generator.generateNextCharakter(generator.getLevelArround(20), true, world.getStartScene());
+		npc = generator.generateNextCharakter(generator.getLevelArround(20), true, world.getActiveRegion().getScenes().get(0));
 		npc.addMoney(1000);
 		npc.enableFreewalk();
 		//Player must be a Charakter, add inventory
@@ -143,8 +143,8 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void updatePos(Vector vector) {
-		cam.position.x = vector.x*32;
-		cam.position.y = vector.y*32;
+		cam.position.x = (vector.x+0.5f)*32;
+		cam.position.y = (vector.y+0.5f)*32;
 		cam.update();
 	}
 
@@ -155,13 +155,13 @@ public class RunningGameScreen implements Screen{
 	public void update(float delta){
 		calculateDeltaMS();	//must be first!
 
-		npc.update(deltaMS);
+		//npc.update(deltaMS);
 
 		//new speed modus (debug)-----
 
 		if(game.getInput().isPressed(Key.RIGHT)){
 			if(game.getInput().isPressed(Key.CTRL)){
-				world.moveOnWorld(SPEED, 0);
+				world.moveOnWorld(Direction.EAST);
 			}
 			else{
 				world.getPlayer().move(Direction.EAST);
@@ -169,7 +169,7 @@ public class RunningGameScreen implements Screen{
 		}
 		if(game.getInput().isPressed(Key.LEFT)){
 			if(game.getInput().isPressed(Key.CTRL)){
-				world.moveOnWorld(-SPEED, 0);
+				world.moveOnWorld(Direction.WEST);
 			}
 			else{
 				world.getPlayer().move(Direction.WEST);
@@ -177,7 +177,7 @@ public class RunningGameScreen implements Screen{
 		}
 		if(game.getInput().isPressed(Key.UP)){
 			if(game.getInput().isPressed(Key.CTRL)){
-				world.moveOnWorld(0, SPEED);
+				world.moveOnWorld(Direction.NORTH);
 			}
 			else{
 				world.getPlayer().move(Direction.NORTH);
@@ -185,7 +185,7 @@ public class RunningGameScreen implements Screen{
 		}
 		if(game.getInput().isPressed(Key.DOWN)){
 			if(game.getInput().isPressed(Key.CTRL)){
-				world.moveOnWorld(0, -SPEED);
+				world.moveOnWorld(Direction.SOUTH);
 			}
 			else{
 				world.getPlayer().move(Direction.SOUTH);
@@ -242,7 +242,7 @@ public class RunningGameScreen implements Screen{
 		if(game.getInput().isClicked(Key.ENTER)){
 			House h = world.goInHouse();
 			if(h!=null){
-				world.gotoInterior(houseGenerator.generateInterior(h));
+				world.gotoInterior(houseGenerator.generateInterior(h, world));
 			}
 		}
 
@@ -303,7 +303,7 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
-		npc.render(renderer);
+		//npc.render(renderer);
 
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
