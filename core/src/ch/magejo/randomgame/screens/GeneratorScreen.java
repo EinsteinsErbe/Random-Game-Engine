@@ -90,7 +90,7 @@ public class GeneratorScreen extends abstractScreen{
 				new Generator().generate("world" + seed, seed);
 				game.setWorld(SaveSystem.load(FileSystem.getSaveFile("world" + seed, "world" + seed)));
 				game.setGameState(new GameState(game));
-				game.changeScreen(ScreenList.Game);
+				changeScreen(ScreenList.Game, mainStage);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
