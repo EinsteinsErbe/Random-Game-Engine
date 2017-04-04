@@ -97,12 +97,12 @@ public class RunningGameScreen implements Screen{
 
 		}
 
-		String name = "Mittelerde";
+		/*String name = "Mittelerde";
 		FileSystem.createSubFolder(name);
 		if(!FileSystem.getSaveFile(name, name).exists()){
 			new Generator().generate(name, 0);
 		}
-		game.setWorld(SaveSystem.load(FileSystem.getSaveFile(name, name)));
+		game.setWorld(SaveSystem.load(FileSystem.getSaveFile(name, name)));*/
 		world = game.getWorld();
 		world.load();
 
@@ -118,7 +118,7 @@ public class RunningGameScreen implements Screen{
 
 		houseGenerator = new HouseInteriorGenerator();
 
-		minimap = new Minimap(name);
+		minimap = new Minimap(world.getName());
 		minimap.setPosition(world.getWorldPos());
 
 		//updatePos(world.getPlayer().getPositionFloat());
