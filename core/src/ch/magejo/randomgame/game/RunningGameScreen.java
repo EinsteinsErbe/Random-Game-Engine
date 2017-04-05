@@ -109,8 +109,7 @@ public class RunningGameScreen implements Screen{
 		//to see entire region
 		//world.getActiveRegion().loadWidth = 151;
 		//world.getActiveRegion().loadHeight = 91;
-		world.getActiveRegion().loadWidth = 9;
-		world.getActiveRegion().loadHeight = 7;
+		world.getActiveRegion().setRenderDimension(9, 7);
 
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
@@ -143,8 +142,8 @@ public class RunningGameScreen implements Screen{
 	}
 
 	private void updatePos(Vector vector) {
-		cam.position.x = (vector.x+0.5f)*32;
-		cam.position.y = (vector.y+0.5f)*32;
+		cam.position.x = (int)((vector.x+0.5f)*32);
+		cam.position.y = (int)((vector.y+0.5f)*32);
 		cam.update();
 	}
 

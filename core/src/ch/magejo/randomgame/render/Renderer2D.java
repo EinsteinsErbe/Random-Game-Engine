@@ -35,16 +35,22 @@ public class Renderer2D implements Renderer {
 		landscapeTileSet.addTile(1, 1, Tile.FACADE_1.ID);	//Facade (House)
 		landscapeTileSet.addTile(6, 1, Tile.FACADE_2.ID);	//Facade (House)
 
-		//------Not in Tileset------
 		landscapeTileSet.addTile(4, 1, Tile.DOOR_1.ID);		//Door (House)
 		landscapeTileSet.addTile(2, 1, Tile.FLOOR_1.ID);	//Floor (House)
 		landscapeTileSet.addTile(3, 1, Tile.DOOR_IN_1.ID);	//Door Interior (House)
 		landscapeTileSet.addTile(5, 1, Tile.WINDOW_1.ID);	//Window (House)
-		//--------------------------
 
 		landscapeTileSet.addTile(1, 2, Tile.TREE_TRUNK.ID);	//Trunk
-		landscapeTileSet.addTile(2, 2, Tile.TREE_TOP.ID);	//Tree top
 		landscapeTileSet.addTile(3, 2, Tile.TREE_MID.ID);	//Tree mid
+		landscapeTileSet.addTile(0, 5, Tile.TREE_C_BL.ID);
+		landscapeTileSet.addTile(1, 5, Tile.TREE_C_BM.ID);
+		landscapeTileSet.addTile(2, 5, Tile.TREE_C_BR.ID);
+		landscapeTileSet.addTile(0, 4, Tile.TREE_C_ML.ID);
+		landscapeTileSet.addTile(1, 4, Tile.TREE_C_MM.ID);
+		landscapeTileSet.addTile(2, 4, Tile.TREE_C_MR.ID);
+		landscapeTileSet.addTile(0, 3, Tile.TREE_C_TL.ID);
+		landscapeTileSet.addTile(1, 3, Tile.TREE_C_TM.ID);
+		landscapeTileSet.addTile(2, 3, Tile.TREE_C_TR.ID);
 
 		initCreatureTileset();
 	}
