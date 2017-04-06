@@ -97,23 +97,20 @@ public class RunningGameScreen implements Screen{
 
 		}
 
+		//to see entire region
+		//Region.setRenderDimension(151, 91);
+		Region.setRenderDimension(9, 7);
+
 		/*String name = "Mittelerde";
 		FileSystem.createSubFolder(name);
 		if(!FileSystem.getSaveFile(name, name).exists()){
 			new Generator().generate(name, 0);
 		}
 		game.setWorld(SaveSystem.load(FileSystem.getSaveFile(name, name)));*/
+
 		world = game.getWorld();
 		world.load();
-
-		//to see entire region
-		//world.getActiveRegion().loadWidth = 151;
-		//world.getActiveRegion().loadHeight = 91;
-		world.getActiveRegion().setRenderDimension(9, 7);
-
 		world.getActiveRegion().moveActiveScenes(0, 0);
-
-
 
 		houseGenerator = new HouseInteriorGenerator();
 
