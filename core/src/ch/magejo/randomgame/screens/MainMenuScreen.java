@@ -1,5 +1,7 @@
 package ch.magejo.randomgame.screens;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -7,9 +9,11 @@ import com.badlogic.gdx.graphics.GL20;
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.game.GameState;
 import ch.magejo.randomgame.input.MenuStage;
+import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.FileSystem;
+import ch.magejo.randomgame.utils.SaveSystem;
 
 public class MainMenuScreen extends abstractScreen{
 
@@ -40,14 +44,18 @@ public class MainMenuScreen extends abstractScreen{
 		mainStage.act();
 
 		if(mainStage.isClicked(ButtonNames.Continue)){
-			game.setGameState(new GameState(game));
-			changeScreen(ScreenList.Game, mainStage);
+			File file = game.getLastWorld();
+			if(file!=null){
+				if(file.exists()){
+					game.setWorld(file);
+					game.setGameState(new GameState(game));
+					changeScreen(ScreenList.Game, mainStage);
+				}
+			}
 		}
 
 		if(mainStage.isClicked(ButtonNames.Load)){
-			FileSystem.deleteRootFolder();
-			game.setGameState(new GameState(game));
-			changeScreen(ScreenList.Game, mainStage);
+			changeScreen(ScreenList.Saves, mainStage);
 		}
 
 		if(mainStage.isClicked(ButtonNames.Generator)){

@@ -72,9 +72,9 @@ public class TradeScreen implements Screen{
 
 		tradeWindow.setTextSize(1.5f);
 
-		changeInventoryBtnId = tradeWindow.addButton(new RGTextButton(ButtonNames.Change_Trader, game.getTextGenerator()), new Vector(20, 20), 400, 75);
-		closeBtnId = tradeWindow.addButton(new RGTextButton(ButtonNames.Close, game.getTextGenerator()), new Vector(Gdx.graphics.getBackBufferWidth()-370, 20), 350, 75);
-		tradeBtnId = tradeWindow.addButton(new RGTextButton(ButtonNames.Trade, game.getTextGenerator()), new Vector(440, 20), 350, 75);
+		changeInventoryBtnId = tradeWindow.addButton(new RGTextButton(game.getTextGenerator().getButtonText(ButtonNames.Change_Trader), ButtonNames.Change_Trader), new Vector(20, 20), 400, 75);
+		closeBtnId = tradeWindow.addButton(new RGTextButton(game.getTextGenerator().getButtonText(ButtonNames.Close), ButtonNames.Close), new Vector(Gdx.graphics.getBackBufferWidth()-370, 20), 350, 75);
+		tradeBtnId = tradeWindow.addButton(new RGTextButton(game.getTextGenerator().getButtonText(ButtonNames.Trade), ButtonNames.Trade), new Vector(440, 20), 350, 75);
 
 		thingName = new TextBox(new Vector(topLeft.x+40, topLeft.y - 150), 20, 1.5f, true);
 		thingAmount = new TextBox(new Vector(topLeft.x+830, topLeft.y - 150), 20, 1.5f, true);

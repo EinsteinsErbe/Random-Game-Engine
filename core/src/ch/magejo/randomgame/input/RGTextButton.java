@@ -27,9 +27,10 @@ public class RGTextButton extends TextButton{
 		super(name, textButtonStyle);
 	}
 
-	public RGTextButton(ButtonNames name, TextGeneratorInterface textGenerator) {
-		super(textGenerator.getButtonText(name), textButtonStyle);
-		this.name = name;
+	public RGTextButton(String name, ButtonNames buttonName) {
+		super(name, textButtonStyle);
+		this.setName(name);
+		this.name = buttonName;
 	}
 
 	public boolean isClicked(){
@@ -56,9 +57,6 @@ public class RGTextButton extends TextButton{
 	}
 
 	public ButtonNames getButtonName(){
-		if(this.name == null){
-			Main.logError(getName() + "-Button has no ButtonName assigned!", getClass().getName(), 1);
-		}
 		return this.name;
 	}
 }

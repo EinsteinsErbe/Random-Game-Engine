@@ -1,27 +1,30 @@
 package ch.magejo.randomgame.screens;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import ch.magejo.randomgame.Main;
+import ch.magejo.randomgame.game.GameState;
 import ch.magejo.randomgame.input.MenuStage;
+import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.FileSystem;
 
-public class SettingsScreen extends abstractScreen{
+public class SavesScreen extends abstractScreen{
 
 	private Renderer2D renderer;
 
 	private MenuStage mainStage;
 
-	public SettingsScreen(Main game) {
+	private String clicked;
+
+	public SavesScreen(Main game) {
 		super(game);
-
-		ButtonNames[] buttons = {ButtonNames.Controlls, ButtonNames.Language, ButtonNames.Sound, ButtonNames.Grafics, ButtonNames.Clear, ButtonNames.Back};
-
-		mainStage = new MenuStage(buttons, game);
+		mainStage = new MenuStage(ButtonNames.Back, FileSystem.getSaveFiles(), game);
 	}
 
 	@Override
@@ -40,13 +43,19 @@ public class SettingsScreen extends abstractScreen{
 	private void update(float delta) {
 		mainStage.act();
 
-		if(mainStage.isClicked(ButtonNames.Clear)){
-			FileSystem.deleteRootFolder();
-			FileSystem.createRootFolder();
-		}
-
 		if(mainStage.isClicked(ButtonNames.Back)){
 			changeScreen(ScreenList.MainMenu, mainStage);
+		}
+
+		clicked = mainStage.getClicked();
+
+		if(clicked != null){
+			File f = FileSystem.getSaveFile(clicked, World.WORLDFILE);
+			if(f.exists()){
+				game.setWorld(f);
+				game.setGameState(new GameState(game));
+				changeScreen(ScreenList.Game, mainStage);
+			}
 		}
 	}
 

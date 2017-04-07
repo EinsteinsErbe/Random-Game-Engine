@@ -1,5 +1,7 @@
 package ch.magejo.randomgame;
 
+import java.io.File;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -17,11 +19,13 @@ import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
 import ch.magejo.randomgame.screens.GeneratorScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
+import ch.magejo.randomgame.screens.SavesScreen;
 import ch.magejo.randomgame.screens.ScreenList;
 import ch.magejo.randomgame.screens.SettingsScreen;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.AbstractLog;
 import ch.magejo.randomgame.utils.Log;
+import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.Vector;
 
 /**
@@ -203,6 +207,8 @@ public class Main extends Game {
 		case Settings:
 			setScreen(new SettingsScreen(this));
 			break;
+		case Saves:
+			setScreen(new SavesScreen(this));
 		default:
 			addEvent("Unknown gamestate: " + screen.toString(), new Color(1, 0, 0, 1));
 		}
@@ -239,7 +245,16 @@ public class Main extends Game {
 		return world;
 	}
 
-	public void setWorld(World world) {
-		this.world = world;
+	public void setWorld(File file) {
+		world = SaveSystem.load(file);
+		SaveSystem.save(file, FileSystem.createFile("lastWorld.dat"));
+	}
+
+	public File getLastWorld() {
+		File f = FileSystem.createFile("lastWorld.dat");
+		if(f.exists()){
+			return SaveSystem.load(f);
+		}
+		return null;
 	}
 }

@@ -16,49 +16,72 @@ import ch.magejo.randomgame.mecanics.text.ButtonNames;
 public class MenuStage extends Stage{
 
 	private RGTextButton[] buttons;
-	private int marginButtons = 100;
+	private int marginButtons = 80;
 	private int btnHeight = 100;
 	private Main game;
-	private int yOffset = 0;				//offset which pushes whole menu down
+	private int yOffset;				//offset which pushes whole menu down
 
-	private ButtonNames[] buttonNames;
-	
 	private ArrayList<RGTextField> textboxes;
 
+	private ButtonNames[] buttonNames;
+	private ButtonNames additionalButton;
+	private String[] buttonNamesString;
+	private int length;
+
 	public MenuStage(ButtonNames[] buttonNames, Main game) {
-		super();
-		textboxes = new ArrayList<>();
-		this.game = game;
-		this.buttonNames = buttonNames;
-		init();
+		this(buttonNames, game, 0);
 	}
-	
+
+	public MenuStage(ButtonNames button, String[] buttonNames, Main game) {
+		this(button, buttonNames, game, 0);
+	}
+
 	public MenuStage(ButtonNames[] buttonNames, Main game, int yOffset) {
 		super();
 		textboxes = new ArrayList<>();
-		this.game = game;
 		this.buttonNames = buttonNames;
+		this.game = game;
 		this.yOffset = yOffset;
+		length = buttonNames.length;
+		init();
+	}
+
+	public MenuStage(ButtonNames button, String[] buttonNames, Main game, int yOffset) {
+		super();
+		textboxes = new ArrayList<>();
+		this.additionalButton = button;
+		this.buttonNamesString = buttonNames;
+		this.game = game;
+		length = buttonNames.length + 1;
 		init();
 	}
 
 	public void init() {
-		buttons = new RGTextButton[buttonNames.length];
+		buttons = new RGTextButton[length];
 		game.getInputMultiplexer().addProcessor(this);
 		clear();
 		int btnWidth = (int) game.getScreenSize().x/2;
-		for(int i = 0; i < buttonNames.length; i++){
-			RGTextButton b = new RGTextButton(buttonNames[i], game.getTextGenerator()); 
+		for(int i = 0; i < length; i++){
+			RGTextButton b;
+			if(additionalButton != null && i>=length-1){
+				b = new RGTextButton(game.getTextGenerator().getButtonText(additionalButton), additionalButton);
+			}
+			else if(buttonNames != null){
+				b = new RGTextButton(game.getTextGenerator().getButtonText(buttonNames[i]), buttonNames[i]);
+			}
+			else{
+				b = new RGTextButton(buttonNamesString[i]);
+			}
 			b.setTransform(true);
 			b.setPosition(
 					game.getScreenSize().x/2 - btnWidth/2,
-					((game.getScreenSize().y)/2 - ((buttonNames.length*(marginButtons+btnHeight))-marginButtons)/2) + (buttonNames.length-i-1)*(marginButtons+btnHeight)-yOffset);
+					((game.getScreenSize().y)/2 - ((length*(marginButtons+btnHeight))-marginButtons)/2) + (length-i-1)*(marginButtons+btnHeight)-yOffset);
 			b.setWidth(btnWidth);
 			b.setHeight(btnHeight);
 			buttons[i] = b;
 			super.addActor(buttons[i]);
 		}
-		
+
 		for(Actor actor: textboxes){
 			super.addActor(actor);
 		}
@@ -67,19 +90,29 @@ public class MenuStage extends Stage{
 	public boolean isClicked(ButtonNames name){
 
 		for(RGTextButton b: buttons){
-			if(b.getButtonName().equals(name)){
+			if(name.equals(b.getButtonName())){
 				if(b.isClicked()){
 					return true;
-				}				
+				}
 			}
-		}	
+		}
 		return false;
+	}
+
+	public String getClicked(){
+
+		for(RGTextButton b: buttons){
+			if(b.isClicked()){
+				return b.getLabel().getText().toString();
+			}
+		}
+		return null;
 	}
 
 	public void setDisabled(ButtonNames name, boolean disabled){
 		for(RGTextButton b: buttons){
 			if(b.getButtonName().equals(name)){
-				b.setDisabled(disabled);				
+				b.setDisabled(disabled);
 			}
 		}
 	}
@@ -87,13 +120,13 @@ public class MenuStage extends Stage{
 	public void render() {
 		draw();
 	}
-	
+
 	public int addTextbox(RGTextField textField){
 		textboxes.add(textField);
 		super.addActor(textField);
 		return textboxes.size()-1;
 	}
-	
+
 	public RGTextField getTextField(int index){
 		return textboxes.get(index);
 	}
