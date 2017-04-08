@@ -5,14 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-import ch.magejo.randomgame.Main;
-import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
-import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
-import ch.magejo.randomgame.utils.Log;
-import ch.magejo.randomgame.utils.math.Vector;
 
 public class RGTextButton extends TextButton{
 
@@ -20,8 +13,8 @@ public class RGTextButton extends TextButton{
 
 	private ButtonNames name;
 
-    //track btnStates
-    private boolean wasPressed = false;
+	//track btnStates
+	private boolean wasPressed = false;
 
 	public RGTextButton(String name) {
 		super(name, textButtonStyle);
@@ -49,10 +42,10 @@ public class RGTextButton extends TextButton{
 		Skin btnSkin = new Skin();
 		TextureAtlas btnAtlas = new TextureAtlas(Gdx.files.internal("UI/Buttons/button.pack"));
 		btnSkin.addRegions(btnAtlas);
-        style = new TextButtonStyle();
-        style.font = btnFont;
-        style.down = btnSkin.getDrawable("buttonOn");
-        style.up = btnSkin.getDrawable("buttonOff");
+		style = new TextButtonStyle();
+		style.font = btnFont;
+		style.down = btnSkin.getDrawable("buttonOn");
+		style.up = btnSkin.getDrawable("buttonOff");
 		return style;
 	}
 

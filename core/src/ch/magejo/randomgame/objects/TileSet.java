@@ -1,14 +1,10 @@
 package ch.magejo.randomgame.objects;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-
-import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector2i;
 
 public class TileSet {

@@ -39,14 +39,14 @@ public class TradeScreen implements Screen{
 	private TextBox thingTradeAmount;
 
 	private Vector topLeft;
-	private Vector startInventorList;
+	//private Vector startInventorList;
 
 	private Texture plusButton;
 	private Texture minusButton;
 
 	private Charakter charakter;
 
-	private TradeTransaction tradeTransaction;
+	//private TradeTransaction tradeTransaction;
 
 	private int[] inventorySlotsAmountPlayer;
 	private int[] inventorySlotsAmountTrader;

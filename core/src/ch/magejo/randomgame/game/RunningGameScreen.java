@@ -12,32 +12,19 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import ch.magejo.randomgame.Main;
-import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.generator.entities.EntityGenerator;
 import ch.magejo.randomgame.generator.world.buildings.HouseInteriorGenerator;
 import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
-import ch.magejo.randomgame.mecanics.entity.things.armor.BreastArmor;
-import ch.magejo.randomgame.mecanics.entity.things.armor.Helmet;
-import ch.magejo.randomgame.mecanics.entity.things.weapons.Spear;
-import ch.magejo.randomgame.mecanics.entity.things.weapons.Sword;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.mecanics.places.Direction;
 import ch.magejo.randomgame.mecanics.places.House;
-import ch.magejo.randomgame.mecanics.places.Interior;
-import ch.magejo.randomgame.mecanics.places.Place;
 import ch.magejo.randomgame.mecanics.places.Region;
-import ch.magejo.randomgame.mecanics.places.Scene;
-import ch.magejo.randomgame.mecanics.places.Tree;
-import ch.magejo.randomgame.mecanics.places.Village;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
 import ch.magejo.randomgame.render.Renderer2D;
-import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.Log;
-import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.Vector;
-import ch.magejo.randomgame.utils.math.Vector2i;
 
 /**
  * Here the actual Fun happens, this is the raw game class which controls the PLayer and its interactions with
@@ -58,10 +45,6 @@ public class RunningGameScreen implements Screen{
 	private World world;
 	private Vector origin;
 	private Minimap minimap;
-
-	private int SPEED = 1;
-
-	private int width, height;
 
 	private Charakter npc;			//Debug
 
@@ -322,9 +305,6 @@ public class RunningGameScreen implements Screen{
 
 	@Override
 	public void resize(int width, int height) {
-		this.width = width;
-		this.height = height;
-
 		minimap.resize(width, height);
 
 		cam.viewportWidth = 1000.0f;

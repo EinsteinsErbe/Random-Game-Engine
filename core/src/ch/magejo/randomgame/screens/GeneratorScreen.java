@@ -1,12 +1,8 @@
 package ch.magejo.randomgame.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ch.magejo.randomgame.Main;
@@ -16,9 +12,7 @@ import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.input.RGTextField;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
-import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.FileSystem;
-import ch.magejo.randomgame.utils.SaveSystem;
 import ch.magejo.randomgame.utils.math.CustomRandom;
 
 public class GeneratorScreen extends abstractScreen{
@@ -43,9 +37,9 @@ public class GeneratorScreen extends abstractScreen{
 		seedField = new RGTextField("" + random.getNextSeed());
 
 		seedField.addListener(new ClickListener(){
-	        public void clicked(InputEvent e, float x, float y) {
-	            seedField.setText("");
-	        }
+			public void clicked(InputEvent e, float x, float y) {
+				seedField.setText("");
+			}
 		});
 
 		float textFieldwidth = (game.getScreenSize().x/2);

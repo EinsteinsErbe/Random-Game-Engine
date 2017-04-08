@@ -3,17 +3,12 @@ package ch.magejo.randomgame.screens;
 import java.io.File;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.game.GameState;
 import ch.magejo.randomgame.input.MenuStage;
-import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
-import ch.magejo.randomgame.render.Renderer2D;
-import ch.magejo.randomgame.utils.FileSystem;
-import ch.magejo.randomgame.utils.SaveSystem;
 
 public class MainMenuScreen extends abstractScreen{
 

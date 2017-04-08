@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.magejo.randomgame.Main;
@@ -29,7 +28,7 @@ public class DialogScreen implements Screen{
 		game.addEvent("opened Dialog with " + target.getName(), new Color(0.2f, 0.75f, 0.2f, 0.8f));
 		this.dialog.openDialog(target, player);
 	}
-	
+
 	public void reopenDialog(){
 		dialog.reSetInputMultiplexer();
 	}
