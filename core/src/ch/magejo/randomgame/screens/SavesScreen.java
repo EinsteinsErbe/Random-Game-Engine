@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.game.GameState;
+import ch.magejo.randomgame.input.IconMenuStage;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
@@ -16,21 +17,17 @@ import ch.magejo.randomgame.utils.FileSystem;
 
 public class SavesScreen extends abstractScreen{
 
-	private Renderer2D renderer;
-
-	private MenuStage mainStage;
+	private IconMenuStage mainStage;
 
 	private String clicked;
 
 	public SavesScreen(Main game) {
 		super(game);
-		mainStage = new MenuStage(ButtonNames.Back, FileSystem.getSaveFiles(), game);
+		mainStage = new IconMenuStage(ButtonNames.Back, FileSystem.getSaveFiles(), game);
 	}
 
 	@Override
-	public void show() {
-		mainStage.init();
-	}
+	public void show() {}
 
 	@Override
 	public void render(float delta) {

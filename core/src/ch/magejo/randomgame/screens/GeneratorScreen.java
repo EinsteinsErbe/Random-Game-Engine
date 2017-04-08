@@ -23,8 +23,6 @@ import ch.magejo.randomgame.utils.math.CustomRandom;
 
 public class GeneratorScreen extends abstractScreen{
 
-	private Renderer2D renderer;
-
 	private MenuStage mainStage;
 
 	private RGTextField seedField;
@@ -59,9 +57,7 @@ public class GeneratorScreen extends abstractScreen{
 	}
 
 	@Override
-	public void show() {
-		mainStage.init();
-	}
+	public void show() {}
 
 	@Override
 	public void render(float delta) {

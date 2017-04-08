@@ -12,8 +12,6 @@ import ch.magejo.randomgame.utils.FileSystem;
 
 public class SettingsScreen extends abstractScreen{
 
-	private Renderer2D renderer;
-
 	private MenuStage mainStage;
 
 	public SettingsScreen(Main game) {
@@ -25,9 +23,7 @@ public class SettingsScreen extends abstractScreen{
 	}
 
 	@Override
-	public void show() {
-		mainStage.init();
-	}
+	public void show() {}
 
 	@Override
 	public void render(float delta) {

@@ -28,9 +28,7 @@ public class MainMenuScreen extends abstractScreen{
 	}
 
 	@Override
-	public void show() {
-		mainStage.init();
-	}
+	public void show() {}
 
 	@Override
 	public void render(float delta) {

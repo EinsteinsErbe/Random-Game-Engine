@@ -209,6 +209,7 @@ public class Main extends Game {
 			break;
 		case Saves:
 			setScreen(new SavesScreen(this));
+			break;
 		default:
 			addEvent("Unknown gamestate: " + screen.toString(), new Color(1, 0, 0, 1));
 		}
@@ -223,12 +224,12 @@ public class Main extends Game {
 		eventLogger.addTextLine(text, color);
 	}
 
-	public static void logInfo(String msg, String className, int _debugMode){
+	public void logInfo(String msg, String className, int _debugMode){
 		fadeOutEventLogger();
 		log.printLn(msg, className, _debugMode);
 	}
 
-	public static void logError(String error, String className, int _debugMode){
+	public void logError(String error, String className, int _debugMode){
 		fadeOutEventLogger();
 		log.printErrorLn(error, className, _debugMode);
 	}

@@ -15,18 +15,18 @@ import ch.magejo.randomgame.mecanics.text.ButtonNames;
 
 public class MenuStage extends Stage{
 
-	private RGTextButton[] buttons;
-	private int marginButtons = 80;
-	private int btnHeight = 100;
-	private Main game;
-	private int yOffset;				//offset which pushes whole menu down
+	protected RGTextButton[] buttons;
+	protected int marginButtons = 80;
+	protected int btnHeight = 100;
+	protected Main game;
+	protected int yOffset;				//offset which pushes whole menu down
 
-	private ArrayList<RGTextField> textboxes;
+	protected ArrayList<RGTextField> textboxes;
 
-	private ButtonNames[] buttonNames;
-	private ButtonNames additionalButton;
-	private String[] buttonNamesString;
-	private int length;
+	protected ButtonNames[] buttonNames;
+	protected ButtonNames additionalButton;
+	protected String[] buttonNamesString;
+	protected int length;
 
 	public MenuStage(ButtonNames[] buttonNames, Main game) {
 		this(buttonNames, game, 0);
@@ -43,7 +43,6 @@ public class MenuStage extends Stage{
 		this.game = game;
 		this.yOffset = yOffset;
 		length = buttonNames.length;
-		init();
 	}
 
 	public MenuStage(ButtonNames button, String[] buttonNames, Main game, int yOffset) {
@@ -53,7 +52,6 @@ public class MenuStage extends Stage{
 		this.buttonNamesString = buttonNames;
 		this.game = game;
 		length = buttonNames.length + 1;
-		init();
 	}
 
 	public void init() {
@@ -79,11 +77,11 @@ public class MenuStage extends Stage{
 			b.setWidth(btnWidth);
 			b.setHeight(btnHeight);
 			buttons[i] = b;
-			super.addActor(buttons[i]);
+			addActor(buttons[i]);
 		}
 
 		for(Actor actor: textboxes){
-			super.addActor(actor);
+			addActor(actor);
 		}
 	}
 
@@ -123,7 +121,7 @@ public class MenuStage extends Stage{
 
 	public int addTextbox(RGTextField textField){
 		textboxes.add(textField);
-		super.addActor(textField);
+		addActor(textField);
 		return textboxes.size()-1;
 	}
 
