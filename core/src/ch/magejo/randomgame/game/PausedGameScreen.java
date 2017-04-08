@@ -26,9 +26,7 @@ public class PausedGameScreen implements Screen{
 	}
 
 	@Override
-	public void show() {
-
-	}
+	public void show() {}
 
 	@Override
 	public void render(float delta) {
@@ -63,7 +61,7 @@ public class PausedGameScreen implements Screen{
 
 	@Override
 	public void resize(int width, int height) {
-
+		mainStage.init();
 	}
 
 	@Override

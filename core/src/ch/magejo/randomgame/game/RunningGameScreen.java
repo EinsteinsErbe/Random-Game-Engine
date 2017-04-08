@@ -151,8 +151,6 @@ public class RunningGameScreen implements Screen{
 	public void update(float delta){
 		calculateDeltaMS();	//must be first!
 
-		//npc.update(deltaMS);
-
 		//new speed modus (debug)-----
 
 		if(game.getInput().isPressed(Key.RIGHT)){
