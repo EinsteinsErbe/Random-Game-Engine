@@ -1,12 +1,10 @@
 package ch.magejo.randomgame.gui.dialogs;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.gui.Window;
-import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
 /**

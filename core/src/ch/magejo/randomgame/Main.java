@@ -14,7 +14,6 @@ import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
-import ch.magejo.randomgame.mecanics.places.Region;
 import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
 import ch.magejo.randomgame.screens.GeneratorScreen;

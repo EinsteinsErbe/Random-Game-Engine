@@ -2,14 +2,8 @@ package ch.magejo.randomgame.input;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
-
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 

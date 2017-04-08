@@ -1,13 +1,11 @@
 package ch.magejo.randomgame.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
-import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.FileSystem;
 
 public class SettingsScreen extends abstractScreen{

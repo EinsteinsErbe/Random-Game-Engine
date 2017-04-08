@@ -11,8 +11,8 @@ import ch.magejo.randomgame.utils.math.Vector;
  *
  */
 public class Icon{
-	
-	private int width; 
+
+	private int width;
 	private int height;
 	private Vector position;
 	private boolean visible;
@@ -36,19 +36,19 @@ public class Icon{
 	public Vector getPosition() {
 		return position;
 	}
-	
+
 	public void show(){
 		this.visible = true;
 	}
-	
+
 	public void hide(){
 		this.visible = false;
 	}
-	
+
 	public boolean isVisible(){
 		return this.visible;
 	}
-	
+
 	public Texture getTexture(){
 		return TextureManager.getTexture(textureId);
 	}

@@ -6,7 +6,6 @@ import ch.magejo.randomgame.mecanics.entity.creatures.CreaturesTypes;
 import ch.magejo.randomgame.mecanics.render.Renderer;
 import ch.magejo.randomgame.mecanics.render.Tile;
 import ch.magejo.randomgame.objects.TileSet;
-import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 import ch.magejo.randomgame.utils.math.Vector2i;
 
