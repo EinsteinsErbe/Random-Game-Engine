@@ -50,8 +50,6 @@ public class RunningGameScreen implements Screen{
 	private Minimap minimap;
 	private Direction direction;
 
-	private Charakter npc;			//Debug
-
 	private Stage hud;				//Hud for Player
 
 	private HouseInteriorGenerator houseGenerator;
@@ -111,11 +109,6 @@ public class RunningGameScreen implements Screen{
 		game.addEvent(game.getTextGenerator().getName(world.getActiveRegion()), Color.GREEN);
 		updateOrigin();
 
-		//create npc which can be talked to and traded with
-		EntityGenerator generator = new EntityGenerator((long) (Math.random()*10000), world.getStartScene());
-		npc = generator.generateNextCharakter(generator.getLevelArround(20), true, world.getActiveRegion().getScenes().get(0));
-		npc.addMoney(1000);
-		npc.enableFreewalk();
 		//Player must be a Charakter, add inventory
 
 		DialogManager.setTextGenerator(game.getTextGenerator());
