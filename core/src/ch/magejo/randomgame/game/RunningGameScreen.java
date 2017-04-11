@@ -306,7 +306,12 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
-		//npc.render(renderer);
+
+		//----------Transparent Overlay------------
+		game.getBatch().setColor(1f, 1f, 1f, 0.2f);
+		world.getPlayer().render(renderer);
+		game.getBatch().setColor(Color.WHITE);
+		//-----------------------------------------
 
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
