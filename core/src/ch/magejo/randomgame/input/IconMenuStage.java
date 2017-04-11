@@ -44,8 +44,8 @@ public class IconMenuStage extends MenuStage{
 			buttons[i] = b;
 			addActor(buttons[i]);
 			if(image != null){
-				int dim = btnHeight+marginButtons*2/3;
-				image.setBounds(b.getX()+btnWidth+marginButtons, b.getY()-marginButtons/3, dim, dim);
+				int dim = btnHeight+marginButtons*4/5;
+				image.setBounds(b.getX()+btnWidth+marginButtons, b.getY()-marginButtons*2/5, dim, dim);
 				addActor(image);
 			}
 		}

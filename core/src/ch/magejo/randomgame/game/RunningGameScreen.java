@@ -15,7 +15,10 @@ import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.entities.EntityGenerator;
 import ch.magejo.randomgame.generator.world.buildings.HouseInteriorGenerator;
 import ch.magejo.randomgame.gui.Minimap;
+import ch.magejo.randomgame.mecanics.entity.Entity;
+import ch.magejo.randomgame.mecanics.entity.creatures.Creature;
 import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
+import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Player;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.mecanics.places.Direction;
 import ch.magejo.randomgame.mecanics.places.House;
@@ -45,6 +48,7 @@ public class RunningGameScreen implements Screen{
 	private World world;
 	private Vector origin;
 	private Minimap minimap;
+	private Direction direction;
 
 	private Charakter npc;			//Debug
 
@@ -58,6 +62,8 @@ public class RunningGameScreen implements Screen{
 	int longestDelta;
 	long lastTickLine;
 	int tickCounter;
+
+	private boolean speedmode;
 
 	public RunningGameScreen(Main game) {
 		//----------engine Stuff-------------
@@ -134,41 +140,66 @@ public class RunningGameScreen implements Screen{
 	public void update(float delta){
 		calculateDeltaMS();	//must be first!
 
-		//new speed modus (debug)-----
+		direction = Direction.NON;
+
+		//new speed mode (debug)-----
+		speedmode = game.getInput().isPressed(Key.CTRL);
 
 		if(game.getInput().isPressed(Key.RIGHT)){
-			if(game.getInput().isPressed(Key.CTRL)){
-				world.moveOnWorld(Direction.EAST);
-			}
-			else{
-				world.getPlayer().move(Direction.EAST);
+			direction = Direction.EAST;
+			if(speedmode){
+				world.moveOnWorld(direction);
 			}
 		}
 		if(game.getInput().isPressed(Key.LEFT)){
-			if(game.getInput().isPressed(Key.CTRL)){
-				world.moveOnWorld(Direction.WEST);
-			}
-			else{
-				world.getPlayer().move(Direction.WEST);
+			direction = Direction.WEST;
+			if(speedmode){
+				world.moveOnWorld(direction);
 			}
 		}
 		if(game.getInput().isPressed(Key.UP)){
-			if(game.getInput().isPressed(Key.CTRL)){
-				world.moveOnWorld(Direction.NORTH);
-			}
-			else{
-				world.getPlayer().move(Direction.NORTH);
+			direction = Direction.NORTH;
+			if(speedmode){
+				world.moveOnWorld(direction);
 			}
 		}
 		if(game.getInput().isPressed(Key.DOWN)){
-			if(game.getInput().isPressed(Key.CTRL)){
-				world.moveOnWorld(Direction.SOUTH);
-			}
-			else{
-				world.getPlayer().move(Direction.SOUTH);
+			direction = Direction.SOUTH;
+			if(speedmode){
+				world.moveOnWorld(direction);
 			}
 		}
-		//---------------------------------------
+
+		if(!speedmode){
+			if(!direction.equals(Direction.NON)){
+				if(game.getInput().isClicked(Key.INTERACT)){
+					Entity e = world.getPlayer().getObstacle(direction);
+					if(e!=null){
+						game.addEvent(e.toString(), Color.BLACK);
+						if(e instanceof Creature){
+							changeScreen(game.getGameState().openDialog((Creature) e, world.getPlayer()));
+						}
+					}
+				}
+				else{
+					world.getPlayer().move(direction);
+				}
+			}
+			else{
+				if(game.getInput().isClicked(Key.INTERACT)){
+					Entity e = world.getPlayer().getObstacle(Direction.NORTH);
+					if(e!=null){
+						game.addEvent(e.toString(), Color.BLACK);
+						if(e instanceof House){
+							House h = (House) e;
+							if(h.canGoIn(world.getPlayer().getLocalPosition())){
+								world.gotoInterior(houseGenerator.generateInterior(h, world));
+							}
+						}
+					}
+				}
+			}
+		}
 
 		if(game.getInput().isPressed(Key.ATTACK)){
 			cam.zoom -= 0.1f;
@@ -213,26 +244,20 @@ public class RunningGameScreen implements Screen{
 
 		world.update(game.getInput(), deltaMS);
 		minimap.update(game.getInput());
-
-
-
+		/*
 		if(game.getInput().isClicked(Key.ENTER)){
 			House h = world.goInHouse();
 			if(h!=null){
 				world.gotoInterior(houseGenerator.generateInterior(h, world));
 			}
 		}
-
+		 */
 		if(game.getInput().isClicked(Key.ESCAPE)){
 			world.gotoOverworld();
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
 			changeScreen(new PausedGameScreen(game, makeScreenshot(true)));
-		}
-
-		if(game.getInput().isClicked(Key.INTERACT)){
-			changeScreen(game.getGameState().openDialog(npc, world.getPlayer()));
 		}
 	}
 
