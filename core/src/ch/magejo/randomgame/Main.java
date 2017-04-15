@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.magejo.randomgame.game.GameState;
+import ch.magejo.randomgame.generator.text.Language;
 import ch.magejo.randomgame.generator.text.TextGenerator;
 import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
@@ -98,6 +99,12 @@ public class Main extends Game {
 
 		//set debug log so every debug stuff is shown
 		log.setDebugMode(1);
+
+		//Load standard settings
+		File f = FileSystem.createFile("lang.cfg");
+		if(f.exists()){
+			textGenerator.setLanguage(SaveSystem.load(f));
+		}
 
 		changeScreen(ScreenList.MainMenu);
 

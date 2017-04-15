@@ -8,19 +8,21 @@ import ch.magejo.randomgame.generator.text.Language;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.utils.FileSystem;
+import ch.magejo.randomgame.utils.SaveSystem;
 
 public class SettingsScreen extends abstractScreen{
 
 	private MenuStage mainStage;
-	private static int languageID = 0;
+	private int languageID;
 
 	public SettingsScreen(Main game) {
 		super(game);
 
 		ButtonNames[] buttons = {ButtonNames.Controlls, ButtonNames.Language, ButtonNames.Sound, ButtonNames.Grafics, ButtonNames.Clear, ButtonNames.Back};
 
-		setLanguage(Language.values()[languageID]);
 		mainStage = new MenuStage(buttons, game);
+
+		languageID = game.getTextGenerator().getLanguage().ordinal();
 	}
 
 	@Override
@@ -42,7 +44,9 @@ public class SettingsScreen extends abstractScreen{
 			if(languageID >= Language.values().length){
 				languageID = 0;
 			}
-			setLanguage(Language.values()[languageID]);
+			Language l = Language.values()[languageID];
+			game.getTextGenerator().setLanguage(l);
+			SaveSystem.save(l, FileSystem.createFile("lang.cfg"));
 			mainStage.init();
 		}
 
@@ -53,10 +57,6 @@ public class SettingsScreen extends abstractScreen{
 		if(mainStage.isClicked(ButtonNames.Back)){
 			changeScreen(ScreenList.MainMenu, mainStage);
 		}
-	}
-
-	private void setLanguage(Language l){
-		game.getTextGenerator().setLanguage(l);
 	}
 
 	@Override
