@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- @{T_NAME} Name of Target-->
+<!-- @{S_NAME} Name of Source-->
+<!-- #{} option -->
+<!-- @{} obligation -->
 <text>
 	<salutations mode="friendly">
 		<salutation style="formal">
-		    <DE>Guten Morgen.</DE>
-		    <EN>Good morning</EN>
+		    <DE>Guten Morgen#{T_NAME}.</DE>
+		    <EN>Good morning#{T_NAME}.</EN>
 		</salutation>
 		<salutation style="normal">
-		    <DE>Hallo</DE>
-		    <EN>Hello</EN>
+		    <DE>Hallo#{T_NAME}.</DE>
+		    <EN>Hello#{T_NAME}.</EN>
 		</salutation>
 		<salutation style="informal">
-		    <DE>Hi</DE>
-		    <EN>Hi</EN>
+		    <DE>Hi#{T_NAME}.</DE>
+		    <EN>Hi#{T_NAME}.</EN>
 		</salutation>
 	</salutations>
 	<salutations mode="unfriendly">
 		<salutation style="formal">
-		    <DE>Wer im Gottes Namen sind den Sie?!</DE>
-		    <EN>N/A</EN>
+		    <DE>Wer in Gottes Namen sind denn Sie?!</DE>
+		    <EN>Who in God's name are you?!</EN>
 		</salutation>
 		<salutation style="normal">
 		    <DE>Was willst du?!</DE>
-		    <EN>N/A</EN>
+		    <EN>What do you want?!</EN>
 		</salutation>
 		<salutation style="informal">
-		    <DE>Wat?</DE>
+		    <DE>Wat is?</DE>
 		    <EN>What?</EN>
 		</salutation>
 	</salutations>
 	<farewells mode="friendly">
 		<farewell style="formal">
-		    <DE>Auf Wiedersehern.</DE>
-		    <EN>N/A</EN>
+		    <DE>Geniessen Sie den Tag#{T_NAME}.</DE>
+		    <EN></EN>
+		</farewell>
+		<farewell style="normal">
+		    <DE>Auf Wiedersehern#{T_NAME}.</DE>
+		    <EN></EN>
 		</farewell>
 		<farewell style="informal">
-		    <DE>Tschau</DE>
-		    <EN>N/A</EN>
+		    <DE>Tschau#{T_NAME}.</DE>
+		    <EN></EN>
 		</farewell>
 	</farewells>
 	<farewells mode="unfriendly">
 		<farewell style="formal">
-		    <DE>Und nun verschwinden Sie!</DE>
-		    <EN>N/A</EN>
+		    <DE>Und nun gehen Sie von dannen!</DE>
+		    <EN></EN>
+		</farewell>
+		<farewell style="normal">
+		    <DE>Und nun verschwinde.</DE>
+		    <EN></EN>
 		</farewell>
 		<farewell style="informal">
-		    <DE>Hau ab!</DE>
-		    <EN>N/A</EN>
+		    <DE>Hau ab#{T_NAME}!</DE>
+		    <EN></EN>
 		</farewell>
 	</farewells>
 </text>
