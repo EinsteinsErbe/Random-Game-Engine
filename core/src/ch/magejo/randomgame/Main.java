@@ -1,6 +1,7 @@
 package ch.magejo.randomgame;
 
 import java.io.File;
+import java.io.IOException;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -9,13 +10,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ch.magejo.randomgame.game.GameState;
-import ch.magejo.randomgame.generator.text.TextGeneratorDummy;
+import ch.magejo.randomgame.generator.text.TextGenerator;
 import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
-import ch.magejo.randomgame.mecanics.places.World;
-import ch.magejo.randomgame.mecanics.text.TextGeneratorInterface;
+import ch.magejo.randomgame.mecanics.world.World;
 import ch.magejo.randomgame.screens.GeneratorScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.SavesScreen;
@@ -42,7 +42,7 @@ public class Main extends Game {
 
 	private int width, height;					//width and height of the game window
 
-	private TextGeneratorInterface textGenerator;	//textgenerator which gets shared by the whole game
+	private TextGenerator textGenerator;	//textgenerator which gets shared by the whole game
 
 	private static TextBox eventLogger;
 
@@ -61,9 +61,15 @@ public class Main extends Game {
 		//set debugmod of log so we can see everything important
 		Log.setDebugMode(6);
 
-		FileSystem.createRootFolder();
+		FileSystem.createRootFolder("RandomGame");
 
-		textGenerator = new TextGeneratorDummy(0);
+		textGenerator = new TextGenerator(0);
+		try {
+			textGenerator.addNameFile(Gdx.files.internal("Text/elven.txt").reader());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		textGenerator.loadTextFile(Gdx.files.internal("Text/dialog.xml").read());
 
 		inputHandler = new InputMultiplexer();
 
@@ -116,7 +122,6 @@ public class Main extends Game {
 	 */
 	private void update() {
 		cInputHandler.update();
-
 
 		for(Key k : Key.values()){
 			if(input.isClicked(k)){
@@ -174,7 +179,7 @@ public class Main extends Game {
 	 * get the one textGenerator of the Game
 	 * @return
 	 */
-	public TextGeneratorInterface getTextGenerator(){
+	public TextGenerator getTextGenerator(){
 		return textGenerator;
 	}
 

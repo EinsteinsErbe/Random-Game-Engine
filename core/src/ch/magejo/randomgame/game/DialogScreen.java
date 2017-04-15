@@ -25,7 +25,7 @@ public class DialogScreen implements Screen{
 		this.target = target;
 		this.player = player;
 		this.dialog = new DialogWindow(game, screenShot);
-		game.addEvent("opened Dialog with " + target.getName(), new Color(0.2f, 0.75f, 0.2f, 0.8f));
+		game.addEvent("opened Dialog with " + target, new Color(0.2f, 0.75f, 0.2f, 0.8f));
 		this.dialog.openDialog(target, player);
 	}
 

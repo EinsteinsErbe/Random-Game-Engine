@@ -58,7 +58,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "ch.magejo.randomgame:generator:0.0.1-SNAPSHOT"
-        compile "ch.magejo.randomgame:utils:0.0.1-SNAPSHOT"
+        compile "ch.magejo.randomgame:utils:0.1.0-alpha"
     }
 }
 

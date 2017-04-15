@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<text>
+	<salutations mode="friendly">
+		<salutation style="formal">
+		    <DE>Guten Morgen.</DE>
+		    <EN>Good morning</EN>
+		</salutation>
+		<salutation style="normal">
+		    <DE>Hallo</DE>
+		    <EN>Hello</EN>
+		</salutation>
+		<salutation style="informal">
+		    <DE>Hi</DE>
+		    <EN>Hi</EN>
+		</salutation>
+	</salutations>
+	<salutations mode="unfriendly">
+		<salutation style="formal">
+		    <DE>Wer im Gottes Namen sind den Sie?!</DE>
+		    <EN>N/A</EN>
+		</salutation>
+		<salutation style="normal">
+		    <DE>Was willst du?!</DE>
+		    <EN>N/A</EN>
+		</salutation>
+		<salutation style="informal">
+		    <DE>Wat?</DE>
+		    <EN>What?</EN>
+		</salutation>
+	</salutations>
+	<farewells mode="friendly">
+		<farewell style="formal">
+		    <DE>Auf Wiedersehern.</DE>
+		    <EN>N/A</EN>
+		</farewell>
+		<farewell style="informal">
+		    <DE>Tschau</DE>
+		    <EN>N/A</EN>
+		</farewell>
+	</farewells>
+	<farewells mode="unfriendly">
+		<farewell style="formal">
+		    <DE>Und nun verschwinden Sie!</DE>
+		    <EN>N/A</EN>
+		</farewell>
+		<farewell style="informal">
+		    <DE>Hau ab!</DE>
+		    <EN>N/A</EN>
+		</farewell>
+	</farewells>
+</text>

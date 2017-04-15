@@ -113,6 +113,15 @@ public class MenuStage extends Stage{
 		draw();
 	}
 
+	public RGTextButton getButton(ButtonNames name){
+		for(RGTextButton b: buttons){
+			if(b.getButtonName().equals(name)){
+				return b;
+			}
+		}
+		return null;
+	}
+
 	public int addTextbox(RGTextField textField){
 		textboxes.add(textField);
 		addActor(textField);

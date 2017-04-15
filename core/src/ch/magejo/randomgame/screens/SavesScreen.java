@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.game.GameState;
 import ch.magejo.randomgame.input.IconMenuStage;
-import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
+import ch.magejo.randomgame.mecanics.world.World;
 import ch.magejo.randomgame.utils.FileSystem;
 
 public class SavesScreen extends abstractScreen{

@@ -198,7 +198,7 @@ public class TradeScreen implements Screen{
 
 		tradeWindow.clearIconButtons();
 
-		tradeWindow.addText(charakter.getName() + "'s goods:", new Vector(topLeft.x, topLeft.y-50), 1f);
+		tradeWindow.addText(game.getTextGenerator().getName(charakter) + "'s goods:", new Vector(topLeft.x, topLeft.y-50), 1f);
 		tradeWindow.addText("|                           Name                           |", new Vector(topLeft.x, topLeft.y-50-50), 1f);
 		tradeWindow.addText(" Amount |", new Vector(topLeft.x+800, topLeft.y-50-50), 1f);
 		tradeWindow.addText(" Val.   |", new Vector(topLeft.x+1100, topLeft.y-50-50), 1f);
@@ -207,7 +207,7 @@ public class TradeScreen implements Screen{
 		itemsCounter = 0;
 
 		for(int i = 0; i < charakter.getInventorySlots(); i++){
-			thingName.addTextLine( charakter.getInventorySlotInfos(i).getName(), new Color(0, 0, 0, 1));
+			thingName.addTextLine(game.getTextGenerator().getName(charakter.getInventorySlotInfos(i)), new Color(0, 0, 0, 1));
 			thingAmount.addTextLine(""+charakter.getInventorySlotInfos(i).getAmount(), new Color(0, 0, 0, 1));
 			thingValue.addTextLine(""+charakter.getInventorySlotInfos(i).getValue(), new Color(0, 0, 0, 1));
 			tradeWindow.addButton(new RGIconButtons(plusButton), new Vector(topLeft.x+1350 +250 , topLeft.y - 260 - i*53), 50, 50);

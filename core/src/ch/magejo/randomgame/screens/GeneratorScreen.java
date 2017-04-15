@@ -10,8 +10,8 @@ import ch.magejo.randomgame.game.GameState;
 import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.input.RGTextField;
-import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
+import ch.magejo.randomgame.mecanics.world.World;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.math.CustomRandom;
 
@@ -34,7 +34,7 @@ public class GeneratorScreen extends abstractScreen{
 
 		mainStage = new MenuStage(buttons, game, 100);
 
-		seedField = new RGTextField("" + random.getNextSeed());
+		seedField = new RGTextField("" + random.nextLong());
 
 		seedField.addListener(new ClickListener(){
 			public void clicked(InputEvent e, float x, float y) {
