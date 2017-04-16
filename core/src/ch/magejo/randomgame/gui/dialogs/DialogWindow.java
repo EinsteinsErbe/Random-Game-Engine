@@ -43,7 +43,7 @@ public class DialogWindow extends MessageWindow{
 		String[] options = dialog.getOptions();
 		clearButtons();
 		for(int i = 0; i < options.length; i++){
-			addButton(new RGTextButton(options[i]), new Vector(70, i*100), (int) (game.getScreenSize().x-140), 100);
+			addButton(new RGTextButton(options[i]), new Vector(70, (options.length-i-1)*100), (int) (game.getScreenSize().x-140), 100);
 		}
 	}
 

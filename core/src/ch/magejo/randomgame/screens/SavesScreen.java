@@ -4,15 +4,15 @@ import java.io.File;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.async.AsyncTask;
 
 import ch.magejo.randomgame.Main;
-import ch.magejo.randomgame.game.GameState;
 import ch.magejo.randomgame.input.IconMenuStage;
-import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
+import ch.magejo.randomgame.mecanics.world.World;
 import ch.magejo.randomgame.utils.FileSystem;
 
-public class SavesScreen extends abstractScreen{
+public class SavesScreen extends BaseScreen{
 
 	private IconMenuStage mainStage;
 
@@ -46,9 +46,14 @@ public class SavesScreen extends abstractScreen{
 		if(clicked != null){
 			File f = FileSystem.getSaveFile(clicked, World.WORLDFILE);
 			if(f.exists()){
-				game.setWorld(f);
-				game.setGameState(new GameState(game));
-				changeScreen(ScreenList.Game, mainStage);
+				changeViaLoadScreen(new LoadingScreen(game, ScreenList.Game, true, new AsyncTask<Void>() {
+					@Override
+					public Void call() throws Exception {
+						game.setWorld(f);
+						game.getWorld().load();
+						return null;
+					}
+				}), mainStage);
 			}
 		}
 	}

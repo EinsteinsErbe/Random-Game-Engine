@@ -4,13 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 import ch.magejo.randomgame.Main;
+import ch.magejo.randomgame.generator.text.Language;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.utils.FileSystem;
+import ch.magejo.randomgame.utils.SaveSystem;
 
-public class SettingsScreen extends abstractScreen{
+public class SettingsScreen extends BaseScreen{
 
 	private MenuStage mainStage;
+	private int languageID;
 
 	public SettingsScreen(Main game) {
 		super(game);
@@ -18,6 +21,8 @@ public class SettingsScreen extends abstractScreen{
 		ButtonNames[] buttons = {ButtonNames.Controlls, ButtonNames.Language, ButtonNames.Sound, ButtonNames.Grafics, ButtonNames.Clear, ButtonNames.Back};
 
 		mainStage = new MenuStage(buttons, game);
+
+		languageID = game.getTextGenerator().getLanguage().ordinal();
 	}
 
 	@Override
@@ -34,9 +39,19 @@ public class SettingsScreen extends abstractScreen{
 	private void update(float delta) {
 		mainStage.act();
 
+		if(mainStage.isClicked(ButtonNames.Language)){
+			languageID++;
+			if(languageID >= Language.values().length){
+				languageID = 0;
+			}
+			Language l = Language.values()[languageID];
+			game.getTextGenerator().setLanguage(l);
+			SaveSystem.save(l, FileSystem.createFile("lang.cfg"));
+			mainStage.init();
+		}
+
 		if(mainStage.isClicked(ButtonNames.Clear)){
 			FileSystem.deleteRootFolder();
-			FileSystem.createRootFolder();
 		}
 
 		if(mainStage.isClicked(ButtonNames.Back)){

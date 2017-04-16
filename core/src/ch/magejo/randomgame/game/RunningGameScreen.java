@@ -12,19 +12,15 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import ch.magejo.randomgame.Main;
-import ch.magejo.randomgame.generator.entities.EntityGenerator;
-import ch.magejo.randomgame.generator.world.buildings.HouseInteriorGenerator;
 import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.mecanics.entity.Entity;
 import ch.magejo.randomgame.mecanics.entity.creatures.Creature;
-import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Charakter;
-import ch.magejo.randomgame.mecanics.entity.creatures.charakters.Player;
 import ch.magejo.randomgame.mecanics.input.Key;
-import ch.magejo.randomgame.mecanics.places.Direction;
-import ch.magejo.randomgame.mecanics.places.House;
-import ch.magejo.randomgame.mecanics.places.Region;
-import ch.magejo.randomgame.mecanics.places.World;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
+import ch.magejo.randomgame.mecanics.world.Direction;
+import ch.magejo.randomgame.mecanics.world.Region;
+import ch.magejo.randomgame.mecanics.world.World;
+import ch.magejo.randomgame.mecanics.world.structures.buildings.House;
 import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
@@ -52,8 +48,6 @@ public class RunningGameScreen implements Screen{
 
 	private Stage hud;				//Hud for Player
 
-	private HouseInteriorGenerator houseGenerator;
-
 	//tickline and deltaMS
 	int deltaMS;
 	long lastTime;
@@ -66,7 +60,7 @@ public class RunningGameScreen implements Screen{
 	public RunningGameScreen(Main game) {
 		//----------engine Stuff-------------
 		this.game = game;
-		this.renderer = new Renderer2D(game.getBatch());
+		this.renderer = game.getRenderer();
 		pm = game.getBatch().getProjectionMatrix().cpy();
 		hud = new Stage();
 		game.getInputMultiplexer().addProcessor(hud);
@@ -75,31 +69,13 @@ public class RunningGameScreen implements Screen{
 		origin = new Vector(0, 0);
 		cam = new OrthographicCamera(1000, 1000);
 
-		//NameGeneratorTest
-		//NameGenerator ng = new NameGenerator();
-		try {
-			//ng.change(Gdx.files.internal("Text/elven.txt").reader());
-			game.addEvent("text", Color.BLUE);
-		} catch (Exception e) {
-
-		}
-
 		//to see entire region
 		//Region.setRenderDimension(151, 91);
 		Region.setRenderDimension(9, 7);
 
-		/*String name = "Mittelerde";
-		FileSystem.createSubFolder(name);
-		if(!FileSystem.getSaveFile(name, name).exists()){
-			new Generator().generate(name, 0);
-		}
-		game.setWorld(SaveSystem.load(FileSystem.getSaveFile(name, name)));*/
-
 		world = game.getWorld();
-		world.load();
+		world.getActiveRegion().updateRenderDimension();
 		world.getActiveRegion().moveActiveScenes(0, 0);
-
-		houseGenerator = new HouseInteriorGenerator();
 
 		minimap = new Minimap(world.getName());
 		minimap.setPosition(world.getWorldPos());
@@ -168,7 +144,7 @@ public class RunningGameScreen implements Screen{
 				if(game.getInput().isClicked(Key.INTERACT)){
 					Entity e = world.getPlayer().getObstacle(direction);
 					if(e!=null){
-						game.addEvent(e.toString(), Color.BLACK);
+						game.addEvent(game.getTextGenerator().getName(e), Color.BLACK);
 						if(e instanceof Creature){
 							changeScreen(game.getGameState().openDialog((Creature) e, world.getPlayer()));
 						}
@@ -182,11 +158,11 @@ public class RunningGameScreen implements Screen{
 				if(game.getInput().isClicked(Key.INTERACT)){
 					Entity e = world.getPlayer().getObstacle(Direction.NORTH);
 					if(e!=null){
-						game.addEvent(e.toString(), Color.BLACK);
+						game.addEvent(game.getTextGenerator().getName(e), Color.BLACK);
 						if(e instanceof House){
 							House h = (House) e;
 							if(h.canGoIn(world.getPlayer().getLocalPosition())){
-								world.gotoInterior(houseGenerator.generateInterior(h, world));
+								world.gotoInterior(game.getHiGenerator().generateInterior(h, world));
 							}
 						}
 					}
@@ -237,14 +213,7 @@ public class RunningGameScreen implements Screen{
 
 		world.update(game.getInput(), deltaMS);
 		minimap.update(game.getInput());
-		/*
-		if(game.getInput().isClicked(Key.ENTER)){
-			House h = world.goInHouse();
-			if(h!=null){
-				world.gotoInterior(houseGenerator.generateInterior(h, world));
-			}
-		}
-		 */
+
 		if(game.getInput().isClicked(Key.ESCAPE)){
 			world.gotoOverworld();
 		}
@@ -295,7 +264,6 @@ public class RunningGameScreen implements Screen{
 		//game.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		game.getBatch().enableBlending();
 		game.getBatch().begin();
-		//draw game here
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);

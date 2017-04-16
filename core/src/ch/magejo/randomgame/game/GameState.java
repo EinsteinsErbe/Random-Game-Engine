@@ -17,7 +17,7 @@ public class GameState {
 	private Main game;
 	private Screen activeScreen;
 	private RunningGameScreen runningGame;		//running Game gets only created and deleted with the gameState
-	private DialogScreen	dialog;
+	private DialogScreen dialog;
 
 	public GameState(Main game) {
 		this.game = game;

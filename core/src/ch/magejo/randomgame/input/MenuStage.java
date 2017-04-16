@@ -21,6 +21,7 @@ public class MenuStage extends Stage{
 	protected ButtonNames additionalButton;
 	protected String[] buttonNamesString;
 	protected int length;
+	protected int totalActors;
 
 	public MenuStage(ButtonNames[] buttonNames, Main game) {
 		this(buttonNames, game, 0);
@@ -37,6 +38,7 @@ public class MenuStage extends Stage{
 		this.game = game;
 		this.yOffset = yOffset;
 		length = buttonNames.length;
+		totalActors = length;
 	}
 
 	public MenuStage(ButtonNames button, String[] buttonNames, Main game, int yOffset) {
@@ -46,6 +48,7 @@ public class MenuStage extends Stage{
 		this.buttonNamesString = buttonNames;
 		this.game = game;
 		length = buttonNames.length + 1;
+		totalActors = length;
 	}
 
 	public void init() {
@@ -67,7 +70,7 @@ public class MenuStage extends Stage{
 			b.setTransform(true);
 			b.setPosition(
 					game.getScreenSize().x/2 - btnWidth/2,
-					((game.getScreenSize().y)/2 - ((length*(marginButtons+btnHeight))-marginButtons)/2) + (length-i-1)*(marginButtons+btnHeight)-yOffset);
+					((game.getScreenSize().y)/2 - ((totalActors*(marginButtons+btnHeight))-marginButtons)/2) + (length-i-1)*(marginButtons+btnHeight)-yOffset);
 			b.setWidth(btnWidth);
 			b.setHeight(btnHeight);
 			buttons[i] = b;
@@ -113,9 +116,19 @@ public class MenuStage extends Stage{
 		draw();
 	}
 
+	public RGTextButton getButton(ButtonNames name){
+		for(RGTextButton b: buttons){
+			if(b.getButtonName().equals(name)){
+				return b;
+			}
+		}
+		return null;
+	}
+
 	public int addTextbox(RGTextField textField){
 		textboxes.add(textField);
 		addActor(textField);
+		totalActors++;
 		return textboxes.size()-1;
 	}
 
