@@ -47,7 +47,7 @@ public class MenuStage extends Stage{
 		this.additionalButton = button;
 		this.buttonNamesString = buttonNames;
 		this.game = game;
-		length = buttonNames.length;
+		length = buttonNames.length + 1;
 		totalActors = length;
 	}
 
