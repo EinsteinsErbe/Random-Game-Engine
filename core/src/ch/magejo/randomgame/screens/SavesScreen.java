@@ -12,7 +12,7 @@ import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.mecanics.world.World;
 import ch.magejo.randomgame.utils.FileSystem;
 
-public class SavesScreen extends abstractScreen{
+public class SavesScreen extends BaseScreen{
 
 	private IconMenuStage mainStage;
 
