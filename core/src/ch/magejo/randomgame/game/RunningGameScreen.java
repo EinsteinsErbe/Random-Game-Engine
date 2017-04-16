@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import ch.magejo.randomgame.Main;
-import ch.magejo.randomgame.generator.world.buildings.HouseInteriorGenerator;
 import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.mecanics.entity.Entity;
 import ch.magejo.randomgame.mecanics.entity.creatures.Creature;
@@ -49,8 +48,6 @@ public class RunningGameScreen implements Screen{
 
 	private Stage hud;				//Hud for Player
 
-	private HouseInteriorGenerator houseGenerator;
-
 	//tickline and deltaMS
 	int deltaMS;
 	long lastTime;
@@ -63,7 +60,7 @@ public class RunningGameScreen implements Screen{
 	public RunningGameScreen(Main game) {
 		//----------engine Stuff-------------
 		this.game = game;
-		this.renderer = new Renderer2D(game.getBatch());
+		this.renderer = game.getRenderer();
 		pm = game.getBatch().getProjectionMatrix().cpy();
 		hud = new Stage();
 		game.getInputMultiplexer().addProcessor(hud);
@@ -77,10 +74,8 @@ public class RunningGameScreen implements Screen{
 		Region.setRenderDimension(9, 7);
 
 		world = game.getWorld();
-		world.load();
+		world.getActiveRegion().updateRenderDimension();
 		world.getActiveRegion().moveActiveScenes(0, 0);
-
-		houseGenerator = new HouseInteriorGenerator();
 
 		minimap = new Minimap(world.getName());
 		minimap.setPosition(world.getWorldPos());
@@ -167,7 +162,7 @@ public class RunningGameScreen implements Screen{
 						if(e instanceof House){
 							House h = (House) e;
 							if(h.canGoIn(world.getPlayer().getLocalPosition())){
-								world.gotoInterior(houseGenerator.generateInterior(h, world));
+								world.gotoInterior(game.getHiGenerator().generateInterior(h, world));
 							}
 						}
 					}
@@ -269,7 +264,6 @@ public class RunningGameScreen implements Screen{
 		//game.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		game.getBatch().enableBlending();
 		game.getBatch().begin();
-		//draw game here
 
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);

@@ -6,18 +6,24 @@ import java.io.IOException;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.async.AsyncTask;
 
 import ch.magejo.randomgame.game.GameState;
-import ch.magejo.randomgame.generator.text.Language;
+import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.generator.text.TextGenerator;
+import ch.magejo.randomgame.generator.world.buildings.HouseInteriorGenerator;
 import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.mecanics.world.World;
+import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.screens.GeneratorScreen;
+import ch.magejo.randomgame.screens.LoadingScreen;
 import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.SavesScreen;
 import ch.magejo.randomgame.screens.ScreenList;
@@ -44,6 +50,8 @@ public class Main extends Game {
 	private int width, height;					//width and height of the game window
 
 	private TextGenerator textGenerator;	//textgenerator which gets shared by the whole game
+	private Generator generator;
+	private HouseInteriorGenerator hiGenerator;
 
 	private static TextBox eventLogger;
 
@@ -52,6 +60,7 @@ public class Main extends Game {
 	private GameState gameState;
 
 	private World world;
+	private Renderer2D renderer;
 
 	/**
 	 * Initialize project
@@ -59,31 +68,15 @@ public class Main extends Game {
 	@Override
 	public void create () {
 
-		//set debugmod of log so we can see everything important
-		Log.setDebugMode(6);
-
-		FileSystem.createRootFolder("RandomGame");
-
-		textGenerator = new TextGenerator(0);
-		try {
-			textGenerator.addNameFile(Gdx.files.internal("Text/elven.txt").reader());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		textGenerator.loadTextFile(Gdx.files.internal("Text/dialog.xml").read());
-
 		inputHandler = new InputMultiplexer();
-
 		cInputHandler = new CombinedInputHandler();
 		inputHandler.addProcessor(cInputHandler);
 		input = cInputHandler;
 		Gdx.input.setInputProcessor(inputHandler);
-
-		// new renderer and game stuff!
-		batch = new SpriteBatch();
+		Controllers.addListener(cInputHandler);
 
 		eventLogger = new TextBox(new Vector(20, 0), 15 ,0.8f, false);
-
+		System.out.println("b");
 		log = new AbstractLog() {
 
 			@Override
@@ -100,28 +93,49 @@ public class Main extends Game {
 		//set debug log so every debug stuff is shown
 		log.setDebugMode(1);
 
-		//Load standard settings
-		File f = FileSystem.createFile("lang.cfg");
-		if(f.exists()){
-			textGenerator.setLanguage(SaveSystem.load(f));
-		}
+		// new renderer and game stuff!
+		batch = new SpriteBatch();
+		renderer = new Renderer2D(batch);
 
-		changeScreen(ScreenList.MainMenu);
+		changeViaLoadScreen(new LoadingScreen(this, ScreenList.MainMenu, false, new AsyncTask<Void>() {
+			@Override
+			public Void call() throws Exception {
+				//set debugmod of log so we can see everything important
+				Log.setDebugMode(6);
 
-		logInfo("initialized Engine", getClass().getName(), 1);
+				FileSystem.createRootFolder("RandomGame");
 
+				generator = new Generator();
+				hiGenerator = new HouseInteriorGenerator(generator.getEntityGenerator());
+				textGenerator = new TextGenerator(0);
+				try {
+					textGenerator.addNameFile(Gdx.files.internal("Text/elven.txt").reader());
+					textGenerator.loadTextFile(Gdx.files.internal("Text/dialog.xml").read());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
+				//Load standard settings
+				File f = FileSystem.createFile("lang.cfg");
+				if(f.exists()){
+					textGenerator.setLanguage(SaveSystem.load(f));
+				}
+
+				logInfo("initialized Engine", getClass().getName(), 1);
+				return null;
+			}
+		}));
 	}
 
 	/**
-	 * gest called if one of the Platforms changes the Windowsize
+	 * gets called if one of the Platforms changes the Window size
 	 */
 	@Override
 	public void resize (int width, int height) {
 		Log.printLn("resized Window to: " + width +":"+ height, getClass().getName(), 3);
 		this.width = width;
 		this.height = height;
-		getScreen().resize(width, height);
+		//getScreen().resize(width, height);
 	}
 
 	/**
@@ -154,7 +168,6 @@ public class Main extends Game {
 	@Override
 	public void render () {
 		update();
-
 		super.render();
 	}
 
@@ -213,6 +226,7 @@ public class Main extends Game {
 			setScreen(new GeneratorScreen(this));
 			break;
 		case Game:
+			setGameState(new GameState(this));
 			setScreen(gameState.getActiveScreen());
 			break;
 		case Settings:
@@ -224,6 +238,12 @@ public class Main extends Game {
 		default:
 			addEvent("Unknown gamestate: " + screen.toString(), new Color(1, 0, 0, 1));
 		}
+	}
+
+	public void changeViaLoadScreen(Screen screen) {
+		logInfo("changed to loading screen", getClass().getName(), 3);
+		activeState = ScreenList.LoadWindow;
+		setScreen(screen);
 	}
 
 	public TextBox getEventLogger(){
@@ -268,5 +288,17 @@ public class Main extends Game {
 			return SaveSystem.load(f);
 		}
 		return null;
+	}
+
+	public Generator getGenerator() {
+		return generator;
+	}
+
+	public HouseInteriorGenerator getHiGenerator() {
+		return hiGenerator;
+	}
+
+	public Renderer2D getRenderer() {
+		return renderer;
 	}
 }

@@ -8,56 +8,68 @@
 		<salutation style="formal">
 		    <DE>Guten Morgen#{T_NAME}.</DE>
 		    <EN>Good morning#{T_NAME}.</EN>
+		    <FR></FR>
 		</salutation>
 		<salutation style="normal">
 		    <DE>Hallo#{T_NAME}.</DE>
 		    <EN>Hello#{T_NAME}.</EN>
+		    <FR></FR>
 		</salutation>
 		<salutation style="informal">
 		    <DE>Hi#{T_NAME}.</DE>
 		    <EN>Hi#{T_NAME}.</EN>
+		    <FR></FR>
 		</salutation>
 	</salutations>
 	<salutations mode="unfriendly">
 		<salutation style="formal">
 		    <DE>Wer in Gottes Namen sind denn Sie?!</DE>
 		    <EN>Who in God's name are you?!</EN>
+		    <FR></FR>
 		</salutation>
 		<salutation style="normal">
 		    <DE>Was willst du?!</DE>
 		    <EN>What do you want?!</EN>
+		    <FR></FR>
 		</salutation>
 		<salutation style="informal">
 		    <DE>Wat is?</DE>
 		    <EN>What?</EN>
+		    <FR></FR>
 		</salutation>
 	</salutations>
 	<farewells mode="friendly">
 		<farewell style="formal">
 		    <DE>Geniessen Sie den Tag#{T_NAME}.</DE>
 		    <EN></EN>
+		    <FR></FR>
 		</farewell>
 		<farewell style="normal">
 		    <DE>Auf Wiedersehern#{T_NAME}.</DE>
 		    <EN></EN>
+		    <FR></FR>
 		</farewell>
 		<farewell style="informal">
 		    <DE>Tschau#{T_NAME}.</DE>
 		    <EN></EN>
+		    <FR></FR>
 		</farewell>
 	</farewells>
 	<farewells mode="unfriendly">
 		<farewell style="formal">
 		    <DE>Und nun gehen Sie von dannen!</DE>
 		    <EN></EN>
+		    <FR></FR>
 		</farewell>
 		<farewell style="normal">
 		    <DE>Und nun verschwinde.</DE>
 		    <EN></EN>
+		    <FR></FR>
 		</farewell>
 		<farewell style="informal">
 		    <DE>Hau ab#{T_NAME}!</DE>
 		    <EN></EN>
+		    <FR></FR>
 		</farewell>
 	</farewells>
 </text>
