@@ -10,7 +10,7 @@ import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 
-public class MainMenuScreen extends AbstractScreen{
+public class MainMenuScreen extends abstractScreen{
 
 	private MenuStage mainStage;
 

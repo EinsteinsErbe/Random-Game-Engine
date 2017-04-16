@@ -10,7 +10,7 @@ import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.SaveSystem;
 
-public class SettingsScreen extends AbstractScreen{
+public class SettingsScreen extends abstractScreen{
 
 	private MenuStage mainStage;
 	private int languageID;

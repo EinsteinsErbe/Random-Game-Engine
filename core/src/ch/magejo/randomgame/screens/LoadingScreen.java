@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.async.AsyncTask;
 
 import ch.magejo.randomgame.Main;
 
-public class LoadingScreen extends AbstractScreen{
+public class LoadingScreen extends abstractScreen{
 
 	private Stage stage;
 	private boolean init = false;

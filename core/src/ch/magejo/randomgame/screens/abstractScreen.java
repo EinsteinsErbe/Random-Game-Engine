@@ -5,11 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import ch.magejo.randomgame.Main;
 
-public abstract class AbstractScreen implements Screen{
+public abstract class abstractScreen implements Screen{
 
 	protected Main game;
 
-	public AbstractScreen(Main game){
+	public abstractScreen(Main game){
 		this.game = game;
 	}
 

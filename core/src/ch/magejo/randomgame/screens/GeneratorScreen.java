@@ -14,7 +14,7 @@ import ch.magejo.randomgame.mecanics.world.World;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.math.CustomRandom;
 
-public class GeneratorScreen extends AbstractScreen{
+public class GeneratorScreen extends abstractScreen{
 
 	private MenuStage mainStage;
 
