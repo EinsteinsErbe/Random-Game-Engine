@@ -76,7 +76,7 @@ public class Main extends Game {
 		Controllers.addListener(cInputHandler);
 
 		eventLogger = new TextBox(new Vector(20, 0), 15 ,0.8f, false);
-		System.out.println("b");
+		
 		log = new AbstractLog() {
 
 			@Override

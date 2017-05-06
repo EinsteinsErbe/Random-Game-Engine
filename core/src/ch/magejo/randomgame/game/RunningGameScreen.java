@@ -77,6 +77,8 @@ public class RunningGameScreen implements Screen{
 		world.getActiveRegion().updateRenderDimension();
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
+		game.getGenerator().getEntityGenerator().setStartScene(world.getStartScene());
+
 		minimap = new Minimap(world.getName());
 		minimap.setPosition(world.getWorldPos());
 
