@@ -20,6 +20,7 @@ import ch.magejo.randomgame.gui.TextBox;
 import ch.magejo.randomgame.input.CombinedInputHandler;
 import ch.magejo.randomgame.mecanics.input.InputHandler;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.sound.Sounds;
 import ch.magejo.randomgame.mecanics.world.World;
 import ch.magejo.randomgame.render.Renderer2D;
 import ch.magejo.randomgame.screens.GeneratorScreen;
@@ -28,6 +29,8 @@ import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.SavesScreen;
 import ch.magejo.randomgame.screens.ScreenList;
 import ch.magejo.randomgame.screens.SettingsScreen;
+import ch.magejo.randomgame.sound.MusicType;
+import ch.magejo.randomgame.sound.SoundManager;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.AbstractLog;
 import ch.magejo.randomgame.utils.Log;
@@ -52,6 +55,7 @@ public class Main extends Game {
 	private TextGenerator textGenerator;	//textgenerator which gets shared by the whole game
 	private Generator generator;
 	private HouseInteriorGenerator hiGenerator;
+	private SoundManager soundManager;
 
 	private static TextBox eventLogger;
 
@@ -76,7 +80,7 @@ public class Main extends Game {
 		Controllers.addListener(cInputHandler);
 
 		eventLogger = new TextBox(new Vector(20, 0), 15 ,0.8f, false);
-		System.out.println("b");
+
 		log = new AbstractLog() {
 
 			@Override
@@ -104,6 +108,11 @@ public class Main extends Game {
 				Log.setDebugMode(6);
 
 				FileSystem.createRootFolder("RandomGame");
+
+				soundManager = new SoundManager();
+				Sounds.setSoundPlayer(soundManager);
+				
+				//soundManager.playMusic(MusicType.MENU);
 
 				generator = new Generator();
 				hiGenerator = new HouseInteriorGenerator(generator.getEntityGenerator());
@@ -154,6 +163,7 @@ public class Main extends Game {
 	@Override
 	public void dispose(){
 		//TODO dispose all screens
+		soundManager.dispose();
 	}
 
 	public static void fadeOutEventLogger(){
@@ -193,6 +203,14 @@ public class Main extends Game {
 	 */
 	public InputMultiplexer getInputMultiplexer(){
 		return inputHandler;
+	}
+
+	/**
+	 * get the combined input handler
+	 * @return
+	 */
+	public CombinedInputHandler getInputManager(){
+		return cInputHandler;
 	}
 
 	/**
@@ -300,5 +318,9 @@ public class Main extends Game {
 
 	public Renderer2D getRenderer() {
 		return renderer;
+	}
+
+	public SoundManager getSoundManager(){
+		return soundManager;
 	}
 }

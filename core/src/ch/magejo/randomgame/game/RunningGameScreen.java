@@ -16,12 +16,15 @@ import ch.magejo.randomgame.gui.Minimap;
 import ch.magejo.randomgame.mecanics.entity.Entity;
 import ch.magejo.randomgame.mecanics.entity.creatures.Creature;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.sound.SFX;
+import ch.magejo.randomgame.mecanics.sound.Sounds;
 import ch.magejo.randomgame.mecanics.text.DialogManager;
 import ch.magejo.randomgame.mecanics.world.Direction;
 import ch.magejo.randomgame.mecanics.world.Region;
 import ch.magejo.randomgame.mecanics.world.World;
 import ch.magejo.randomgame.mecanics.world.structures.buildings.House;
 import ch.magejo.randomgame.render.Renderer2D;
+import ch.magejo.randomgame.sound.MusicType;
 import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.math.Vector;
 
@@ -76,6 +79,8 @@ public class RunningGameScreen implements Screen{
 		world = game.getWorld();
 		world.getActiveRegion().updateRenderDimension();
 		world.getActiveRegion().moveActiveScenes(0, 0);
+
+		game.getGenerator().getEntityGenerator().setStartScene(world.getStartScene());
 
 		minimap = new Minimap(world.getName());
 		minimap.setPosition(world.getWorldPos());
@@ -163,6 +168,7 @@ public class RunningGameScreen implements Screen{
 							House h = (House) e;
 							if(h.canGoIn(world.getPlayer().getLocalPosition())){
 								world.gotoInterior(game.getHiGenerator().generateInterior(h, world));
+								game.getSoundManager().playMusic(MusicType.INTERIOR);
 							}
 						}
 					}
@@ -182,6 +188,11 @@ public class RunningGameScreen implements Screen{
 			if(cam.zoom>50f){
 				cam.zoom = 50f;
 			}
+		}
+
+		//TODO SoundTest only
+		if(game.getInput().isClicked(Key.ATTACK)){
+			world.getPlayer().damage(0);
 		}
 
 		updatePos(world.getPlayer().getPositionFloat());
@@ -216,6 +227,7 @@ public class RunningGameScreen implements Screen{
 
 		if(game.getInput().isClicked(Key.ESCAPE)){
 			world.gotoOverworld();
+			game.getSoundManager().playMusic(MusicType.OVERWORLD);
 		}
 
 		if(game.getInput().isClicked(Key.PAUSE)){
@@ -291,7 +303,7 @@ public class RunningGameScreen implements Screen{
 
 	@Override
 	public void show() {
-
+		game.getSoundManager().playMusic(MusicType.OVERWORLD);
 	}
 
 	@Override
