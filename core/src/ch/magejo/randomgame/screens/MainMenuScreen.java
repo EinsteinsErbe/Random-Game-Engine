@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.async.AsyncTask;
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
+import ch.magejo.randomgame.sound.MusicType;
 
 public class MainMenuScreen extends BaseScreen{
 
@@ -23,7 +24,9 @@ public class MainMenuScreen extends BaseScreen{
 	}
 
 	@Override
-	public void show() {}
+	public void show() {
+		game.getSoundManager().playMusic(MusicType.MENU);
+	}
 
 	@Override
 	public void render(float delta) {

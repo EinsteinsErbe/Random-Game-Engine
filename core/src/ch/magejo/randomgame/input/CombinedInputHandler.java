@@ -3,9 +3,11 @@ package ch.magejo.randomgame.input;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 
@@ -31,6 +33,10 @@ public class CombinedInputHandler implements InputHandler, InputProcessor, Contr
 	private HashMap<Integer, Key> buttonAllocation;
 
 	private float axisSensitivity = 0.5f;
+
+	private InputSelection selector;
+
+	public boolean isSelecting = false;
 
 	public CombinedInputHandler() {
 		mousePosition = new Vector(0, 0);
@@ -78,12 +84,19 @@ public class CombinedInputHandler implements InputHandler, InputProcessor, Contr
 		buttonAllocation.put(3, Key.PAUSE);
 		buttonAllocation.put(4, Key.CTRL);
 		buttonAllocation.put(5, Key.ESCAPE);
+
+		selector = new InputSelection(keyboardAllocation, axisAllocation, povAllocation, buttonAllocation);
 	}
 
 	public void update(){
 		for(int i=0; i<clickedState.length; i++){
 			clickedState[i] = clickedStateBuffer[i];
 			clickedStateBuffer[i] = false;
+		}
+		if(isSelecting  && selector.isFinished()){
+			isSelecting = false;
+			Controllers.removeListener(selector);
+			Controllers.addListener(this);
 		}
 	}
 
@@ -276,4 +289,25 @@ public class CombinedInputHandler implements InputHandler, InputProcessor, Contr
 		return false;
 	}
 
+	public void setKey(Key key){
+		Controllers.removeListener(this);
+		//Gdx.input.setInputProcessor(null);
+		Controllers.addListener(selector);
+
+		selector.setKey(key);
+		isSelecting = true;
+/*
+		while(!selector.isFinished()){
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+*/
+		//Controllers.removeListener(selector);
+		//Controllers.addListener(this);
+		//Gdx.input.setInputProcessor(this);
+	}
 }

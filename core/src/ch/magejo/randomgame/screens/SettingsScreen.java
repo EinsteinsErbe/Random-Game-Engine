@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.text.Language;
 import ch.magejo.randomgame.input.MenuStage;
+import ch.magejo.randomgame.mecanics.input.Key;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.SaveSystem;
@@ -37,7 +38,15 @@ public class SettingsScreen extends BaseScreen{
 	}
 
 	private void update(float delta) {
+		if(game.getInputManager().isSelecting){
+			return;
+		}
+
 		mainStage.act();
+
+		if(mainStage.isClicked(ButtonNames.Controlls)){
+			game.getInputManager().setKey(Key.UP);
+		}
 
 		if(mainStage.isClicked(ButtonNames.Language)){
 			languageID++;
