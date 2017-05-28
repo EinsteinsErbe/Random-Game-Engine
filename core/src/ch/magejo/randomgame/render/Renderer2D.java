@@ -13,8 +13,14 @@ public class Renderer2D implements Renderer {
 
 	SpriteBatch batch;
 	private TileSet landscapeTileSet;
-	private TileSet creatureTileSet;
-
+	private TileSet dwarfMaleTileSet;
+	private TileSet humanMaleTileSet;
+	private TileSet humanFemaleTileSet;
+	private TileSet elfenMaleTileSet;
+	private TileSet elfenFemaleTileSet;
+	private TileSet orcMaleTileSet;
+	private TileSet defaultTileSet;
+	
 	public Renderer2D(SpriteBatch batch) {
 		this.batch = batch;
 
@@ -55,11 +61,27 @@ public class Renderer2D implements Renderer {
 	}
 
 	private void initCreatureTileset(){
-		creatureTileSet = new TileSet("TileSet/humanSprites.png", 32, 32);
-
+		humanMaleTileSet = new TileSet("TileSet/Creatures/humanMaleSprites.png", 32, 32);
+		initTiles(humanMaleTileSet);
+		humanFemaleTileSet = new TileSet("TileSet/Creatures/humanFemaleSprites.png", 32, 32);
+		initTiles(humanFemaleTileSet);
+		elfenMaleTileSet = new TileSet("TileSet/Creatures/elfenMaleSprites.png", 32, 32);
+		initTiles(elfenMaleTileSet);
+		elfenFemaleTileSet = new TileSet("TileSet/Creatures/elfenFemaleSprites.png", 32, 32);
+		initTiles(elfenFemaleTileSet);
+		dwarfMaleTileSet = new TileSet("TileSet/Creatures/dwarfMaleSprites.png", 32, 32);
+		initTiles(dwarfMaleTileSet);
+		orcMaleTileSet  = new TileSet("TileSet/Creatures/orcMaleSprites.png", 32, 32);
+		initTiles(orcMaleTileSet);
+		defaultTileSet = new TileSet("TileSet/Creatures/defaultSprites.png", 32, 32);
+		initTiles(defaultTileSet);
+		
+	}
+	
+	private void initTiles(TileSet tileset){
 		for(int x = 0; x < 4; x++){
 			for(int y = 0; y < 9; y++){
-				creatureTileSet.addTile(x, y, y*4+x);
+				tileset.addTile(x, y, y*4+x);
 			}
 		}
 	}
@@ -80,11 +102,41 @@ public class Renderer2D implements Renderer {
 
 	@Override
 	public void renderSprite(CreaturesTypes type, byte address, Vector position) {
-		creatureTileSet.render(batch, position.x, position.y, address);
+		switch (type){
+		case Elven:
+			elfenMaleTileSet.render(batch, position.x, position.y, address);
+		case Human:
+			humanMaleTileSet.render(batch, position.x, position.y, address);
+		case Ork:
+			dwarfMaleTileSet.render(batch, position.x, position.y, address);
+			break;
+		case Dwarf:
+			orcMaleTileSet.render(batch, position.x, position.y, address);
+			break;
+		default:
+			defaultTileSet.render(batch, position.x, position.y, address);
+		}
+		
 	}
 
 	@Override
 	public void renderSprite(CreaturesTypes type, byte address, float x, float y) {
-		creatureTileSet.render(batch, x, y, address);
+		switch (type){
+		case Elven:
+			elfenMaleTileSet.render(batch, x, y, address);
+			break;
+		case Human:
+			humanMaleTileSet.render(batch, x, y, address);
+			break;
+		case Dwarf:
+			dwarfMaleTileSet.render(batch, x, y, address);
+			break;
+		case Ork:
+			orcMaleTileSet.render(batch, x, y, address);
+			break;
+		default:
+			defaultTileSet.render(batch, x, y, address);
+			break;
+		}
 	}
 }
