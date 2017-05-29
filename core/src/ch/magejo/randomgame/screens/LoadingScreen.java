@@ -37,11 +37,15 @@ public class LoadingScreen extends BaseScreen{
 
 		stage = new Stage();
 
-		Image loading = new Image(new TextureRegion(new Texture(Gdx.files.internal("UI/loading.png"))));
+		Image loading = new Image(new TextureRegion(new Texture(Gdx.files.internal("UI/MaGeJoLogo0.png"))));
+		Image title = new Image(new TextureRegion(new Texture(Gdx.files.internal("UI/MaGeJoLogo1.png"))));
 
-		loading.setPosition(Gdx.graphics.getWidth() / 2 - loading.getWidth() / 2, Gdx.graphics.getHeight() / 2 - loading.getHeight() / 2);
+		loading.setPosition(Gdx.graphics.getWidth() / 2 - loading.getWidth() / 2, Gdx.graphics.getHeight() / 2 - loading.getHeight() / 2 + 100);
 		loading.setOrigin(loading.getWidth() / 2, loading.getHeight() / 2);
 		loading.setZIndex(1);
+		title.setPosition(Gdx.graphics.getWidth() / 2 - title.getWidth() / 2, Gdx.graphics.getHeight() / 2 - title.getHeight() / 2 + 100);
+		title.setOrigin(title.getWidth() / 2, title.getHeight() / 2);
+		title.setZIndex(1);
 
 		loading.addAction(new Action() {
 
@@ -53,6 +57,7 @@ public class LoadingScreen extends BaseScreen{
 		});
 
 		stage.addActor(loading);
+		stage.addActor(title);
 
 
 		BitmapFont font = new BitmapFont(Gdx.files.internal("UI/Font/Font.fnt"));
@@ -63,7 +68,7 @@ public class LoadingScreen extends BaseScreen{
 		style.fontColor = Color.WHITE;
 		TextField tf = new TextField("Loading...", style);
 		tf.setWidth(320);
-		tf.setPosition(Gdx.graphics.getWidth()/2-tf.getWidth()/2, (Gdx.graphics.getHeight()-tf.getHeight()*3-loading.getHeight())/2);
+		tf.setPosition(Gdx.graphics.getWidth()/2-tf.getWidth()/2, (Gdx.graphics.getHeight()-tf.getHeight()*3.5f-loading.getHeight())/2);
 		tf.setOrigin(tf.getWidth() / 2, tf.getHeight() / 2);
 		stage.addActor(tf);
 
