@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.async.AsyncTask;
 
 import ch.magejo.randomgame.Main;
+import ch.magejo.randomgame.generator.Generator;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.input.RGTextField;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
@@ -103,6 +104,7 @@ public class GeneratorScreen extends BaseScreen{
 				public Void call() throws Exception {
 					try {
 						game.logInfo("generate new world with seed: " + seed, getClass().getName(), 1);
+						game.setGenerator(new Generator());
 						game.getGenerator().generate(name, seed);
 						game.setWorld(FileSystem.getSaveFile(name, World.WORLDFILE));
 						game.getWorld().load();
