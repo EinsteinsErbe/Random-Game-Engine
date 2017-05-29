@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+
+import ch.magejo.randomgame.mecanics.sound.SFX;
+import ch.magejo.randomgame.mecanics.sound.Sounds;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 
 public class RGTextButton extends TextButton{
@@ -29,6 +32,7 @@ public class RGTextButton extends TextButton{
 	public boolean isClicked(){
 		if(!isPressed() && wasPressed){
 			wasPressed = false;
+			Sounds.playSound(SFX.CLICK_BTN, 1.0f);
 			return true;
 		}else{
 			wasPressed = isPressed();

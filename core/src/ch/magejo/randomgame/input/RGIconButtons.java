@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import ch.magejo.randomgame.mecanics.sound.SFX;
+import ch.magejo.randomgame.mecanics.sound.Sounds;
+
 public class RGIconButtons extends ImageButton{
 
 	//track btnStates
@@ -21,6 +24,7 @@ public class RGIconButtons extends ImageButton{
 	public boolean isClicked(){
 		if(!isPressed() && wasPressed){
 			wasPressed = false;
+			Sounds.playSound(SFX.CLICK_BTN, 1.0f);
 			return true;
 		}else{
 			wasPressed = isPressed();
