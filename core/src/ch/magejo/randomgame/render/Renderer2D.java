@@ -189,41 +189,27 @@ public class Renderer2D implements Renderer {
 	}
 
 	@Override
-	public void renderSprite(CreaturesTypes type, byte address, Vector position) {
-		switch (type){
-		case Elven:
-			elfenMaleTileSet.render(batch, position.x, position.y, address);
-		case Human:
-			humanMaleTileSet.render(batch, position.x, position.y, address);
-		case Ork:
-			dwarfMaleTileSet.render(batch, position.x, position.y, address);
-			break;
-		case Dwarf:
-			orcMaleTileSet.render(batch, position.x, position.y, address);
-			break;
-		default:
-			defaultTileSet.render(batch, position.x, position.y, address);
-		}
-
+	public void renderSprite(CreaturesTypes type, byte address, Vector position, float yOffset) {
+		renderSprite(type, address, position.x, position.y, yOffset);
 	}
 
 	@Override
-	public void renderSprite(CreaturesTypes type, byte address, float x, float y) {
+	public void renderSprite(CreaturesTypes type, byte address, float x, float y, float yOffset) {
 		switch (type){
 		case Elven:
-			elfenMaleTileSet.render(batch, x, y, address);
+			elfenMaleTileSet.render(batch, x, y, address, yOffset);
 			break;
 		case Human:
-			humanMaleTileSet.render(batch, x, y, address);
+			humanMaleTileSet.render(batch, x, y, address, yOffset);
 			break;
 		case Dwarf:
-			dwarfMaleTileSet.render(batch, x, y, address);
+			dwarfMaleTileSet.render(batch, x, y, address, yOffset);
 			break;
 		case Ork:
-			orcMaleTileSet.render(batch, x, y, address);
+			orcMaleTileSet.render(batch, x, y, address, yOffset);
 			break;
 		default:
-			defaultTileSet.render(batch, x, y, address);
+			defaultTileSet.render(batch, x, y, address, yOffset);
 			break;
 		}
 	}

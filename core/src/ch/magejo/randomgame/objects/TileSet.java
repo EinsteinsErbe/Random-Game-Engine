@@ -37,6 +37,17 @@ public class TileSet {
 		batch.draw(actualRegion, x*textureWidth, y*textureHeight);
 	}
 
+	public void render(SpriteBatch batch, float x, float y, int addres, float yOffset){
+		actualRegion.setRegion(
+				addressedTiles.get(addres).x*textureWidth,
+				addressedTiles.get(addres).y*textureHeight,
+				textureWidth,
+				(int)(textureHeight*(1+yOffset))
+				);
+
+		batch.draw(actualRegion, x*textureWidth, y*textureHeight);
+	}
+
 	public int getTextureWidth() {
 		return textureWidth;
 	}
