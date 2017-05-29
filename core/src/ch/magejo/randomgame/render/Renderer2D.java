@@ -13,6 +13,7 @@ public class Renderer2D implements Renderer {
 
 	SpriteBatch batch;
 	private TileSet landscapeTileSet;
+	private TileSet playerMaleTileSet;
 	private TileSet dwarfMaleTileSet;
 	private TileSet humanMaleTileSet;
 	private TileSet humanFemaleTileSet;
@@ -149,6 +150,8 @@ public class Renderer2D implements Renderer {
 	}
 
 	private void initCreatureTileset(){
+		playerMaleTileSet = new TileSet("TileSet/Creatures/playerMaleSprites.png", 32, 32);
+		initTiles(playerMaleTileSet);
 		humanMaleTileSet = new TileSet("TileSet/Creatures/humanMaleSprites.png", 32, 32);
 		initTiles(humanMaleTileSet);
 		humanFemaleTileSet = new TileSet("TileSet/Creatures/humanFemaleSprites.png", 32, 32);
@@ -191,6 +194,9 @@ public class Renderer2D implements Renderer {
 	@Override
 	public void renderSprite(CreaturesTypes type, byte address, Vector position) {
 		switch (type){
+		case Player:
+			playerMaleTileSet.render(batch, position.x, position.y, address);
+			break;
 		case Elven:
 			elfenMaleTileSet.render(batch, position.x, position.y, address);
 		case Human:
@@ -210,6 +216,9 @@ public class Renderer2D implements Renderer {
 	@Override
 	public void renderSprite(CreaturesTypes type, byte address, float x, float y) {
 		switch (type){
+		case Player:
+			playerMaleTileSet.render(batch, x, y, address);
+			break;
 		case Elven:
 			elfenMaleTileSet.render(batch, x, y, address);
 			break;
