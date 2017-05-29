@@ -106,6 +106,9 @@ public class GeneratorScreen extends BaseScreen{
 						game.getGenerator().generate(name, seed);
 						game.setWorld(FileSystem.getSaveFile(name, World.WORLDFILE));
 						game.getWorld().load();
+
+						Gdx.files.absolute(FileSystem.getSaveFile(name, "info.txt").getAbsolutePath()).writeString("World: "+name+System.getProperty("line.separator")+"Seed: "+seed, false);
+
 					} catch (Exception e) {
 						e.printStackTrace();
 						game.logError("GENERATOR ERROR", getClass().getName(), 1);
