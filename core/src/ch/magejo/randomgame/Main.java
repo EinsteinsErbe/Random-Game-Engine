@@ -111,7 +111,7 @@ public class Main extends Game {
 
 				soundManager = new SoundManager();
 				Sounds.setSoundPlayer(soundManager);
-				
+
 				//soundManager.playMusic(MusicType.MENU);
 
 				generator = new Generator();
@@ -310,6 +310,11 @@ public class Main extends Game {
 
 	public Generator getGenerator() {
 		return generator;
+	}
+
+	public void setGenerator(Generator generator) {
+		this.generator = generator;
+		hiGenerator = new HouseInteriorGenerator(generator.getEntityGenerator());
 	}
 
 	public HouseInteriorGenerator getHiGenerator() {
