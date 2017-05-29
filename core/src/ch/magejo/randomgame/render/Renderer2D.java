@@ -24,7 +24,7 @@ public class Renderer2D implements Renderer {
 	public Renderer2D(SpriteBatch batch) {
 		this.batch = batch;
 
-		landscapeTileSet = new TileSet("TileSet/WorldSet.png", 32, 32);
+		landscapeTileSet = new TileSet("TileSet/WorldSetgross.png", 32, 32);
 		landscapeTileSet.addTile(0, 0, Tile.WATER.ID);		//Deep Water
 		landscapeTileSet.addTile(0, 1, Tile.SAND.ID);		//Sand
 		landscapeTileSet.addTile(2, 0, Tile.GRASS_1.ID);	//Grass 1
@@ -56,6 +56,94 @@ public class Renderer2D implements Renderer {
 		landscapeTileSet.addTile(0, 3, Tile.TREE_C_TL.ID);
 		landscapeTileSet.addTile(1, 3, Tile.TREE_C_TM.ID);
 		landscapeTileSet.addTile(2, 3, Tile.TREE_C_TR.ID);
+		
+		landscapeTileSet.addTile(4, 2, Tile.TREE2_TRUNK.ID);	//Trunk
+		landscapeTileSet.addTile(3, 5, Tile.TREE2_C_BL.ID);
+		landscapeTileSet.addTile(4, 5, Tile.TREE2_C_BM.ID);
+		landscapeTileSet.addTile(5, 5, Tile.TREE2_C_BR.ID);
+		landscapeTileSet.addTile(3, 4, Tile.TREE2_C_ML.ID);
+		landscapeTileSet.addTile(4, 4, Tile.TREE2_C_MM.ID);
+		landscapeTileSet.addTile(5, 4, Tile.TREE2_C_MR.ID);
+		landscapeTileSet.addTile(3, 3, Tile.TREE2_C_TL.ID);
+		landscapeTileSet.addTile(4, 3, Tile.TREE2_C_TM.ID);
+		landscapeTileSet.addTile(5, 3, Tile.TREE2_C_TR.ID);
+		
+		landscapeTileSet.addTile(0, 6, Tile.FLOWER1.ID);	
+		landscapeTileSet.addTile(1, 6, Tile.FLOWER2.ID);
+		landscapeTileSet.addTile(2, 6, Tile.FLOWER3.ID);
+		landscapeTileSet.addTile(3, 6, Tile.FLOWER4.ID);
+		landscapeTileSet.addTile(4, 6, Tile.FLOWER5.ID);
+		landscapeTileSet.addTile(5, 6, Tile.FLOWER6.ID);
+		landscapeTileSet.addTile(6, 6, Tile.FLOWER7.ID);	
+		landscapeTileSet.addTile(7, 6, Tile.FLOWER8.ID);
+		landscapeTileSet.addTile(8, 6, Tile.FLOWER9.ID);
+		landscapeTileSet.addTile(9, 6, Tile.FLOWER10.ID);
+		landscapeTileSet.addTile(0, 7, Tile.FLOWER11.ID);
+		landscapeTileSet.addTile(1, 7, Tile.FLOWER12.ID);
+		landscapeTileSet.addTile(2, 7, Tile.FLOWER13.ID);	
+		landscapeTileSet.addTile(3, 7, Tile.FLOWER14.ID);
+		landscapeTileSet.addTile(4, 7, Tile.FLOWER15.ID);
+		landscapeTileSet.addTile(5, 7, Tile.FLOWER16.ID);
+		landscapeTileSet.addTile(6, 7, Tile.FLOWER17.ID);
+		landscapeTileSet.addTile(7, 7, Tile.FLOWER18.ID);
+		landscapeTileSet.addTile(8, 7, Tile.FLOWER19.ID);	
+		landscapeTileSet.addTile(9, 7, Tile.FLOWER20.ID);
+		landscapeTileSet.addTile(0, 8, Tile.FLOWER21.ID);
+		landscapeTileSet.addTile(1, 8, Tile.FLOWER22.ID);
+		landscapeTileSet.addTile(2, 8, Tile.FLOWER23.ID);
+		landscapeTileSet.addTile(3, 8, Tile.FLOWER24.ID);
+		landscapeTileSet.addTile(4, 8, Tile.FLOWER25.ID);
+		landscapeTileSet.addTile(5, 8, Tile.FLOWER26.ID);
+		landscapeTileSet.addTile(6, 8, Tile.FLOWER27.ID);
+		landscapeTileSet.addTile(7, 8, Tile.FLOWER28.ID);
+		landscapeTileSet.addTile(8, 8, Tile.FLOWER29.ID);
+		landscapeTileSet.addTile(9, 8, Tile.FLOWER30.ID);
+		landscapeTileSet.addTile(0, 9, Tile.FLOWER31.ID);
+		landscapeTileSet.addTile(1, 9, Tile.FLOWER32.ID);
+		landscapeTileSet.addTile(2, 9, Tile.FLOWER33.ID);	
+		landscapeTileSet.addTile(3, 9, Tile.FLOWER34.ID);
+		landscapeTileSet.addTile(4, 9, Tile.FLOWER35.ID);
+		landscapeTileSet.addTile(5, 9, Tile.FLOWER36.ID);
+		landscapeTileSet.addTile(6, 9, Tile.FLOWER37.ID);
+		landscapeTileSet.addTile(7, 9, Tile.FLOWER38.ID);
+		landscapeTileSet.addTile(8, 9, Tile.FLOWER39.ID);	
+		landscapeTileSet.addTile(9, 9, Tile.FLOWER40.ID);
+		
+		landscapeTileSet.addTile(4, 2, Tile.TRUNK_ONLY.ID);
+		landscapeTileSet.addTile(8, 4, Tile.TRUNK_GROUND.ID);
+		
+		landscapeTileSet.addTile(5, 2, Tile.BUSH1.ID);
+		landscapeTileSet.addTile(6, 2, Tile.BUSH2.ID);
+		
+		landscapeTileSet.addTile(7, 4, Tile.PLANT1.ID);
+		landscapeTileSet.addTile(9, 4, Tile.PLANT2.ID);
+		
+		landscapeTileSet.addTile(6, 3, Tile.ROCK1.ID);
+		landscapeTileSet.addTile(6, 4, Tile.ROCK2.ID);
+		landscapeTileSet.addTile(6, 5, Tile.ROCK3.ID);
+		landscapeTileSet.addTile(7, 5, Tile.ROCK4.ID);
+		landscapeTileSet.addTile(8, 5, Tile.ROCK5.ID);
+		landscapeTileSet.addTile(9, 5, Tile.ROCK6.ID);
+		
+		landscapeTileSet.addTile(7, 1, Tile.DOUBLE_ROCK1_BOTTOM.ID);
+		landscapeTileSet.addTile(7, 0, Tile.DOUBLE_ROCK1_TOP.ID);
+		landscapeTileSet.addTile(8, 1, Tile.DOUBLE_ROCK2_BOTTOM.ID);
+		landscapeTileSet.addTile(8, 0, Tile.DOUBLE_ROCK2_TOP.ID);
+		landscapeTileSet.addTile(9, 1, Tile.DOUBLE_ROCK3_BOTTOM.ID);
+		landscapeTileSet.addTile(9, 0, Tile.DOUBLE_ROCK3_TOP.ID);
+		landscapeTileSet.addTile(7, 3, Tile.DOUBLE_ROCK4_BOTTOM.ID);
+		landscapeTileSet.addTile(7, 2, Tile.DOUBLE_ROCK4_TOP.ID);
+		
+		landscapeTileSet.addTile(8, 3, Tile.STATUE1_BOTTOM.ID);	
+		landscapeTileSet.addTile(8, 2, Tile.STATUE1_BOTTOM.ID);	
+		
+		landscapeTileSet.addTile(9, 3, Tile.TABLE1_BOTTOM.ID);	
+		landscapeTileSet.addTile(9, 2, Tile.TABLE1_TOP.ID);	
+		
+		landscapeTileSet.addTile(10, 0, Tile.BAG1.ID);	
+		landscapeTileSet.addTile(11, 0, Tile.BARREL1.ID);	
+		landscapeTileSet.addTile(10, 1, Tile.CANDLE1.ID);	
+		landscapeTileSet.addTile(11, 1, Tile.CHAIR1.ID);	
 
 		initCreatureTileset();
 	}
