@@ -16,9 +16,9 @@ public class Renderer2D implements Renderer {
 	private TileSet playerMaleTileSet;
 	private TileSet dwarfMaleTileSet;
 	private TileSet humanMaleTileSet;
-	private TileSet humanFemaleTileSet;
+	//private TileSet humanFemaleTileSet;
 	private TileSet elfenMaleTileSet;
-	private TileSet elfenFemaleTileSet;
+	//private TileSet elfenFemaleTileSet;
 	private TileSet orcMaleTileSet;
 	private TileSet defaultTileSet;
 
@@ -154,12 +154,12 @@ public class Renderer2D implements Renderer {
 		initTiles(playerMaleTileSet);
 		humanMaleTileSet = new TileSet("TileSet/Creatures/humanMaleSprites.png", 32, 32);
 		initTiles(humanMaleTileSet);
-		humanFemaleTileSet = new TileSet("TileSet/Creatures/humanFemaleSprites.png", 32, 32);
-		initTiles(humanFemaleTileSet);
+		//humanFemaleTileSet = new TileSet("TileSet/Creatures/humanFemaleSprites.png", 32, 32);
+		//initTiles(humanFemaleTileSet);
 		elfenMaleTileSet = new TileSet("TileSet/Creatures/elfenMaleSprites.png", 32, 32);
 		initTiles(elfenMaleTileSet);
-		elfenFemaleTileSet = new TileSet("TileSet/Creatures/elfenFemaleSprites.png", 32, 32);
-		initTiles(elfenFemaleTileSet);
+		//elfenFemaleTileSet = new TileSet("TileSet/Creatures/elfenFemaleSprites.png", 32, 32);
+		//initTiles(elfenFemaleTileSet);
 		dwarfMaleTileSet = new TileSet("TileSet/Creatures/dwarfMaleSprites.png", 32, 32);
 		initTiles(dwarfMaleTileSet);
 		orcMaleTileSet  = new TileSet("TileSet/Creatures/orcMaleSprites.png", 32, 32);
@@ -171,7 +171,7 @@ public class Renderer2D implements Renderer {
 
 	private void initTiles(TileSet tileset){
 		for(int x = 0; x < 4; x++){
-			for(int y = 0; y < 9; y++){
+			for(int y = 0; y < 10; y++){
 				tileset.addTile(x, y, y*4+x);
 			}
 		}
