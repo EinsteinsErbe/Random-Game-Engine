@@ -174,29 +174,44 @@ public class RunningGameScreen implements Screen{
 					}
 				}
 			}
-		}
 
-		if(game.getInput().isClicked(Key.ATTACK)){
-			Entity e = null;
-			if(!direction.equals(Direction.NON)){
-				e = world.getPlayer().getObstacle(direction);
-			}else{
-				e = world.getPlayer().getObstacle(Direction.SOUTH);
-			}
-			
-			if(e != null){
-				if(e instanceof Creature){
-					
-					game.addEvent("Player " + world.getPlayer().attackCreature((Creature) e) , Color.RED);
+			if(game.getInput().isClicked(Key.ATTACK)){
+				Entity e = null;
+				if(!direction.equals(Direction.NON)){
+					e = world.getPlayer().getObstacle(direction);
+				}else{
+					e = world.getPlayer().getObstacle(Direction.SOUTH);
 				}
-			}else{
-				Sounds.playSound(SFX.ATTACK_1, 1);
+
+				if(e != null){
+					if(e instanceof Creature){
+
+						game.addEvent("Player " + world.getPlayer().attackCreature((Creature) e) , Color.RED);
+					}
+				}else{
+					Sounds.playSound(SFX.ATTACK_1, 1);
+				}
+			}
+
+			if(game.getInput().isPressed(Key.BLOCK)){
+				//world.getPlayer().attackCreature(null);
+
 			}
 		}
-		
-		if(game.getInput().isPressed(Key.BLOCK)){
-			//world.getPlayer().attackCreature(null);
-			
+		else{
+			if(game.getInput().isPressed(Key.ATTACK)){
+				cam.zoom -= 0.1f;
+				if(cam.zoom<0.1f){
+					cam.zoom = 0.1f;
+				}
+			}
+
+			if(game.getInput().isPressed(Key.BLOCK)){
+				cam.zoom += 0.1f;
+				if(cam.zoom>50f){
+					cam.zoom = 50f;
+				}
+			}
 		}
 
 		updatePos(world.getPlayer().getPositionFloat());
