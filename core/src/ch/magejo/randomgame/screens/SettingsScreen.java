@@ -40,27 +40,29 @@ public class SettingsScreen extends BaseScreen{
 	}
 
 	private void update(float delta) {
-		
+
 		if(game.getInputManager().isClicked(Key.ATTACK)){
-			float newVolume = Sounds.getVolume();
+			float newVolume = game.getSoundManager().getVolume();
 			if(newVolume < 1){
 				newVolume += 0.1f;
 			}else{
 				newVolume = 1;
-			}			
-			Sounds.setVolume(newVolume);
+			}
+			game.getSoundManager().setVolume(newVolume);
+			SaveSystem.save(newVolume, FileSystem.createFile("sound.cfg"));
 		}
-		
+
 		if(game.getInputManager().isClicked(Key.BLOCK)){
-			float newVolume = Sounds.getVolume();
+			float newVolume = game.getSoundManager().getVolume();
 			if(newVolume > 0){
 				newVolume -= 0.1f;
 			}else{
 				newVolume = 0;
-			}				
-			Sounds.setVolume(newVolume);
+			}
+			game.getSoundManager().setVolume(newVolume);
+			SaveSystem.save(newVolume, FileSystem.createFile("sound.cfg"));
 		}
-		
+
 		if(game.getInputManager().isSelecting){
 			return;
 		}
@@ -68,7 +70,7 @@ public class SettingsScreen extends BaseScreen{
 		mainStage.act();
 
 		if(mainStage.isClicked(ButtonNames.Controlls)){
-			game.getInputManager().setKey(Key.UP);
+			//game.getInputManager().setKey(Key.UP);
 		}
 
 		if(mainStage.isClicked(ButtonNames.Language)){
