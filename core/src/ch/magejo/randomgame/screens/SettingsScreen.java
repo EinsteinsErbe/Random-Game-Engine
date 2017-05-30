@@ -7,8 +7,10 @@ import ch.magejo.randomgame.Main;
 import ch.magejo.randomgame.generator.text.Language;
 import ch.magejo.randomgame.input.MenuStage;
 import ch.magejo.randomgame.mecanics.input.Key;
+import ch.magejo.randomgame.mecanics.sound.Sounds;
 import ch.magejo.randomgame.mecanics.text.ButtonNames;
 import ch.magejo.randomgame.utils.FileSystem;
+import ch.magejo.randomgame.utils.Log;
 import ch.magejo.randomgame.utils.SaveSystem;
 
 public class SettingsScreen extends BaseScreen{
@@ -38,6 +40,27 @@ public class SettingsScreen extends BaseScreen{
 	}
 
 	private void update(float delta) {
+		
+		if(game.getInputManager().isClicked(Key.ATTACK)){
+			float newVolume = Sounds.getVolume();
+			if(newVolume < 1){
+				newVolume += 0.1f;
+			}else{
+				newVolume = 1;
+			}			
+			Sounds.setVolume(newVolume);
+		}
+		
+		if(game.getInputManager().isClicked(Key.BLOCK)){
+			float newVolume = Sounds.getVolume();
+			if(newVolume > 0){
+				newVolume -= 0.1f;
+			}else{
+				newVolume = 0;
+			}				
+			Sounds.setVolume(newVolume);
+		}
+		
 		if(game.getInputManager().isSelecting){
 			return;
 		}
