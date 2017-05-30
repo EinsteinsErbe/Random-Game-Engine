@@ -177,6 +177,7 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isPressed(Key.ATTACK)){
+			world.getPlayer().attackCreature(null);
 			cam.zoom -= 0.1f;
 			if(cam.zoom<0.1f){
 				cam.zoom = 0.1f;
@@ -184,15 +185,11 @@ public class RunningGameScreen implements Screen{
 		}
 
 		if(game.getInput().isPressed(Key.BLOCK)){
+			world.getPlayer().attackCreature(null);
 			cam.zoom += 0.1f;
 			if(cam.zoom>50f){
 				cam.zoom = 50f;
 			}
-		}
-
-		//TODO SoundTest only
-		if(game.getInput().isClicked(Key.ATTACK)){
-			world.getPlayer().damage(0);
 		}
 
 		updatePos(world.getPlayer().getPositionFloat());
