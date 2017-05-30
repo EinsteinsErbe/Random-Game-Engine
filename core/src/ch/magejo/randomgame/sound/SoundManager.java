@@ -21,6 +21,7 @@ public class SoundManager implements SoundPlayer{
 		sfx[SFX.ATTACK_1.ordinal()] = Gdx.audio.newSound(Gdx.files.internal("Sound/SFX/attack.wav"));
 		sfx[SFX.DAMAGE_1.ordinal()] = Gdx.audio.newSound(Gdx.files.internal("Sound/SFX/hurt.wav"));
 		sfx[SFX.CLICK_BTN.ordinal()] = Gdx.audio.newSound(Gdx.files.internal("Sound/SFX/klick.wav"));
+		sfx[SFX.DIE.ordinal()] = Gdx.audio.newSound(Gdx.files.internal("Sound/SFX/die.wav"));
 		music = new Music[MusicType.values().length];
 		music[MusicType.MENU.ordinal()] = Gdx.audio.newMusic(Gdx.files.internal("Sound/Menu.mp3"));
 		music[MusicType.OVERWORLD.ordinal()] = Gdx.audio.newMusic(Gdx.files.internal("Sound/Overworld.mp3"));
