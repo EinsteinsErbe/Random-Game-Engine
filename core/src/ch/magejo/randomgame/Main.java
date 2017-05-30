@@ -29,7 +29,6 @@ import ch.magejo.randomgame.screens.MainMenuScreen;
 import ch.magejo.randomgame.screens.SavesScreen;
 import ch.magejo.randomgame.screens.ScreenList;
 import ch.magejo.randomgame.screens.SettingsScreen;
-import ch.magejo.randomgame.sound.MusicType;
 import ch.magejo.randomgame.sound.SoundManager;
 import ch.magejo.randomgame.utils.FileSystem;
 import ch.magejo.randomgame.utils.AbstractLog;
@@ -128,6 +127,10 @@ public class Main extends Game {
 				File f = FileSystem.createFile("lang.cfg");
 				if(f.exists()){
 					textGenerator.setLanguage(SaveSystem.load(f));
+				}
+				f = FileSystem.createFile("sound.cfg");
+				if(f.exists()){
+					soundManager.setVolume(SaveSystem.load(f));
 				}
 
 				logInfo("initialized Engine", getClass().getName(), 1);

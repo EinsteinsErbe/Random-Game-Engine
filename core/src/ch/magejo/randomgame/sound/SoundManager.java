@@ -6,14 +6,13 @@ import com.badlogic.gdx.audio.Sound;
 
 import ch.magejo.randomgame.mecanics.sound.SFX;
 import ch.magejo.randomgame.mecanics.sound.SoundPlayer;
-import ch.magejo.randomgame.mecanics.sound.Sounds;
 
 public class SoundManager implements SoundPlayer{
 
 	private Sound[] sfx;
 	private Music[] music;
 	private Music runningMusic;
-	private float masterVolume = 1;
+	private float masterVolume = 1f;
 	private MusicType runningMusicType = null;
 
 	public SoundManager() {
@@ -40,7 +39,7 @@ public class SoundManager implements SoundPlayer{
 			return;
 		}
 		runningMusicType = type;
-		
+
 		runningMusic.stop();
 
 		runningMusic = music[type.ordinal()];
@@ -49,8 +48,6 @@ public class SoundManager implements SoundPlayer{
 		runningMusic.play();
 		runningMusic.setVolume(type.getVolume()*masterVolume);
 	}
-	
-	
 
 	public void dispose(){
 		for(Sound s : sfx){
@@ -61,13 +58,11 @@ public class SoundManager implements SoundPlayer{
 		}
 	}
 
-	@Override
 	public void setVolume(float volume) {
 		this.masterVolume = volume;
 		runningMusic.setVolume(runningMusicType.getVolume()*masterVolume);
 	}
 
-	@Override
 	public float getVolume() {
 		return masterVolume;
 	}
