@@ -72,11 +72,14 @@ public class RunningGameScreen implements Screen{
 		origin = new Vector(0, 0);
 		cam = new OrthographicCamera(1000, 1000);
 
-		//to see entire region
-		//Region.setRenderDimension(151, 91);
 		Region.setRenderDimension(9, 7);
 
 		world = game.getWorld();
+
+		//Super zoom mode with all regions
+		//world.loadAllRegions();
+
+		//normal mode
 		world.getActiveRegion().updateRenderDimension();
 		world.getActiveRegion().moveActiveScenes(0, 0);
 
@@ -201,15 +204,15 @@ public class RunningGameScreen implements Screen{
 		else{
 			if(game.getInput().isPressed(Key.ATTACK)){
 				cam.zoom -= 0.1f;
-				if(cam.zoom<0.1f){
-					cam.zoom = 0.1f;
+				if(cam.zoom<1f){
+					cam.zoom = 1f;
 				}
 			}
 
 			if(game.getInput().isPressed(Key.BLOCK)){
 				cam.zoom += 0.1f;
-				if(cam.zoom>50f){
-					cam.zoom = 50f;
+				if(cam.zoom>200f){
+					cam.zoom = 200f;
 				}
 			}
 		}
@@ -288,7 +291,7 @@ public class RunningGameScreen implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		renderGame();
-		renderHud();
+		//renderHud();
 	}
 
 	private void renderGame(){
@@ -299,6 +302,7 @@ public class RunningGameScreen implements Screen{
 		game.getBatch().setProjectionMatrix(cam.combined);
 		world.render(renderer);
 
+		world.getPlayer().render(renderer);
 		//----------Transparent Overlay------------
 		game.getBatch().setColor(1f, 1f, 1f, 0.2f);
 		world.getPlayer().render(renderer);
@@ -307,11 +311,11 @@ public class RunningGameScreen implements Screen{
 
 		game.getBatch().setProjectionMatrix(pm);
 		game.getBatch().end();
-		minimap.render(game.getBatch());
 	}
 
 	private void renderHud() {
 		game.getEventLogger().render(game.getBatch());
+		minimap.render(game.getBatch());
 		hud.draw();
 	}
 
