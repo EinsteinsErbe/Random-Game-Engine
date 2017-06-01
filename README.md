@@ -28,4 +28,5 @@ See also the list of [contributors](https://github.com/Major94/Random-Game-Engin
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details. 
+**Important!** all tilesets (Animationpictures) are not our own creation. Those are only part of the project because we are only programmers and not artists. We do not own the rights on the Art & music!
