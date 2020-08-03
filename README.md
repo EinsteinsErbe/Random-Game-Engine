@@ -21,7 +21,7 @@ Just download the most recent [JAR](https://github.com/Major94/Random-Game-Engin
 
 ## Authors
 
-* **Manuel Jordan** - *Generator* - [Major94](https://github.com/Major94)
+* **Manuel Jordan** - *Generator* - [EinsteinsErbe](https://github.com/EinsteinsErbe)
 * **Manuel Geissberger** - *Engine and Mecanics* - [Saturn91](https://github.com/Saturn91)
 
 See also the list of [contributors](https://github.com/Major94/Random-Game-Engine/contributors) who participated in this project.
